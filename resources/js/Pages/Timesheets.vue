@@ -1,24 +1,51 @@
+<script>
+export default {
+    data() {
+        modal: ''
+    },
+    methods: {
+        toggleModal() {
+            modal.value = true;
+            // this.modal.toggle();
+        }
+    },
+    mounted() {
+        // set the modal menu element
+        const targetEl = document.getElementById('defaultModal');
+
+        if (targetEl) {
+            // options with default values
+            const options = {
+                placement: 'center',
+                // backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0',
+                onHide: () => {
+                    console.log('modal is hidden');
+                },
+                onShow: () => {
+                    console.log('modal is shown');
+                },
+                onToggle: () => {
+                    console.log('modal has been toggled');
+                }
+            };
+
+            this.modal = new Modal(targetEl, options);
+        }
+
+    }
+}
+</script>
 <script setup>
 import AppLayout from '@/Layouts/MyLayout.vue';
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch,reactive } from 'vue'
 import Welcome from '@/Components/Welcome.vue';
 import { router, usePage, Link } from '@inertiajs/vue3'
 import { onMounted, onUpdated } from 'vue'
 import { store } from '../store.js'
 import debounce from 'lodash/debounce'
-import {
-    initAccordions,
-    initCarousels,
-    initCollapses,
-    initDials,
-    initDismisses,
-    initDrawers,
-    initDropdowns,
-    initModals,
-    initPopovers,
-    initTabs,
-    initTooltips
-} from 'flowbite'
+import InputError from '@/Components/InputError.vue';
+
+
 import {
     Combobox,
     ComboboxInput,
@@ -31,12 +58,17 @@ import {
     ListboxButton,
     ListboxOptions,
     ListboxOption,
+    RadioGroup,
+    RadioGroupLabel,
+    RadioGroupDescription,
+    RadioGroupOption,
+    Dialog, DialogPanel, DialogTitle, TransitionChild
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 const props = defineProps({
     table_data: Object,
     filters: Object,
-    time_records: Object,
+    time_records: Array,
     attendances: Object,
     at: Object,
     employee: Object,
@@ -44,17 +76,11 @@ const props = defineProps({
     selectedYear: String,
     offices: Object,
     years: Object,
-
+    open: Boolean,
 
 
 
 })
-import {
-    RadioGroup,
-    RadioGroupLabel,
-    RadioGroupDescription,
-    RadioGroupOption,
-} from '@headlessui/vue'
 
 let plans = ref(props.table_data.data)
 
@@ -108,37 +134,26 @@ let filteredPeople = computed(() =>
 )
 
 onMounted(() => {
-    initAccordions();
-    initCarousels();
-    initCollapses();
-    initDials();
-    initDismisses();
-    initDrawers();
-    initDropdowns();
-    initModals();
-    initPopovers();
-    initTabs();
-    initTooltips();
-    //     const chart = new ApexCharts(document.getElementById("column-chart"), options);
-    //   chart.render();
+
 })
 watch(search, debounce(function (value) {
 
-    router.get('/timesheets', { search: value, selectedMonth: props.selectedMonth, selectedYear: props.selectedYear,selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: value, selectedMonth: props.selectedMonth, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
 
 }, 500));
 watch(selected, debounce(function (value) {
-    router.get('/timesheets', { search: props.filters.search, employee_id: value.id, page: props.table_data.current_page ,selectedMonth: props.selectedMonth, selectedYear: props.selectedYear,selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: props.filters.search, employee_id: value.id, page: props.table_data.current_page, selectedMonth: props.selectedMonth, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
+    // time_records_1.value = props.time_records;
     // selected.value = $props.table_data.data['id', 129] ;
 }, 0));
 watch(selectedMonth, debounce(function (value) {
-    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedMonth: value.id, selectedYear: props.selectedYear,selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedMonth: value.id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
@@ -146,7 +161,7 @@ watch(selectedMonth, debounce(function (value) {
 }, 0));
 
 watch(selectedYear, debounce(function (value) {
-    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: value, selectedMonth: props.selectedMonth,selectedOffice: props.filters.selectedOffice}, {
+    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: value, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
@@ -155,36 +170,246 @@ watch(selectedYear, debounce(function (value) {
 
 watch(selectedOffice, debounce(function (value) {
 
-    router.get('/timesheets', { search: props.filters.search,  selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: value.id }, {
+    router.get('/timesheets', {   selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: value.id }, {
         preserveState: true,
         replace: true,
     });
-    // selected.value = $props.table_data.data['id', 129] ;
+    search.value = '';
 }, 0));
 // onMounted(()=>{
 // // router.visit('/submittedclearances', { page: 11 }, { preserveState: true,preserveScroll: false  }) 
 // increment();
 // })
+
+const isOpen = ref(props.open);
+
+function closeModal() {
+    isOpen.value = false
+}
+// function openModal() {
+//   isOpen.value = true
+// }
 function generatePdf() {
-    const url = route('generate-pdf',{ search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedMonth: props.selectedMonth,selectedOffice: props.filters.selectedOffice})
+    const url = route('generate-pdf', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice })
     window.location.href = url
+
+    //     axios.get('/generate-pdf',
+    //   { data: props.filters },
+    //   { responseType: 'blob' })
+    //   .then(res => {
+    //     let blob = new Blob([res.data], { type: res.headers['content-type'] });
+    //     let link = document.createElement('a');
+    //     link.href = window.URL.createObjectURL(blob);
+    //     link.download = item.slice(item.lastIndexOf('/')+1);
+    //     link.click()
+    //   }).catch(err => {})
+}
+
+const dialogVisible = ref(false);
+const transactionDate = ref('')
+const amin = ref('')
+const amout = ref('')
+const pmout = ref('')
+const pmin = ref('')
+const otin = ref('')
+const otout = ref('')
+
+let form = {
+    id:'',
+    employee_id:'',
+    transactionDate: '',
+    amin : '',
+    amout: '',
+    pmin : '',
+    pmout : '',
+    otin : '',
+    otout : '',
+    aminIsEnable : '',
+    amoutIsEnable: '',
+    pminIsEnable : '',
+    pmoutIsEnable : '',
+    otinIsEnable : '',
+    otoutIsEnable : '',
+};
+const openModal = (time_record) => {
+    form.id = time_record.id;
+    form.employee_id = props.employee.id;
+    form.transactionDate = time_record.transactionDate;
+    form.amin = time_record.amin;
+    form.amout = time_record.amout;
+    form.pmin = time_record.pmin;
+    form.pmout = time_record.pmout;
+    form.otin = time_record.otin;
+    form.otout = time_record.otout;
+    form.aminIsEnable = time_record.amin ? false : true;
+    form.amoutIsEnable = time_record.amout ? false : true;
+    form.pminIsEnable = time_record.pmin ? false : true;
+    form.pmoutIsEnable = time_record.pmout ? false : true;
+    form.otinIsEnable = time_record.otin ? false : true;
+    form.otoutIsEnable = time_record.otout ? false : true;
+    dialogVisible.value = true
+}
+
+const time_records_1 = computed(() => props.time_records);
+let submit = () =>{
+ console.log(form);
+ axios.post('update-timesheet', { form })
+    .then(response => {
+        console.log(response.data); // Access the data from the response
+        time_records_1.value = response.data; 
+        router.reload();
+    })
+    .catch(error => {
+        console.error('Error updating timesheet:', error);
+    });
+ dialogVisible.value = false
+
     
-//     axios.get('/generate-pdf',
-//   { data: props.filters },
-//   { responseType: 'blob' })
-//   .then(res => {
-//     let blob = new Blob([res.data], { type: res.headers['content-type'] });
-//     let link = document.createElement('a');
-//     link.href = window.URL.createObjectURL(blob);
-//     link.download = item.slice(item.lastIndexOf('/')+1);
-//     link.click()
-//   }).catch(err => {})
 }
 </script>
 
 <template>
     <AppLayout title="Employees">
 
+        <el-dialog v-model="dialogVisible" title="Tips" width="500" :show-close="false" class="rounded-lg ">
+            <template #header="{ close, titleId, titleClass }">
+                <div class="my-header">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between  border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            Edit Time Record
+                        </h3>
+                        <button @click="close" type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+
+                </div>
+            </template>
+            <div class="relative p-4 w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg  dark:bg-gray-700">
+
+                    <!-- Modal body -->
+                    <form @submit.prevent="submit">
+                        <div class="grid gap-4 mb-4 grid-cols-2">
+                            <div class="col-span-2">
+                                <label for="name"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                <input :value="employee.name" disabled type="text" name="name" id="name"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Type product name" required="">
+                            </div>
+                            <div class="col-span-2">
+                                <label for="name"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Transaction Date</label>
+                                <input v-model="form.transactionDate" disabled type="text" name="name" id="name"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Type product name" required="">
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                    In Morning </label>
+                                <input type="time" id="time"
+                                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
+                                     :disabled="form.amin != '' && form.amin !== 'SAT' && form.amin !== 'SUN'"  v-model="form.amin" />
+
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="category"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Out
+                                    Morning</label>
+                                <input type="time" id="time"
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
+                                     :disabled="form.amout != '' && form.amout !== 'SAT' && form.amout !== 'SUN'"  v-model="form.amout" />
+
+                            </div>
+
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                    In Afternoon</label>
+                                <input type="time" id="time"
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
+                                     :disabled="form.pmin != '' && form.pmin !== 'SAT' && form.pmin !== 'SUN'" v-model="form.pmin" />
+
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="category"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Out
+                                    Afternoon</label>
+                                <input type="time" id="time"
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
+                                     :disabled="form.pmout != '' && form.pmout !== 'SAT' && form.pmout !== 'SUN'"  v-model="form.pmout" />
+
+                            </div>
+
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                    In OT</label>
+                                <input type="time" id="time"
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
+                                      v-model="form.otin"/>
+
+                            </div>
+                            <div class="col-span-2 sm:col-span-1">
+                                <label for="category"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Out OT</label>
+                                <input type="time" id="time"
+                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
+                                     v-model="form.otout" />
+
+                            </div>
+                            <div class="col-span-2">
+                                <label for="description"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remarks</label>
+                                <textarea id="description" rows="4"
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Write remarks here"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="text-white mr-2 inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Delete Record
+                        </button>
+                        <button type="submit"
+                            class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Update Record
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </el-dialog>
         <div class="mb-4">
             <nav class="flex mb-5" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
@@ -208,7 +433,8 @@ function generatePdf() {
                                     d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                            <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Employee Timesheet
+                            <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Employee
+                                Timesheet
                             </span>
                         </div>
                     </li>
@@ -235,7 +461,7 @@ function generatePdf() {
                             <div class=" col-span-5">
                                 <div class="w-full">
                                     <div class="z-20 relative mx-2 my-2">
-                                        <label for="email"
+                                        <label 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
                                             Office</label>
                                         <Combobox v-model="selectedOffice">
@@ -286,7 +512,7 @@ function generatePdf() {
                                         </Combobox>
                                     </div>
                                     <div class="z-10 relative mx-2 my-2">
-                                        <label for="email"
+                                        <label 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
                                             Year</label>
                                         <Listbox v-model="selectedYear">
@@ -330,7 +556,7 @@ function generatePdf() {
                                         </Listbox>
                                     </div>
                                     <div class="z-0 relative mx-2 my-2">
-                                        <label for="email"
+                                        <label 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
                                             Month</label>
                                         <Listbox v-model="selectedMonth">
@@ -383,26 +609,42 @@ function generatePdf() {
                             <div class="col-span-7">
                                 <div class="w-full">
                                     <form class="mb-4" action="#" method="GET">
-                                        <label for="email"
+                                        <label 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search
                                             Employee</label>
 
                                         <div class="relative mt-1 ">
-                                            <input v-model="search" type="text" name="email" id="users-search"
+                                            <input v-model="search" type="text" id="users-search"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                 placeholder="Search for Employee">
                                         </div>
                                     </form>
                                     <div class="mx-auto w-full max-w-md h-full">
                                         <div class="flex items-center mb-4 sm:mb-0 " v-if="props.table_data.total > 0">
-                                           
-                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span class="font-semibold text-gray-900 dark:text-white">{{($props.table_data.current_page-1)* $props.table_data.per_page+1}} - {{($props.table_data.to)}}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{$props.table_data.total}}</span></span>
-                                            <a v-if="props.table_data.last_page > 1" :href="props.table_data.prev_page_url" class="inline-flex justify-right p-1 text-gray-500 rounded 
+
+                                            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
+                                                    class="font-semibold text-gray-900 dark:text-white">{{ ($props.table_data.current_page - 1) *
+                                                        $props.table_data.per_page + 1 }} - {{ ($props.table_data.to) }}</span> of
+                                                <span
+                                                    class="font-semibold text-gray-900 dark:text-white">{{ $props.table_data.total }}</span></span>
+                                            <a v-if="props.table_data.last_page > 1" :href="props.table_data.prev_page_url"
+                                                class="inline-flex justify-right p-1 text-gray-500 rounded 
                                             cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
                                             </a>
-                                            <a v-if="props.table_data.last_page > 1"  :href="props.table_data.next_page_url" class="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                                            <a v-if="props.table_data.last_page > 1" :href="props.table_data.next_page_url"
+                                                class="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
                                             </a>
                                         </div>
                                         <RadioGroup v-model="selected" class="mt-2">
@@ -451,6 +693,11 @@ function generatePdf() {
                             class="text-xl font-semibold text-white sm:text-2xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md">
                             Employee Timesheet</h1>
 
+                        <!-- <TimeRecordList :products = "time_records"/> -->
+
+
+
+
                         <div class="sm:flex">
                             <div
                                 class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
@@ -477,7 +724,7 @@ function generatePdf() {
                             <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
 
 
-                                <a @click="generatePdf" class="inline-flex items-center justify-center w-1/2 px-3 py-2 
+                                <button @click="generatePdf" class="inline-flex items-center justify-center w-1/2 px-3 py-2 
                                     text-sm font-medium text-center 
                                     bg-red-600 text-white 
                                     border border-gray-300 rounded-lg hover:bg-red-700 focus:ring-4 
@@ -490,7 +737,7 @@ function generatePdf() {
                                             clip-rule="evenodd"></path>
                                     </svg>
                                     Export
-                                </a>
+                                </button>
                             </div>
                         </div>
                         <div class="inline-block min-w-full mt-2 pr-1">
@@ -546,9 +793,8 @@ function generatePdf() {
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
-                                        <tr :v-model="item"
-                                            v-for="({ id, date, amin, amout, pmin, pmout }, index) in $props.time_records"
-                                            :key="index" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <tr :v-model="item" v-for="time_record in time_records_1"
+                                            :key="time_record.date" class="hover:bg-gray-100 dark:hover:bg-gray-700">
 
                                             <!-- <td
                                                 class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
@@ -556,20 +802,20 @@ function generatePdf() {
 
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ date }}</td>
+                                                {{ time_record.date }}</td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ amin }} </td>
+                                                {{ time_record.amin }} </td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ amout }}</td>
+                                                {{ time_record.amout }}</td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ pmin }}</td>
+                                                {{ time_record.pmin }}</td>
 
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ pmout }}</td>
+                                                {{ time_record.pmout }}</td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
                                             </td>
@@ -581,8 +827,8 @@ function generatePdf() {
                                             <td></td>
 
                                             <td class="p-1 space-x-2 whitespace-nowrap">
-
-                                                <a href="#"
+                                                <!-- <CardListItemModal /> -->
+                                                <!-- <button type="button" @click="openModal"
                                                     class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
 
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -591,9 +837,21 @@ function generatePdf() {
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                     </svg>
-
+                                                    
                                                     Edit
-                                                </a>
+                                                </button> -->
+                                                <button @click="openModal(time_record)"
+                                                    class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                                    type="button">
+                                                    <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                    
+                                                    Edit
+                                                </button>
 
 
                                             </td>
@@ -602,17 +860,139 @@ function generatePdf() {
 
                                     </tbody>
                                 </table>
+                                <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto 
+                                                overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center 
+                                                items-center w-full  md:inset-0 h-[calc(100%-1rem)] max-h-full"
+                                    v-if="employee">
+                                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                            <!-- Modal header -->
+                                            <div
+                                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                                    Edit Time Record
+                                                </h3>
+                                                <button @click="toggleModal" type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    <svg class="w-3 h-3" aria-hidden="true"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                        <path stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <form class="p-4 md:p-5">
+                                                <div class="grid gap-4 mb-4 grid-cols-2">
+                                                    <div class="col-span-2">
+                                                        <label for="name"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                                        <input :value="employee.name" disabled type="text" name="name"
+                                                            id="name"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                            placeholder="Type product name" required="">
+                                                </div>
+                                                <div class="col-span-2 sm:col-span-1">
+                                                    <label for="price"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                                        In Morning</label>
+                                                    <input type="time" id="time"
+                                                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        min="09:00" max="18:00" :value="amin" />
 
+                                                </div>
+                                                <div class="col-span-2 sm:col-span-1">
+                                                    <label for="category"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                                        Out Morning</label>
+                                                    <input type="time" id="time"
+                                                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        min="09:00" max="18:00" :value="amout" />
 
+                                                </div>
+
+                                                <div class="col-span-2 sm:col-span-1">
+                                                    <label for="price"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                                        In Afternoon</label>
+                                                    <input type="time" id="time"
+                                                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        min="09:00" max="18:00" :value="pmin" />
+
+                                                </div>
+                                                <div class="col-span-2 sm:col-span-1">
+                                                    <label for="category"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                                        Out Afternoon</label>
+                                                    <input type="time" id="time"
+                                                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        min="09:00" max="18:00" :value="pmout" />
+
+                                                </div>
+
+                                                <div class="col-span-2 sm:col-span-1">
+                                                    <label for="price"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                                        In OT</label>
+                                                    <input type="time" id="time"
+                                                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        min="09:00" max="18:00" value="00:00" />
+
+                                                </div>
+                                                <div class="col-span-2 sm:col-span-1">
+                                                    <label for="category"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time
+                                                        Out OT</label>
+                                                    <input type="time" id="time"
+                                                        class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        min="09:00" max="18:00" value="00:00" />
+
+                                                </div>
+                                                <div class="col-span-2">
+                                                    <label for="description"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remarks</label>
+                                                    <textarea id="description" rows="4"
+                                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        placeholder="Write product description here"></textarea>
+                                                </div>
+                                            </div>
+                                            <button type="submit"
+                                                class="text-white mr-2 inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                Delete Record
+                                            </button>
+                                            <button type="submit"
+                                                class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                Update Record
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
 
+    </div>
 
-    </AppLayout></template>
+
+</AppLayout></template>
  

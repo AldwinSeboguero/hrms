@@ -29,12 +29,7 @@ Route::get('/notregister', function () {
     return Inertia::render('NotRegister');
 })->name('notregister');
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        // 'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('dashboard');
 });
 
 Route::middleware([
@@ -44,12 +39,16 @@ Route::middleware([
 ])->group(function () {
     Route::resource('submittedclearances', SubmittedClearance::class);
     Route::get('semesters', [SemesterController::class,'index']);
+    Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
+
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
     Route::resource('employees', EmployeeController::class);
     Route::resource('timesheets', TimesheetController::class);
+    Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
+
 
 
 

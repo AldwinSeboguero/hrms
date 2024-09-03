@@ -1,334 +1,361 @@
 <script setup>
 import AppLayout from '@/Layouts/MyLayout.vue';
-import { ref, computed, watch } from 'vue' 
-    import Welcome from '@/Components/Welcome.vue';
-    import { router, usePage,Link } from '@inertiajs/vue3'
-    import { onMounted,onUpdated } from 'vue' 
-    import { store } from '../store.js'
-    import debounce from 'lodash/debounce'
-    import { 
-        initAccordions, 
-        initCarousels, 
-        initCollapses, 
-        initDials, 
-        initDismisses, 
-        initDrawers, 
-        initDropdowns, 
-        initModals, 
-        initPopovers, 
-        initTabs, 
-        initTooltips } from 'flowbite'
+import { ref, computed, watch } from 'vue'
+import Welcome from '@/Components/Welcome.vue';
+import { router, usePage, Link } from '@inertiajs/vue3'
+import { onMounted, onUpdated } from 'vue'
+import { store } from '../store.js'
+import debounce from 'lodash/debounce'
 import {
-  Combobox,
-  ComboboxInput,
-  ComboboxButton,
-  ComboboxOptions,
-  ComboboxOption,
-  TransitionRoot,
+    initAccordions,
+    initCarousels,
+    initCollapses,
+    initDials,
+    initDismisses,
+    initDrawers,
+    initDropdowns,
+    initModals,
+    initPopovers,
+    initTabs,
+    initTooltips
+} from 'flowbite'
+import {
+    Combobox,
+    ComboboxInput,
+    ComboboxButton,
+    ComboboxOptions,
+    ComboboxOption,
+    TransitionRoot,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 const props = defineProps({
- table_data : Object,
- filters : Object,
-} )
+    table_data: Object,
+    filters: Object,
+    offices: Object,
+    positions:Object,
+    statuses:Object,
+    selectedOffice: String,
+    selectedPosition: String,
+    selectedStatus: String,
+})
 
 
-const semesters = [
-  { id: null, name: '' },
-  { id: 1, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 2, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 3, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 4, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 5, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 6, name: 'Enrollment AY 2023-2024 2nd Semester' },
-]
-
-const colleges = [
-  { id: null, name: '' },
-  { id: 1, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 2, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 3, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 4, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 5, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 6, name: 'Enrollment AY 2023-2024 2nd Semester' },
-]
-
-const programs = [
-  { id: null, name: '' },
-  { id: 1, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 2, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 3, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 4, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 5, name: 'Enrollment AY 2023-2024 2nd Semester' },
-  { id: 6, name: 'Enrollment AY 2023-2024 2nd Semester' },
-]
-
-let selected = ref(semesters[0])
-let query = ref('')
-
-let filteredPeople = computed(() =>
-
-  query.value === ''
-    ? semesters
-    : semesters.filter((semesters) =>
-    semesters.name
-          .toLowerCase()
-          .replace(/\s+/g, '')
-          .includes(query.value.toLowerCase().replace(/\s+/g, ''))
-      )
-)
 let search = ref(props.filters.search);
 
 onMounted(() => {
-        initAccordions();
-        initCarousels();
-        initCollapses();
-        initDials();
-        initDismisses();
-        initDrawers();
-        initDropdowns();
-        initModals();
-        initPopovers();
-        initTabs();
-        initTooltips();
+    initAccordions();
+    initCarousels();
+    initCollapses();
+    initDials();
+    initDismisses();
+    initDrawers();
+    initDropdowns();
+    initModals();
+    initPopovers();
+    initTabs();
+    initTooltips();
     //     const chart = new ApexCharts(document.getElementById("column-chart"), options);
     //   chart.render();
-    })
-watch(search, debounce(function(value) {
+})
+watch(search, debounce(function (value) {
 
- router.get('/employees',{search: value},{
-    preserveState: true,
-    replace: true
- });
+    router.get('/employees', { search: value ,selectedPosition: props.filters.selectedPosition,selectedStatus: props.filters.selectedStatus,selectedOffice: props.filters.selectedOffice }, {
+        preserveState: true,
+        replace: true
+    });
 
-},500));
+}, 500));
 // onMounted(()=>{
 // // router.visit('/submittedclearances', { page: 11 }, { preserveState: true,preserveScroll: false  }) 
 // increment();
 // })
+let selectedPosition = ref(props.positions.find(position => position.id == props.filters.selectedPosition))
+let selectedStatus = ref(props.statuses.find(status => status.id == props.filters.selectedStatus))
+let selectedOffice = ref(props.offices.find(office => office.id == props.filters.selectedOffice))
+let queryOffice = ref('')
+
+let filteredOffice = computed(() =>
+    queryOffice.value === ''
+        ? props.offices
+        : props.offices.filter((office) =>
+            office.name
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .includes(queryOffice.value.toLowerCase().replace(/\s+/g, ''))
+        )
+)
+
+let queryStatus = ref('')
+
+let filteredStatus = computed(() =>
+    queryStatus.value === ''
+        ? props.statuses
+        : props.statuses.filter((status) =>
+            status.name
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .includes(queryStatus.value.toLowerCase().replace(/\s+/g, ''))
+        )
+)
+
+let queryPosition = ref('')
+
+let filteredPosition = computed(() =>
+    queryPosition.value === ''
+        ? props.positions
+        : props.positions.filter((position) =>
+        position.name
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .includes(queryPosition.value.toLowerCase().replace(/\s+/g, ''))
+        )
+)
+
+watch(selectedOffice, debounce(function (value) {
+
+router.get('/employees', {  selectedOffice: value.id ,search: props.filters.search,selectedPosition: props.filters.selectedPosition,selectedStatus: props.filters.selectedStatus}, {
+    preserveState: true,
+    replace: true,
+});
+}, 0));
+
+watch(selectedPosition, debounce(function (value) {
+
+router.get('/employees', {  selectedPosition: value.id,search: props.filters.search,selectedStatus: props.filters.selectedStatus,selectedOffice: props.filters.selectedOffice  }, {
+    preserveState: true,
+    replace: true,
+});
+}, 0));
+watch(selectedStatus, debounce(function (value) {
+
+router.get('/employees', {  selectedStatus: value.id ,search: props.filters.search,selectedPosition: props.filters.selectedPosition,selectedOffice: props.filters.selectedOffice }, {
+    preserveState: true,
+    replace: true,
+});
+}, 0));
+
 
 </script>
 
 <template>
     <AppLayout title="Employees">
-    
+
         <div class="mb-4">
             <nav class="flex mb-5" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
-                  <li class="inline-flex items-center">
-                    <a href="#" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
-                      <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
-                      Home
-                    </a>
-                  </li> 
-                  <li>
-                    <div class="flex items-center ">
-                      <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                      <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Employees
-                      </span>
-                    </div>
-                  </li>
+                    <li class="inline-flex items-center">
+                        <a href="#"
+                            class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                            <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                </path>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center ">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Employees
+                            </span>
+                        </div>
+                    </li>
                 </ol>
             </nav>
         </div>
-        
+
 
         <div class="flex flex-col mt-4">
-    <div class="overflow-x-auto">
-        <div class="grid grid-cols-8 gap-4 mb-4">
-         <div class=" col-span-2">
-                
-            <h1 class="text-sm text-white sm:text-xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md font-sans inline-flex w-full"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 mr-2">
-  <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
-</svg>
-FILTERS</h1>
-            
+            <div class="">
+                <div class="grid grid-cols-8 gap-4 mb-4">
+                    <div class=" col-span-2">
 
-            <form class="max-w-sm mx-auto">
-            <div class="mb-3">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Office</label>
-                <Combobox v-model="selected">
-                    <div class="relative mt-1">
-                        <div
-                        class="relative bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500m"
-                        >
-                        <ComboboxInput
-                            class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 bg-gray-50 text-gray-900 focus:ring-0"
-                            :displayValue="(semesters) => semesters.name"
-                            @change="query = $event.target.value"
-                        />
-                        <ComboboxButton
-                            class="absolute inset-y-0 right-0 flex items-center pr-2"
-                        >
-                            <ChevronUpDownIcon
-                            class="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                            />
-                        </ComboboxButton>
-                        </div>
-                        <TransitionRoot
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                        @after-leave="query = ''"
-                        >
-                        <ComboboxOptions
-                            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
-                        >
-                            <div
-                            v-if="filteredPeople.length === 0 && query !== ''"
-                            class="relative cursor-default select-none px-4 py-2 text-gray-700"
-                            >
-                            Nothing found.
+                        <h1
+                            class="text-sm text-white sm:text-xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md font-sans inline-flex w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="size-6 mr-2">
+                                <path
+                                    d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+                            </svg>
+                            FILTERS</h1>
+
+
+                        <div class="w-full">
+                            <div class="z-20 relative m-2">
+                                <label 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                                    Office</label>
+                                <Combobox v-model="selectedOffice">
+                                    <div class="relative mt-1">
+                                        <div
+                                            class="relative w-full cursor-default  rounded-lg bg-white text-left shadow-sm border border-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                                            <ComboboxInput
+                                                class="border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 mx-2"
+                                                :displayValue="(office) => office.name"
+                                                @change="queryOffice = $event.target.value" />
+                                            <ComboboxButton class="absolute inset-y-0 right-0 flex items-center pr-2">
+                                                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                            </ComboboxButton>
+                                        </div>
+                                        <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100"
+                                            leaveTo="opacity-0" @after-leave="queryOffice = ''">
+                                            <ComboboxOptions
+                                                class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md 
+                                                        bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                                <div v-if="filteredOffice.length === 0 && queryOffice !== ''"
+                                                    class="relative cursor-default select-none px-4 py-2 text-gray-700">
+                                                    Nothing found.
+                                                </div>
+
+                                                <ComboboxOption v-for="office in filteredOffice" as="template"
+                                                    :key="office.id" :value="office" v-slot="{ selected, active }">
+                                                    <li class="relative cursor-default select-none py-2 pl-10 pr-4" :class="{
+                                                        'bg-blue-100 text-black': active,
+                                                        'text-gray-900': !active,
+                                                    }">
+                                                        <span class="block truncate"
+                                                            :class="{ 'font-medium': selected, 'font-normal': !selected }">
+                                                            {{ office.name }}
+                                                        </span>
+                                                        <span v-if="selected"
+                                                            class="absolute inset-y-0 left-0 flex items-center pl-3"
+                                                            :class="{ 'text-blue': active, 'text-blue-600': !active }">
+                                                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                                        </span>
+                                                    </li>
+                                                </ComboboxOption>
+                                            </ComboboxOptions>
+                                        </TransitionRoot>
+                                    </div>
+                                </Combobox>
+                            </div>
+                            <div class="z-10 relative m-2">
+                                <label 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                                    Position</label>
+                                <Combobox v-model="selectedPosition">
+                                    <div class="relative mt-1">
+                                        <div
+                                            class="relative w-full cursor-default  rounded-lg bg-white text-left shadow-sm border border-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                                            <ComboboxInput
+                                                class="border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 mx-2"
+                                                :displayValue="(position) => position.name"
+                                                @change="queryPosition = $event.target.value" />
+                                            <ComboboxButton class="absolute inset-y-0 right-0 flex items-center pr-2">
+                                                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                            </ComboboxButton>
+                                        </div>
+                                        <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100"
+                                            leaveTo="opacity-0" @after-leave="queryPosition = ''">
+                                            <ComboboxOptions
+                                                class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md 
+                                                        bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                                <div v-if="filteredPosition.length === 0 && queryPosition !== ''"
+                                                    class="relative cursor-default select-none px-4 py-2 text-gray-700">
+                                                    Nothing found.
+                                                </div>
+
+                                                <ComboboxOption v-for="position in filteredPosition" as="template"
+                                                    :key="position.id" :value="position" v-slot="{ selected, active }">
+                                                    <li class="relative cursor-default select-none py-2 pl-10 pr-4" :class="{
+                                                        'bg-blue-100 text-black': active,
+                                                        'text-gray-900': !active,
+                                                    }">
+                                                        <span class="block truncate"
+                                                            :class="{ 'font-medium': selected, 'font-normal': !selected }">
+                                                            {{ position.name }}
+                                                        </span>
+                                                        <span v-if="selected"
+                                                            class="absolute inset-y-0 left-0 flex items-center pl-3"
+                                                            :class="{ 'text-blue': active, 'text-blue-600': !active }">
+                                                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                                        </span>
+                                                    </li>
+                                                </ComboboxOption>
+                                            </ComboboxOptions>
+                                        </TransitionRoot>
+                                    </div>
+                                </Combobox>
+                            </div>
+                            <div class="z-0 relative m-2">
+                                <label 
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                                    Status</label>
+                                <Combobox v-model="selectedStatus">
+                                    <div class="relative mt-1">
+                                        <div
+                                            class="relative w-full cursor-default  rounded-lg bg-white text-left shadow-sm border border-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+                                            <ComboboxInput
+                                                class="border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 mx-2"
+                                                :displayValue="(status) => status.name"
+                                                @change="queryStatus = $event.target.value" />
+                                            <ComboboxButton class="absolute inset-y-0 right-0 flex items-center pr-2">
+                                                <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                            </ComboboxButton>
+                                        </div>
+                                        <TransitionRoot leave="transition ease-in duration-100" leaveFrom="opacity-100"
+                                            leaveTo="opacity-0" @after-leave="queryStatus = ''">
+                                            <ComboboxOptions
+                                                class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md 
+                                                        bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                                <div v-if="filteredStatus.length === 0 && queryStatus !== ''"
+                                                    class="relative cursor-default select-none px-4 py-2 text-gray-700">
+                                                    Nothing found.
+                                                </div>
+
+                                                <ComboboxOption v-for="status in filteredStatus" as="template"
+                                                    :key="status.id" :value="status" v-slot="{ selected, active }">
+                                                    <li class="relative cursor-default select-none py-2 pl-10 pr-4" :class="{
+                                                        'bg-blue-100 text-black': active,
+                                                        'text-gray-900': !active,
+                                                    }">
+                                                        <span class="block truncate"
+                                                            :class="{ 'font-medium': selected, 'font-normal': !selected }">
+                                                            {{ status.name }}
+                                                        </span>
+                                                        <span v-if="selected"
+                                                            class="absolute inset-y-0 left-0 flex items-center pl-3"
+                                                            :class="{ 'text-blue': active, 'text-blue-600': !active }">
+                                                            <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                                                        </span>
+                                                    </li>
+                                                </ComboboxOption>
+                                            </ComboboxOptions>
+                                        </TransitionRoot>
+                                    </div>
+                                </Combobox>
                             </div>
 
-                            <ComboboxOption
-                            v-for="semester in filteredPeople"
-                            as="template"
-                            :key="semester.id"
-                            :value="semesters"
-                            v-slot="{ selected, active }"
-                            >
-                            <li
-                                class="relative cursor-default select-none py-2 pl-10 pr-4"
-                                :class="{
-                                'bg-teal-600 text-white': active,
-                                'text-gray-900': !active,
-                                }"
-                            >
-                                <span
-                                class="block truncate"
-                                :class="{ 'font-medium': selected, 'font-normal': !selected }"
-                                >
-                                {{ semesters.name }}
-                                </span>
-                                <span
-                                v-if="selected"
-                                class="absolute inset-y-0 left-0 flex items-center pl-3"
-                                :class="{ 'text-white': active, 'text-teal-600': !active }"
-                                >
-                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                </span>
-                            </li>
-                            </ComboboxOption>
-                        </ComboboxOptions>
-                        </TransitionRoot>
-                    </div>
-                    </Combobox>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                <Combobox v-model="selected">
-                    <div class="relative mt-1">
-                        <div
-                        class="relative bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500m"
-                        >
-                        <ComboboxInput
-                            class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 bg-gray-50 text-gray-900 focus:ring-0"
-                            :displayValue="(colleges) => colleges.name"
-                            @change="query = $event.target.value"
-                        />
-                        <ComboboxButton
-                            class="absolute inset-y-0 right-0 flex items-center pr-2"
-                        >
-                            <ChevronUpDownIcon
-                            class="h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                            />
-                        </ComboboxButton>
+
                         </div>
-                        <TransitionRoot
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                        @after-leave="query = ''"
-                        >
-                        <ComboboxOptions
-                            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
-                        >
+
+
+
+                    </div>
+                    <div class=" rounded   dark:bg-gray-800 col-span-6">
+                        <h1
+                            class="text-xl font-semibold text-white sm:text-2xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md">
+                            Employees</h1>
+
+                        <div class="sm:flex">
                             <div
-                            v-if="filteredPeople.length === 0 && query !== ''"
-                            class="relative cursor-default select-none px-4 py-2 text-gray-700"
-                            >
-                            Nothing found.
-                            </div>
-
-                            <ComboboxOption
-                            v-for="colleges in filteredPeople"
-                            as="template"
-                            :key="colleges.id"
-                            :value="colleges"
-                            v-slot="{ selected, active }"
-                            >
-                            <li
-                                class="relative cursor-default select-none py-2 pl-10 pr-4"
-                                :class="{
-                                'bg-teal-600 text-white': active,
-                                'text-gray-900': !active,
-                                }"
-                            >
-                                <span
-                                class="block truncate"
-                                :class="{ 'font-medium': selected, 'font-normal': !selected }"
-                                >
-                                {{ colleges.name }}
-                                </span>
-                                <span
-                                v-if="selected"
-                                class="absolute inset-y-0 left-0 flex items-center pl-3"
-                                :class="{ 'text-white': active, 'text-teal-600': !active }"
-                                >
-                                <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                </span>
-                            </li>
-                            </ComboboxOption>
-                        </ComboboxOptions>
-                        </TransitionRoot>
-                    </div>
-                    </Combobox>
-            </div>
-            <div class="mb-5">
-                <label for="repeat-password" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                <Combobox v-model="selectedPerson">
-    <!-- Render children directly instead of an `input` -->
-    <ComboboxInput
-    class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 bg-gray-50 text-gray-900 focus:ring-0"
-      as="template"
-      @change="query = $event.target.value"
-      :displayValue="(semesters) => semesters.name"
-    >
-      <input />
-    </ComboboxInput>
-
-    <ComboboxOptions>
-      <ComboboxOption
-        v-for="semesters in filteredPeople"
-        :key="semesters.id"
-        :value="semesters"
-      >
-        {{ semesters.name }}
-      </ComboboxOption>
-    </ComboboxOptions>
-  </Combobox>
-            </div>  
-            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Clear</button>
-            </form>
-
-            
-
-        </div>
-            <div class=" rounded   dark:bg-gray-800 col-span-6">
-            <h1 class="text-xl font-semibold text-white sm:text-2xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md">Employees</h1>
-
-                <div class="sm:flex">
-                <div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
-                    <form class="lg:pr-3" action="#" method="GET">
-                    <label for="users-search" class="sr-only">Search</label>
-                    <div class="relative mt-1 lg:w-64 xl:w-96">
-                        <input v-model="search" type="text" name="email" id="users-search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search for Employee">
-                    </div>
-                    </form>
-                    <!-- <div class="flex pl-0 mt-3 space-x-1 sm:pl-2 sm:mt-0">
+                                class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+                                <form class="lg:pr-3" action="#" method="GET">
+                                    <label for="users-search" class="sr-only">Search</label>
+                                    <div class="relative mt-1 lg:w-64 xl:w-96">
+                                        <input v-model="search" type="text" name="email" id="users-search"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Search for Employee">
+                                    </div>
+                                </form>
+                                <!-- <div class="flex pl-0 mt-3 space-x-1 sm:pl-2 sm:mt-0">
                         <a href="#" class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
                         </a>
@@ -342,99 +369,147 @@ FILTERS</h1>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
                         </a>
                     </div> -->
-                </div>
-                <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
-                    <!-- <button type="button" data-modal-target="add-user-modal" data-modal-toggle="add-user-modal" class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                            </div>
+                            <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+                                <!-- <button type="button" data-modal-target="add-user-modal" data-modal-toggle="add-user-modal" class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                         Add user
                     </button> -->
-                    <a href="#" class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-                        <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path></svg>
-                        Export
-                    </a>
-                </div>
-            </div>
-            <div class="inline-block min-w-full mt-2 pr-1">
-            <div class="overflow-hidden shadow">
-                
-                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
-                    <thead class="bg-white dark:bg-gray-700">
-                        <tr>
-                            <!-- <th scope="col" class="p-4">
+                                <a href="#"
+                                    class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                                    <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    Export
+                                </a>
+                            </div>
+                        </div>
+                        <div class="inline-block min-w-full mt-2 pr-1">
+                            <div class="overflow-hidden shadow">
+
+                                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                                    <thead class="bg-white dark:bg-gray-700">
+                                        <tr>
+                                            <!-- <th scope="col" class="p-4">
                                 <div class="flex items-center">
                                     <input id="checkbox-all" aria-describedby="checkbox-1" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
                                     <label for="checkbox-all" class="sr-only">checkbox</label>
                                 </div>
                             </th> -->
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                             
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Emp. ID
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Name
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Position
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Office
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Birthday
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Age
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Gender
-                            </th>
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Status
-                            </th>
-                            
-                            
-                            <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                      
-                        <tr v-for="({ id,first_name, last_name, middle_name,employee_code,division,position,birthday,age,gender,status }, index) in $props.table_data.data"
-                        :key="id" class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                             
-                        <td class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400"></td>
-                          
-                            <td class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">{{employee_code }}</td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">{{last_name}} , {{first_name }} {{ middle_name }}</td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sn font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">{{position }}</td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sm font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">{{division }}</td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sn font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                
-                                <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-grren-400">
-                                <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                                </svg>
-                                {{ birthday }}
-                                </span>
-                            </td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sm font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">{{age }}</td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sm font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">{{gender }}</td>
-                            <td class="max-w-sm p-2 overflow-hidden text-sm font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">{{status }}</td>
-                            
-                            
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
 
-                             
-                            <td class="p-4 space-x-2 whitespace-nowrap">
-                                
-                                <a href="#" class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-                                    <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path></svg>
-                                    Export
-                                </a>
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Emp. ID
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Name
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Position
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                                SG
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Office
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Birthday
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Age
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Gender
+                                            </th>
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Status
+                                            </th>
 
-<!--  
+
+                                            <th scope="col"
+                                                class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+
+                                        <tr v-for="({ id, first_name, last_name, middle_name, employee_code, division, position,sg, birthday, age, gender, status }, index) in $props.table_data.data"
+                                            :key="id" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
+                                            </td>
+
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
+                                                {{ employee_code }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ last_name }} , {{ first_name }} {{ middle_name }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ position }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-center font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ sg }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ division }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
+
+                                                <span
+                                                    class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-grren-400">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-3.5 mr-1">
+                                                        <path d="m15 1.784-.796.795a1.125 1.125 0 1 0 1.591 0L15 1.784ZM12 1.784l-.796.795a1.125 1.125 0 1 0 1.591 0L12 1.784ZM9 1.784l-.796.795a1.125 1.125 0 1 0 1.591 0L9 1.784ZM9.75 7.547c.498-.021.998-.035 1.5-.042V6.75a.75.75 0 0 1 1.5 0v.755c.502.007 1.002.021 1.5.042V6.75a.75.75 0 0 1 1.5 0v.88l.307.022c1.55.117 2.693 1.427 2.693 2.946v1.018a62.182 62.182 0 0 0-13.5 0v-1.018c0-1.519 1.143-2.829 2.693-2.946l.307-.022v-.88a.75.75 0 0 1 1.5 0v.797ZM12 12.75c-2.472 0-4.9.184-7.274.54-1.454.217-2.476 1.482-2.476 2.916v.384a4.104 4.104 0 0 1 2.585.364 2.605 2.605 0 0 0 2.33 0 4.104 4.104 0 0 1 3.67 0 2.605 2.605 0 0 0 2.33 0 4.104 4.104 0 0 1 3.67 0 2.605 2.605 0 0 0 2.33 0 4.104 4.104 0 0 1 2.585-.364v-.384c0-1.434-1.022-2.7-2.476-2.917A49.138 49.138 0 0 0 12 12.75ZM21.75 18.131a2.604 2.604 0 0 0-1.915.165 4.104 4.104 0 0 1-3.67 0 2.605 2.605 0 0 0-2.33 0 4.104 4.104 0 0 1-3.67 0 2.605 2.605 0 0 0-2.33 0 4.104 4.104 0 0 1-3.67 0 2.604 2.604 0 0 0-1.915-.165v2.494c0 1.035.84 1.875 1.875 1.875h15.75c1.035 0 1.875-.84 1.875-1.875v-2.494Z" />
+                                                    </svg>
+
+                                                    {{ birthday }}
+                                                </span>
+                                            </td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ age }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ gender }}</td>
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ status }}</td>
+
+
+
+
+                                            <td class="p-4 space-x-2 whitespace-nowrap">
+
+                                                <Link :href="route('employee.edit')" method="get" :data="{employee : id}"
+                                                    class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                                                   
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 mr-2 -ml-1" >
+                                                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                                    <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                                    </svg>
+
+                                                    Edit
+                                                </Link>
+
+                                                <!--  
                                 <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                 Toggle modal
                                 </button>
@@ -511,46 +586,74 @@ FILTERS</h1>
                                 </div>  -->
 
 
-                            </td>
-                        </tr>
-                        
-                        
-                    </tbody>
-                </table>
-            
-                <div class=" items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
-    
-    
-    <div class="flex items-center mb-4 sm:mb-0">
-        <a href="#" class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-        </a>
-        <a href="#" class="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-        </a>
-        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span class="font-semibold text-gray-900 dark:text-white">{{($props.table_data.current_page-1)* $props.table_data.per_page+1}} - {{($props.table_data.current_page * $props.table_data.per_page)}}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{$props.table_data.total}}</span></span>
-    </div>
-    <div class="flex items-center space-x-3">
-        <a :href="props.table_data.prev_page_url" class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-            Previous
-        </a>
-        <Link  :href="$props.table_data.next_page_url" class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            Next
-            <svg class="w-5 h-5 ml-1 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-        </Link>
-    </div>
-            </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                        </td>
+                                    </tr>
 
-         </div> 
-         
-      </div>
-       
- 
-    </AppLayout>
-</template>
+
+                                </tbody>
+                            </table>
+
+                            <div
+                                class=" items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
+
+
+                                <div class="flex items-center mb-4 sm:mb-0">
+                                    <a href="#"
+                                        class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#"
+                                        class="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </a>
+                                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
+                                            class="font-semibold text-gray-900 dark:text-white">{{($props.table_data.current_page-1)*
+                                            $props.table_data.per_page+1}} - {{($props.table_data.current_page *
+                                            $props.table_data.per_page)}}</span> of <span
+                                            class="font-semibold text-gray-900 dark:text-white">{{$props.table_data.total}}</span></span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <a :href="props.table_data.prev_page_url"
+                                        class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                        <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        Previous
+                                    </a>
+                                    <Link :href="$props.table_data.next_page_url"
+                                        class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    Next
+                                    <svg class="w-5 h-5 ml-1 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</AppLayout></template>
  

@@ -50,6 +50,7 @@
                 padding-left:0;
             }
             
+            @page { margin: 1.5cm 1.5cm 1.5cm 1.5cm  }
         </style>
     </head>
     <body style="margin:-40px -40px; ">
@@ -100,10 +101,10 @@
                         </tr>
                     </tbody>
                 </table> -->
-                <p style="text-align:left; font-size: 12px; margin-top:10px">Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['name'] }}<</span></p>
+                <p style="text-align:left; font-size: 12px; margin-top:10px">Name:&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['name'] }}<</span></p>
                 <p style="text-align:left; font-size: 12px;">Office:&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['division'] }}</span></p>
                 <p style="text-align:left; font-size: 12px;">Position:&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['position'] }}</span></p>
-                <p style="text-align:left; font-size: 12px;">Official Hours for Regular Days: <span style="font-weight: bold;">{{ str_replace('(', '', str_replace(')', '', '$employee->officialtime')) }}</span></p>
+                <p style="text-align:left; font-size: 12px;">Official Hours for Regular Days: <span style="font-weight: bold;">{{$employee['work_days']}}</span></p>
 
 
             </div>
@@ -163,13 +164,13 @@
                 </table>
                 <hr>
 
-                <p style="text-align:center; font-size: 9px;">I Certify on my honor that the above is true and correct report of the hours of work performed, record of which was made daily of the time of arrival and departure from office.</p>
+                <p style="text-align:justify; font-size: 12px;">I Certify on my honor that the above is true and correct report of the hours of work performed, record of which was made daily of the time of arrival and departure from office.</p>
                 
-                <p style="text-align:center; font-size: 9px; margin-top: 18px;"><u style="text-align:center; font-size: 10px;">{{ $employee['name']}}</u><br>Employee Signature</p>
-                <p style="font-size: 9px;">Verified as to the prescribed office hours.</p>
+                <p style="text-align:center; font-size: 10px; margin-top: 18px;"><u style="text-align:center; font-size: 12px;">{{ $employee['name']}}</u><br>Employee Signature</p>
+                <p style="font-size: 11px;">Verified as to the prescribed office hours.</p>
 
-                <p style="text-align:center; font-size: 9px; margin-top:18px"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>Supervisor / Dept.Head Signature</p>
-                <hr>
+                <p style="text-align:center; font-size: 11px; margin-top:18px"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>Supervisor / Dept.Head Signature</p>
+                
                
             </div>
 
@@ -223,7 +224,7 @@
                 <p style="text-align:left; font-size: 12px; margin-top:10px">Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['name'] }}<</span></p>
                 <p style="text-align:left; font-size: 12px;">Office:&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['division'] }}</span></p>
                 <p style="text-align:left; font-size: 12px;">Position:&nbsp;&nbsp;<span style="font-weight: bold;">{{ $employee['position'] }}</span></p>
-                <p style="text-align:left; font-size: 12px;">Official Hours for Regular Days: <span style="font-weight: bold;">{{ str_replace('(', '', str_replace(')', '', '$employee->officialtime')) }}</span></p>
+                <p style="text-align:left; font-size: 12px;">Official Hours for Regular Days: <span style="font-weight: bold;">{{ $employee['work_days'] }}</span></p>
 
 
             </div>
@@ -283,13 +284,13 @@
                 </table>
                 <hr>
 
-                <p style="text-align:center; font-size: 9px;">I Certify on my honor that the above is true and correct report of the hours of work performed, record of which was made daily of the time of arrival and departure from office.</p>
+                <p style="text-align:justify; font-size: 12px;">I Certify on my honor that the above is true and correct report of the hours of work performed, record of which was made daily of the time of arrival and departure from office.</p>
                 
-                <p style="text-align:center; font-size: 9px; margin-top: 18px;"><u style="text-align:center; font-size: 10px;">{{ $employee['name']}}</u><br>Employee Signature</p>
-                <p style="font-size: 9px;">Verified as to the prescribed office hours.</p>
+                <p style="text-align:center; font-size: 10px; margin-top: 18px;"><u style="text-align:center; font-size: 12px;">{{ $employee['name']}}</u><br>Employee Signature</p>
+                <p style="font-size: 11px;">Verified as to the prescribed office hours.</p>
 
-                <p style="text-align:center; font-size: 9px; margin-top:18px"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>Supervisor / Dept.Head Signature</p>
-                <hr>
+                <p style="text-align:center; font-size: 11px; margin-top:18px"><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br>Supervisor / Dept.Head Signature</p>
+                
                
             </div>
             

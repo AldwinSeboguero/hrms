@@ -10,6 +10,8 @@ use App\Models\Employee;
 use App\Models\Timesheet;
 use App\Models\Holiday;
 use App\Models\Division; 
+use App\Models\WorkDay; 
+
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -22,8 +24,8 @@ class PdfController extends Controller
 
         // $dtrDate = Request::input('dtrDate');
         $dtrDate = Request::input('dtrDate');
-        $selectedMonth = Request::input('selectedMonth') ? Request::input('selectedMonth') : Carbon::now()->month; ;
-        $selectedYear = Request::input('selectedYear') ? Request::input('selectedYear') : Carbon::now()->year;;
+        $selectedMonth = Request::input('selectedMonth') ? Request::input('selectedMonth') : Carbon::now()->month; 
+        $selectedYear = Request::input('selectedYear') ? Request::input('selectedYear') : Carbon::now()->year;
 
         $employee_id = Request::input('employee_id');
         
@@ -46,10 +48,13 @@ class PdfController extends Controller
                 'status' => $employee->employeeType->name,
                 'gender' => $employee->gender,
                 'birthday' => $employee->date_of_birth ? $employee->date_of_birth->format('M d, Y') : '',
+                'work_days' => $employee->workDays ? json_decode($employee->workDays->data)->TimeDesc : '',
+
             ];
         } else {
             $employeeData = null; // Handle employee not found case
         }
+        
 
         $currentMonth = $selectedMonth ? $selectedMonth: Carbon::now()->month;
         $currentYear =  $selectedYear ? $selectedYear:  Carbon::now()->year;
@@ -170,6 +175,14 @@ class PdfController extends Controller
             'time_records' => $days,
         ];
         $pdf = PDF::loadView('dtr', $data);
+
+        $pdf->setPaper('legal', 'portrait'); // Adjust paper size and orientation as needed
+        //A3: 'A3' - 297 x 420 mm or 11.7 x 16.5 inches
+        //A4: 'A4' - 210 x 297 mm or 8.3 x 11.7 inches
+        //A5: 'A5' - 148 x 210 mm or 5.8 x 8.3 inches
+        //Letter: 'letter' or '8.5x11' - 8.5 x 11 inches
+        //Legal: 'legal' or '8.5x14' - 8.5 x 14 inches
+        //Tabloid: 'tabloid' or '11x17' - 11 x 17 inches
         return $pdf->download($employeeData['name'].$month.'dtr.pdf');
         
         

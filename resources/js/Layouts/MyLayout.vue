@@ -183,7 +183,7 @@
                 </div>
             </a> 
           </div>
-          <div class="flex items-center">
+          <div class="flex items-center hidden">
               <div class="flex items-center ms-3"> 
     
                 <div>
@@ -245,7 +245,7 @@
                 <slot />
             </div>   
 
-            </main>
+        </main>
        </div>
     </div>
     
