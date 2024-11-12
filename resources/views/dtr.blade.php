@@ -145,17 +145,23 @@
                                 </td>
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
-                                <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
+                                <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                                {{$dailyTimeRecord["remarks"] }}
+
+                                </td>
                                 </tr>
                             @endforeach
                         <tr>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;">Tardy=</td>
-                            <td style="text-align:center; font-size: 9px; font-weight: bold;">0</td>
+                            <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                            {{$tardiness }}
+
+                            </td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;">Under=</td>
-                            <td style="text-align:center; font-size: 9px; font-weight: bold;">0</td>
+                            <td style="text-align:center; font-size: 9px; font-weight: bold;">{{$undertime}}</td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;">Absent=</td>
-                            <td style="text-align:center; font-size: 9px; font-weight: bold;">0</td>
+                            <td style="text-align:center; font-size: 9px; font-weight: bold;">{{$absent}}</td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
 
                         </tr>
@@ -265,17 +271,23 @@
                                 </td>
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
-                                <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
+                                <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                                {{$dailyTimeRecord["remarks"] }}
+
+                                </td>
                                 </tr>
                             @endforeach
-                        <tr>
+                            <tr>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;">Tardy=</td>
-                            <td style="text-align:center; font-size: 9px; font-weight: bold;">0</td>
+                            <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                            {{$tardiness }}
+
+                            </td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;">Under=</td>
-                            <td style="text-align:center; font-size: 9px; font-weight: bold;">0</td>
+                            <td style="text-align:center; font-size: 9px; font-weight: bold;">{{$undertime}}</td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;">Absent=</td>
-                            <td style="text-align:center; font-size: 9px; font-weight: bold;">0</td>
+                            <td style="text-align:center; font-size: 9px; font-weight: bold;">{{$absent}}</td>
                             <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
 
                         </tr>

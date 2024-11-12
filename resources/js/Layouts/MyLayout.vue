@@ -34,28 +34,7 @@
                 </a>
                
              </li>
-             <!-- <li>
-            <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                  <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-                     <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
-                  </svg>
-                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Employees</span>
-                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                  </svg>
-            </button>
-            <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                  <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Products</a>
-                  </li>
-                  <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Billing</a>
-                  </li>
-                  <li>
-                     <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Invoice</a>
-                  </li>
-            </ul>
-         </li> -->
+           
              <li>
                 <a :href="route('employees.index')"  :active="route().current('employees.index')"  class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group"  :class="{ 'bg-blue-50 text-blue-950':  route().current('employees.index') }" aria-current="page">
                  
@@ -77,14 +56,41 @@
                 </a>
              </li>
              <li>
-                <a href="#" class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group"  :class="{ 'bg-blue-50 text-blue-950':  route().current('clearancerequests') }" aria-current="page">
-                  
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 me-2  text-gray-800">
+              <a type="button" active="true"
+                class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group" 
+                aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 me-2  text-gray-800">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
                     </svg>
-    
-                    Leave & Time-Off 
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Leave & Time-Off </span>
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
                 </a>
+                <ul id="dropdown-example" class="py-2 space-y-2"  :class="{ 'hidden':  !route().current('leave.request') }" >
+                      <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Summary</a>
+                      </li>
+                      <li>
+                        <a  :href="route('leave.request')"
+                        :active="route().current('leave.request')"  
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "
+                        :class="{ 'bg-blue-50 text-blue-950':  route().current('leave.request') }"
+                        >
+                          <span class="flex-1  whitespace-nowrap">Requests</span>
+                        <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
+
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Disapproved Requests 
+
+                        </a> 
+                      </li>
+                      <li>
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Leave Cards</a>
+                      </li>
+                </ul>
              </li>
              <li>
                 <a href="#" class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group"  :class="{ 'bg-blue-50 text-blue-950':  route().current('approvedrequests') }" aria-current="page">

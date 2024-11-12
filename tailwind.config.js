@@ -21,7 +21,7 @@ export default {
         },
     },
 
-    plugins: [forms, typography,require('flowbite/plugin'),require('flowbite/plugin')({
+    plugins: [forms, typography,require('flowbite/plugin')({
         charts: true,
     }),require('flowbite-typography'),],
 };

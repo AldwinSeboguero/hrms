@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\SubmittedClearance;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\TimesheetController;
 
 
@@ -19,6 +20,13 @@ use App\Http\Controllers\GoogleController;
 
 use Illuminate\Http\Request; 
 use App\Http\Controllers\PDFController;
+use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Division;
+use App\Models\Location;
+
+
+
 
 Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
 
@@ -43,12 +51,84 @@ Route::middleware([
 
 
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+
+        $totalEmployees = Employee::count();
+        $maleCount = Employee::where('gender', 'Male')->count();
+        $femaleCount = Employee::where('gender', 'Female')->count();
+    
+        return Inertia::render('Dashboard', [
+            'EmployeeCount' => $totalEmployees,
+            'MaleCount' => $maleCount,
+            'FemaleCount' => $femaleCount,
+            'EmployementStat' => [
+            Employee::where('employee_type_id', 5)->count(),
+            Employee::where('employee_type_id', 6)->count(),
+            Employee::where('employee_type_id', 1)->count(),
+            Employee::where('employee_type_id', 3)->count(),
+            Employee::where('employee_type_id', 2)->count(),
+            Employee::where('employee_type_id', 4)->count(),
+            ],
+            'PositionStat' => Position::orderBy('name')->get()->map(
+                                function($inner){
+                                    return [
+                                        'position' => $inner->name,
+                                        'location' => Location::get()->map(
+                                            function($inner1) use($inner){
+                                                return [
+                                                    'id' => $inner1->id,
+                                                    'name' => $inner1->name,
+                                                    'count' => Employee::where('position_id',$inner->id)->whereHas('division', function($query)use($inner1) {
+                                                                            $query->where('location_id', $inner1->id);
+                                                                        })
+                                                        ->paginate()->total(),
+                                                ];                
+                                            }
+                                        ),
+                                        'count' => Employee::where('position_id',$inner->id)
+                                                        ->paginate()->total(),
+                
+                                    ];                
+                                }
+                            ),
+                            'Location' => Location::get(),
+//             'PositionStat' => Employee::select('position_id')
+//  // Eager load the position relationship
+//     ->groupBy('position_id')
+//     ->with('position')
+//     ->get()
+//     ->map(function($inner) {
+//         // Get the related position
+//         $position = $inner->position;
+
+//         // Fetch all locations and count employees per location for the current position
+//         $locationCounts = Location::all()->map(function($location) use($inner) {
+//             $count = Employee::where('position_id', $inner->position_id)
+//                 ->whereHas('division', function($query) use ($location) {
+//                     $query->where('location_id', $location->id);
+//                 })
+//                 ->count(); // Use count() instead of paginate()->total()
+
+//             return [
+//                 'id' => $location->id,
+//                 'count' => $count,
+//             ];
+//         });
+
+//         return [
+//             'position' => $position,
+//             'count' => $inner->count, // Make sure this is defined correctly; you might need to use selectRaw to get the count.
+//             'location' => $locationCounts,
+//         ];                
+//     }),
+        ]);
     })->name('dashboard');
     Route::resource('employees', EmployeeController::class);
     Route::resource('timesheets', TimesheetController::class);
     Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
 
+//Leaves Route
+Route::get('leave/request', [LeaveController::class,'index'])->name('leave.request');
+Route::get('leave/add/request', [LeaveController::class,'request'])->name('leave.add.request');
 
 
 

@@ -257,7 +257,7 @@ const setActive = (activeBtn) => {
     <div class="hidden rounded-lg  dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <EmployeeProfile :employee = "props.employee"/>
     </div>
-    <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="position" role="tabpanel" aria-labelledby="position-tab">
+    <div class="hidden  rounded-lg " id="position" role="tabpanel" aria-labelledby="position-tab">
         <EmployeePosition/>
     </div>
     <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="ids" role="tabpanel" aria-labelledby="ids-tab">
