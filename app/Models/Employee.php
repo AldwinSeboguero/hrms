@@ -8,6 +8,28 @@ use Carbon\Carbon;
 class Employee extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'employee_code',
+        'last_name',
+        'first_name',          // Note: corrected spelling of 'first_name'
+        'middle_name',
+        'preferred_name',
+        'suffix',
+        'salutation',
+        'date_of_birth',
+        'gender',
+        'contact_number',
+        'email_address',
+        'employment_status_id',
+        'employee_type',
+        'position_id',
+        'location_id',
+        'department_id',
+        'division_id',
+        'start_date',
+        'work_day_id',
+    ];
     public function position()
     {
         return $this->belongsTo('App\Models\Position','position_id');
@@ -23,6 +45,15 @@ class Employee extends Model
     public function workDays()
     {
         return $this->belongsTo('App\Models\WorkDay','work_day_id');
+    }
+    public function leaves()
+    {
+        return $this->hasMany(EmployeeLeave::class);
+    }
+
+    public function getTotalLeavesAttribute()
+    {
+        return $this->leaves()->count();
     }
     protected $casts = [
         'date_of_birth' => 'datetime',

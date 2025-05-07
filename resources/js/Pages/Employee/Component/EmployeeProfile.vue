@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue'
 import Welcome from '@/Components/Welcome.vue';
 import { router, usePage, Link } from '@inertiajs/vue3'
-import { onMounted, onUpdated } from 'vue'
+import { onMounted, onUpdated ,reactive} from 'vue'
 import debounce from 'lodash/debounce'
 import InputError from '@/Components/InputError.vue';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
@@ -25,14 +25,11 @@ import {
     RadioGroupOption,
     Dialog, DialogPanel, DialogTitle, TransitionChild
 } from '@headlessui/vue'
-const props = defineProps({
-    employee: Object,
-    filters: Object, 
-    statuses: Object,
-
-
+onMounted(() => {
+    initFlowbite();
 
 })
+const { props } = usePage();
 const amin = ref('')
 amin.value = "2024-08-09"
 let selectedStatus= ref('')
@@ -48,6 +45,8 @@ let filteredStatus = computed(() =>
                 .includes(query.value.toLowerCase().replace(/\s+/g, ''))
         )
 )
+ // Free memory when the image is loaded
+ const img = new Image();
 const imageUrl = ref(null);
 
     const loadFile = (event) => {
@@ -56,8 +55,7 @@ const imageUrl = ref(null);
 
       if (file) {
         imageUrl.value = URL.createObjectURL(file);
-        // Free memory when the image is loaded
-        const img = new Image();
+       
         img.src = imageUrl.value;
         img.onload = () => {
           URL.revokeObjectURL(imageUrl.value);
@@ -76,8 +74,80 @@ const imageUrl = ref(null);
 ]
 
 const selected = ref(props.employee.gender)
+const toastIsSuccess = ref(false)
+ // Function to close the toast manually
+ const closeToast = () => {
+    toastIsSuccess.value = false;
+    };
+
+const form = reactive({
+    id: props.employee.id,
+    employee_code: props.employee.employee_code,
+    last_name: props.employee.last_name, // Ensure you have these fields as needed
+     // Ensure you have these fields as needed
+    first_name: props.employee.first_name,
+    middle_name: props.employee.middle_name,
+    preferred_name: props.employee.preferred_name,
+
+    suffix: props.employee.suffix,
+    salutation: props.employee.salutation,
+    date_of_birth: props.employee.date_of_birth ? new Date(props.employee.date_of_birth).toISOString().split('T')[0] : '',
+    gender: props.employee.gender,
+    contact_number:props.employee.contact_number,
+    email_address:props.employee.email_address,
+    employment_status_id:props.employee.employment_status_id,
+    employee_type_id:props.employee.employee_type_id,
+    position_id:props.employee.position_id,
+    location_id:props.employee.location_id,
+    department_id:props.employee.department_id,
+    division_id:props.employee.division_id,
+    start_date:props.employee.start_date ? new Date(props.employee.start_date).toISOString().split('T')[0] : '',
+    work_day_id:props.employee.work_day_id,
+});
+
+const submit = async () => {
+    try {
+     
+        const response = await axios.post('/save-profile', { Edata: form });
+        props.employee = response.data.employee;  
+           
+        // After saving, show the toast
+        toastIsSuccess.value = true;
+
+        // Automatically close the toast after 3 seconds
+        setTimeout(() => {
+            toastIsSuccess.value = false;
+        }, 3000); // Close after 3000 milliseconds (3 seconds)
+     // Simulating a save delay
+      
+    } catch (error) {
+        console.error('Error updating Positions:', error);
+    } 
+    // toastMessage.value = 'response.props.message'; 
+
+};
+
 </script> 
 <template>
+
+
+
+<div v-if="toastIsSuccess" id="toast-default" class="fixed z-10 top-4 right-4 flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800" role="alert">
+    <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+</svg>
+
+        <span class="sr-only">success icon</span>
+    </div>
+    <div class="ms-3 text-sm font-normal">Employee record updated successfully!</div>
+    <button type="button"  @click="closeToast" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-default" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+</div>
 
 
      <h1
@@ -92,7 +162,7 @@ const selected = ref(props.employee.gender)
                     <h1 class="text-3xl font-extrabold dark:text-white text-black mb-4">Employee<small class="ms-2 font-semibold text-gray-500 dark:text-gray-400">Profile</small></h1>
                     <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
                     <!-- Modal body -->
-                    <form class="">
+                    <form class=" " @submit.prevent="submit">
                         <div class="grid gap-4 mb-4 grid-cols-5">
                             
                             <div class="col-span-1">
@@ -156,21 +226,21 @@ const selected = ref(props.employee.gender)
                             <div class="col-span-1">
                                 <label for="name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                                <input :value="props.employee.first_name" disabled type="text" name="name" id="name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                <input v-model="form.first_name" type="text" name="name" id="name"
+                                    class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                      required="">
                             </div>
                             <div class="col-span-1">
                                 <label for="name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                                <input :value="props.employee.last_name" disabled type="text" name="name" id="name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                <input v-model="form.last_name" type="text" name="name" id="name"
+                                    class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                      required="">
                             </div>
                             <div class="col-span-1 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle Name </label>
-                                <input type="text" id="time" :value="props.employee.middle_name" 
-                                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="text" id="time" v-model="form.middle_name" 
+                                    class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                     />
@@ -179,8 +249,8 @@ const selected = ref(props.employee.gender)
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Suffix Name</label>
-                                <input type="text" id="time" :value="props.employee.suffix_name" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="text" id="time" v-model="form.suffix" 
+                                class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                     />
@@ -189,8 +259,8 @@ const selected = ref(props.employee.gender)
 
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Salutation</label>
-                                <input type="text" id="time" :value="props.employee.salutation" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="text" id="time" v-model="form.salutation" 
+                                class="border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                      />
@@ -198,21 +268,20 @@ const selected = ref(props.employee.gender)
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="birthday" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
-                                <input  datepicker
-                                    type="text" 
-                                    id="birthday" 
-                                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input    v-model="form.date_of_birth"
+                                    type="date"  
+                                    class="border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                         focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                   :value="props.employee.birthday"
+                                  
                                 />
                             </div>
 
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Preferred Name</label>
-                                <input type="text" id="time" :value="props.employee.preferred_name" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="text" id="time" v-model="form.preferred_name" 
+                                class="border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                     />
@@ -227,7 +296,7 @@ const selected = ref(props.employee.gender)
                                     <input id="bordered-radio-2" type="radio" value="" name="bordered-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                     <label for="bordered-radio-2" class="w-1/2 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Female</label>
                                  -->
-                                    <RadioGroup v-model="selected">
+                                    <RadioGroup v-model="form.gender">
                                     <div class="space-y-2">
                                     <RadioGroupOption
                                         as="template"
@@ -289,8 +358,8 @@ const selected = ref(props.employee.gender)
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
-                                <input type="text" id="time" :value="props.employee.contact_number" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="text" id="time" v-model="form.contact_number" 
+                                class="border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                     />
@@ -299,8 +368,8 @@ const selected = ref(props.employee.gender)
                             <div class="col-span-3 sm:col-span-3">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                <input type="text" id="time" :value="props.employee.email" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="text" id="time" v-model="form.email_address" 
+                                class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                       />
@@ -322,121 +391,77 @@ const selected = ref(props.employee.gender)
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                                <input type="text" id="time"
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                    />
+                                 
                                     <div class="z-20 relative">
-                                       
-                                        <Combobox v-model="selectedStatus">
-                                            <div class="relative mt-1 ">
-                                                <div
-                                                    class="relative   text-left  rounded-lg border border-gray-300 
-                                                    sm:text-sm">
-                                                    <ComboboxInput
-                                                        class="w-full  border-none rounded-lg  text-sm leading-5 text-gray-900 focus:ring-0"
-                                                        :displayValue="(status) => status.name"
-                                                        @change="query = $event.target.value" />
-                                                    <ComboboxButton
-                                                        class="absolute inset-y-0 right-0 flex items-center pr-2 ">
-                                                        <ChevronUpDownIcon class="h-5 w-5 text-gray-400"
-                                                            aria-hidden="true" />
-                                                    </ComboboxButton>
-                                                </div>
-                                                <TransitionRoot leave="transition ease-in duration-100"
-                                                    leaveFrom="opacity-100" leaveTo="opacity-0" @after-leave="query = ''">
-                                                    <ComboboxOptions
-                                                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md 
-                                                        bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                                        <div v-if="filteredStatus.length === 0 && query !== ''"
-                                                            class="relative cursor-default select-none px-4 py-2 text-gray-700">
-                                                            Nothing found.
-                                                        </div>
+                                        <select   v-model="form.employment_status_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="status in filteredStatus" :key="status.id" :value="status.id">{{ status.name }} </option>
 
-                                                        <ComboboxOption v-for="status in filteredStatus" as="template"
-                                                            :key="status.id" :value="status" v-slot="{ selected, active }">
-                                                            <li class="relative cursor-default select-none py-2 pl-10 pr-4"
-                                                                :class="{
-                                                                    'bg-blue-100 text-black': active,
-                                                                    'text-gray-900': !active,
-                                                                }">
-                                                                <span class="block truncate"
-                                                                    :class="{ 'font-medium': selected, 'font-normal': !selected }">
-                                                                    {{ status.name }}
-                                                                </span>
-                                                                <span v-if="selected"
-                                                                    class="absolute inset-y-0 left-0 flex items-center pl-3"
-                                                                    :class="{ 'text-blue': active, 'text-blue-600': !active }">
-                                                                    <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                                                </span>
-                                                            </li>
-                                                        </ComboboxOption>
-                                                    </ComboboxOptions>
-                                                </TransitionRoot>
-                                            </div>
-                                        </Combobox>
+                                        </select>
+                                         
                                     </div>
                             </div>
                             <div class="col-span-1">
                                 <label for="name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Code</label>
-                                <input  type="text" :value="props.employee.employee_code" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                <input  type="text" v-model="form.employee_code" 
+                                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                      required="">
                             </div>
                             <div class="col-span-1">
                                 <label for="name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Type</label>
-                                <input  :value="props.employee.employee_code"  disabled type="text" name="name" id="name" 
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                     required="">
+                                    <select   v-model="form.employee_type_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="employementType in props.employmentTypes" :key="employementType.id" :value="employementType.id">{{ employementType.name }} </option>
+
+                                        </select>
                             </div>
                             <div class="col-span-1 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position/Job Title</label>
-                                <input type="text" id="time"  :value="props.employee.employee_code" 
-                                    class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                    />
+                                <select   v-model="form.position_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="data in props.positions" :key="data.id" :value="data.id">{{ data.name }} </option>
+
+                                        </select>
 
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                                <input type="text" id="time"  :value="props.employee.employee_code" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                    />
+                                    <select   v-model="form.location_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="data in props.locations" :key="data.id" :value="data.id">{{ data.name }} </option>
+
+                                        </select>
 
                             </div>
 
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                                <input type="text" id="time"  :value="props.employee.employee_code" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                     />
+                                <select   v-model="form.department_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="data in props.departments" :key="data.id" :value="data.id">{{ data.name }} </option>
+
+                                        </select>
 
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="category"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Division</label>
-                                <input  id="time"  :value="props.employee.employee_code" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                    min="09:00" max="18:00" :disabled="pmout != '' && pmout !== 'SAT' && pmout !== 'SUN'"    />
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Division\Office\Unit</label>
+                                    <select   v-model="form.division_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="data in props.divisions" :key="data.id" :value="data.id">{{ data.name }} </option>
+
+                                        </select>
 
                             </div>
 
                             <div class="col-span-2 sm:col-span-1">
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Start Date</label>
-                                <input type="text" id="date" datepicker    :value="props.employee.start_date" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                <input type="date" id="date"     v-model="form.start_date" 
+                                class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                     />
@@ -446,7 +471,7 @@ const selected = ref(props.employee.gender)
                                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Report To</label>
                                     <input type="text" id="time"
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
+                                class="border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
                                     focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                                     dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
                                     />
@@ -456,11 +481,21 @@ const selected = ref(props.employee.gender)
                             <div class="col-span-3  ">
                                 <label for="category"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Work Days</label>
-                                <input type="text" id="time"  :value="props.employee.employee_code" 
-                                class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                    focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                    dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                    />
+                                    <select 
+                                        v-model="form.work_day_id" 
+                                        required 
+                                        id="work_day" 
+                                        name="work_day" 
+                                        autocomplete="off"
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                        <option value="" disabled>Select a work day</option>
+                                        <option 
+                                            v-for="data in props.work_days" 
+                                            :key="data.id" 
+                                            :value="data.id">
+                                            {{ JSON.parse(data.data).TimeDesc }} - {{ JSON.parse(data.data).Description }}
+                                         </option>
+                                    </select>
 
                             </div>
                            

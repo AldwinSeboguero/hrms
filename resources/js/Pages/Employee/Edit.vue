@@ -255,7 +255,7 @@ const setActive = (activeBtn) => {
     </div> -->
     <div id="default-tab-content" class="  text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
     <div class="hidden rounded-lg  dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <EmployeeProfile :employee = "props.employee"/>
+        <EmployeeProfile />
     </div>
     <div class="hidden  rounded-lg " id="position" role="tabpanel" aria-labelledby="position-tab">
         <EmployeePosition/>
@@ -263,13 +263,13 @@ const setActive = (activeBtn) => {
     <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="ids" role="tabpanel" aria-labelledby="ids-tab">
         <EmployeeGovernmentID/>
     </div>
-    <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="absent" role="tabpanel" aria-labelledby="absent-tab">
+    <div class="hidden  rounded-lg" id="absent" role="tabpanel" aria-labelledby="absent-tab">
         <EmployeeAbsent/>
     </div>
-    <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="asset" role="tabpanel" aria-labelledby="asset-tab">
+    <div class="hidden  rounded-lg  dark:bg-gray-800" id="asset" role="tabpanel" aria-labelledby="asset-tab">
         <EmployeeAsset/>
     </div>
-    <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="dependent" role="tabpanel" aria-labelledby="dependent-tab">
+    <div class="hidden  rounded-lg " id="dependent" role="tabpanel" aria-labelledby="dependent-tab">
         <EmployeeDepenedent/>
     </div>
     <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="education" role="tabpanel" aria-labelledby="education-tab">
@@ -290,8 +290,8 @@ const setActive = (activeBtn) => {
     <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="training" role="tabpanel" aria-labelledby="training-tab">
         <EmployeeTraining/>
     </div>
-    <div class="hidden  rounded-lg bg-gray-50 dark:bg-gray-800" id="eligibility" role="tabpanel" aria-labelledby="eligibility-tab">
-        <EmployeeTraining/>
+    <div class="hidden  rounded-lg  dark:bg-gray-800" id="eligibility" role="tabpanel" aria-labelledby="eligibility-tab">
+        <EmployeeEligibility/>
     </div>
 </div>
 </div>

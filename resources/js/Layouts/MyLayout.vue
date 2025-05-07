@@ -177,11 +177,11 @@
                    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                 </svg>
              </button> 
-            <a href="https://flowbite.com" class=" flex items-center space-x-4">
+            <a href="https://hrms.parsu.edu.ph" class=" flex items-center space-x-4">
     
-                <div class="">
-                    <img class="h-10 w-10" src="https://parsu.edu.ph/images/logo/NewPSUlogo.png" alt="ChitChat Logo">
-                </div>
+              <div class="">
+                <img class="h-12 w-12" :src="logo" alt="ChitChat Logo">
+            </div>
                 <div>
                     <div class="text-md text-blue-950 font-black font-sans uppercase">Partido State University</div>
                     <p class="text-slate-500">Human Resource Management System</p>
@@ -269,6 +269,7 @@
     import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
     import { ChevronDownIcon } from '@heroicons/vue/20/solid'
     import { onMounted,onUpdated } from 'vue'
+    import logo from '../../images/psu_logo.png';
     import { 
         initAccordions, 
         initCarousels, 

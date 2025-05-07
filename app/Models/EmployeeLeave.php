@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeeLeave extends Model
 {
     use HasFactory;
-    public function employee()
-    {
-        return $this->belongsTo('App\Models\Employee','employee_id');
-    }
+    protected $fillable=['id','employee_id','position','salary','days_with_pay','days_without_pay', 
+    'credit_to',
+    'vearned',
+    'searned',
+    'vless',
+    'sless','leave_type_id','description','leave_status_id','duration','physician','certificate_number','date_commenced','date_completed', 'remarks' ];
+  
     public function leavetype()
     {
         return $this->belongsTo('App\Models\LeaveType','leave_type_id');
@@ -19,5 +22,9 @@ class EmployeeLeave extends Model
     public function leavestatus()
     {
         return $this->belongsTo('App\Models\LeaveStatus','leave_status_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

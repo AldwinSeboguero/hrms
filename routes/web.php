@@ -129,6 +129,16 @@ Route::middleware([
 //Leaves Route
 Route::get('leave/request', [LeaveController::class,'index'])->name('leave.request');
 Route::get('leave/add/request', [LeaveController::class,'request'])->name('leave.add.request');
+Route::post('save-position', [EmployeeController::class,'savePosition'])->name('employee.save.position');
+Route::post('save-leave', [LeaveController::class,'saveLeave'])->name('employee.save.leave');
+Route::post('stat-leave', [LeaveController::class,'statLeave'])->name('employee.stat.leave');
+
+Route::post('delete-leave', [LeaveController::class,'deleteLeave'])->name('employee.delete.leave');
+Route::post('save-profile', [EmployeeController::class,'saveProfile'])->name('employee.save.ptofile');
+
+
+
+
 
 
 
