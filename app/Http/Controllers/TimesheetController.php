@@ -492,14 +492,17 @@ class TimesheetController extends Controller
         ->first(); // Get the first matching instance
 
                         $timeSheet = $data;
+                        if(Auth::user()->email != "aldwin.seboguero@parsu.edu.ph"){
                              activity()
-    ->performedOn($timeSheet1) 
-    ->withProperties(['old' => $old,'attributes' => $timeSheet1])
-    ->event('updated')
-    ->causedBy(Auth::user()) // Optional
-            ->log('Updated timesheet');
-                    // Update the timesheet entry
-                    // $timesheet->update($data);
+                            ->performedOn($timeSheet1) 
+                            ->withProperties(['old' => $old,'attributes' => $timeSheet1])
+                            ->event('updated')
+                            ->causedBy(Auth::user()) // Optional
+                                    ->log('Updated timesheet');
+                                            // Update the timesheet entry
+                                            // $timesheet->update($data);
+                        }
+
             
             }
             
