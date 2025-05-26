@@ -8,6 +8,8 @@ use App\Models\Timesheet;
 use App\Models\Holiday;
 use App\Models\Division;
 use Carbon\Carbon;
+use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Auth;
 use DB;
 class TimesheetController extends Controller
 {
@@ -415,6 +417,8 @@ class TimesheetController extends Controller
     public function update()
     {
         // dd(Request::input('form'));
+        $timeSheet1 = new Timesheet();
+        $timeSheet = [];
 
         $data = [
             'title' => 'Welcome!',
@@ -455,7 +459,7 @@ class TimesheetController extends Controller
                 ];
                 //  dd($formData['employee_id']);
                 // Create the timesheet entry
-                Timesheet::create($data);
+               $timeSheet = Timesheet::create($data);
                 
             }
             else{
@@ -463,7 +467,10 @@ class TimesheetController extends Controller
                 // ->where('transaction_date', Carbon::createFromFormat('M d, Y', $formData['transactionDate'])->format('Y-m-d'))
                 // ->get();
                 // dd($timesheet->count());
-         
+                         $old = Timesheet::where('employee_id', $formData['employee_id'])
+        ->where('transaction_date', Carbon::createFromFormat('M d, Y', $formData['transactionDate'])->format('Y-m-d'))
+        ->first(); // Get the first matching instance
+
                     $data = [
                         'employee_id' => $formData['employee_id'],
                         'transaction_date' => Carbon::createFromFormat('M d, Y', $formData['transactionDate'])->format('Y-m-d'),
@@ -480,6 +487,17 @@ class TimesheetController extends Controller
                     $updatedRows = Timesheet::where('employee_id', $formData['employee_id'])
                         ->where('transaction_date', Carbon::createFromFormat('M d, Y', $formData['transactionDate'])->format('Y-m-d'))
                         ->update($data);
+                           $timeSheet1 = Timesheet::where('employee_id', $formData['employee_id'])
+        ->where('transaction_date', Carbon::createFromFormat('M d, Y', $formData['transactionDate'])->format('Y-m-d'))
+        ->first(); // Get the first matching instance
+
+                        $timeSheet = $data;
+                             activity()
+    ->performedOn($timeSheet1) 
+    ->withProperties(['old' => $old,'attributes' => $timeSheet1])
+    ->event('updated')
+    ->causedBy(Auth::user()) // Optional
+            ->log('Updated timesheet');
                     // Update the timesheet entry
                     // $timesheet->update($data);
             
@@ -732,6 +750,8 @@ class TimesheetController extends Controller
     
         // Prepend the blank object to the collection
         $offices->prepend($blankOffice);
+
+      
         return response()->json($days);
     }
 }
