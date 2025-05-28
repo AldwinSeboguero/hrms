@@ -8,6 +8,8 @@ use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\TimesheetController;
+use App\Http\Controllers\EmployeeDTRCOntroller;
+
 
 
 
@@ -124,6 +126,8 @@ Route::middleware([
     })->name('dashboard');
     Route::resource('employees', EmployeeController::class);
     Route::resource('timesheets', TimesheetController::class);
+    Route::resource('employeeTimesheets', EmployeeDTRCOntroller::class);
+
     Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
 
 //Leaves Route

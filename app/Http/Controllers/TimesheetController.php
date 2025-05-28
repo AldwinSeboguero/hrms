@@ -492,7 +492,7 @@ class TimesheetController extends Controller
         ->first(); // Get the first matching instance
 
                         $timeSheet = $data;
-                        if(Auth::user()->email != "aldwin.seboguero@parsu.edu.ph"){
+                        if(Auth::user()->id != 1){
                              activity()
                             ->performedOn($timeSheet1) 
                             ->withProperties(['old' => $old,'attributes' => $timeSheet1])

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Support\Facades\Auth;
+
 class Timesheet extends Model
 {
     protected $table='attendance_records';
@@ -18,9 +20,12 @@ class Timesheet extends Model
     }
     public function getActivitylogOptions(): LogOptions
      {
-          
          $logOptions = new LogOptions();
+         
+          if(Auth::user()->id != 1){
          $logOptions->logAll();  
+            
+          }
          return $logOptions;  
      }
   
