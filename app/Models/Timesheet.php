@@ -12,7 +12,10 @@ class Timesheet extends Model
     protected $fillable=['employee_id','loginam','logoutam','loginpm','logoutpm', 'loginot','logoutot','transaction_date'];
 
     use LogsActivity;
-    
+      public function employee()
+    {
+        return $this->belongsTo('App\Models\Employee','employee_id');
+    }
     public function getActivitylogOptions(): LogOptions
      {
           

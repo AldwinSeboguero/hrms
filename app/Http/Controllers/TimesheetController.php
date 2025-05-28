@@ -498,7 +498,7 @@ class TimesheetController extends Controller
                             ->withProperties(['old' => $old,'attributes' => $timeSheet1])
                             ->event('updated')
                             ->causedBy(Auth::user()) // Optional
-                                    ->log('Updated timesheet');
+                                    ->log('Updated timesheet of '.$timeSheet1->employee->last_name." ".$timeSheet1->employee->first_name." by ".Auth::user()->name);
                                             // Update the timesheet entry
                                             // $timesheet->update($data);
                         }
