@@ -1,5 +1,6 @@
 <script setup>
-import AppLayout from '@/Layouts/MyLayout.vue';
+ import AppLayout from '@/Layouts/MyLayout.vue';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 import { ref, onMounted } from 'vue';
 import { initFlowbite } from 'flowbite'
@@ -181,7 +182,7 @@ export default {
 };
 </script>
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout  >
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 Dashboard

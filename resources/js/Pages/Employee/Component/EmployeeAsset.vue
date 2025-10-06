@@ -85,12 +85,12 @@ const getRoles = (roles) =>{
         this.form.date_completed = event.target.value; // Set the value normally
       }
     };
-    const employee_positions = ref(props.employee_positions)
+    const employee_assets = ref(props.employee_assets)
 const submit = async () => {
     try {
      
-        const response = await axios.post('/save-position', { employeePositionData: form });
-        employee_positions.value = response.data.employee_position_salaries;
+        const response = await axios.post('/save-asset', { employeePositionData: form });
+        employee_assets.value = response.data.employee_assets;
             dialogVisible.value = false;
       
     } catch (error) {
@@ -172,32 +172,34 @@ const submit = async () => {
                     <th scope="col" class="px-6 py-3">
                       REMARKS
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
                       ACTION
                     </th>
                   </tr>
                 </thead>
                 <tbody> 
-                  <tr class="border-b border-gray-200 dark:border-gray-700" v-for="(data, index) in employee_positions"
+                  <tr class="border-b border-gray-200 dark:border-gray-700" v-for="(data, index) in employee_assets"
                     :key="data.id" :value="data.id">
-                    <th scope="row"
+                        <th scope="row"
                       class="px-6 py-4 font-medium text-black-800 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                      {{ data.position.toUpperCase() }}
+                      {{ data.asset_type.toUpperCase() }}
                     </th>
-                    <td class="px-6 py-4">
-                        {{ data.date_commenced.toUpperCase() }}
+                    <td scope="row"
+                      class="px-6 py-4  ">
+                      {{ data.date_released.toUpperCase() }}
+                </td>
+                    <td class="px-6 py-4 bg-gray-50">
+                        {{ data.date_returned.toUpperCase() }}
                     </td>
-                    <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                        {{ data.is_current? 'Current' : data.date_completed.toUpperCase() }}
+                    <td class="px-6 py-4 ">
+                        {{  data.asset_identifier.toUpperCase() }}
                     </td>
-                    <td class="px-6 py-4">
-                        {{ data.salary_grade.toUpperCase() }}
+                    <td class="px-6 py-4 bg-gray-50">
+                        {{ data.asset_status.toUpperCase() }}
                     </td>
-                    <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                        {{ data.renumeration.toUpperCase() }}
-                    </td>
+                
                       <td class="px-6 py-4">
-                        {{ data.salary_grade.toUpperCase() }}
+                        {{ data.remarks.toUpperCase() }}
                     </td>
                     <td class="px-6 py-4  bg-gray-50 dark:bg-gray-800">
                         <button  @click="openUpdateModal(data)" class="flex p-2.5 bg-green-500 rounded-xl hover:rounded-2xl hover:bg-yellow-600 transition-all duration-300 text-white">

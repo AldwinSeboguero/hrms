@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Employee;
 
 use Request;
 use Inertia\Inertia;
@@ -12,7 +12,8 @@ use Carbon\Carbon;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Auth;
 use DB; 
-class EmployeeDTRCOntroller extends Controller
+use App\Http\Controllers\Controller;
+class DTRController extends Controller
 {
 
       function convertToAM($timeString) {

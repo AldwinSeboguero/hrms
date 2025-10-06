@@ -87,7 +87,7 @@ const getRoles = (roles) =>{
     };
     const employee_positions = ref(props.employee_positions)
 const submit = async () => {
-    this.error = ''
+  
     try {
      
         const response = await axios.post('/save-position', { employeePositionData: form });

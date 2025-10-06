@@ -20,6 +20,8 @@ use App\Models\PerType;
 use App\Models\EmployeeLeave;
 use App\Models\LeaveType;
 use App\Models\LeaveStatus;
+use App\Models\EmployeeAsset;
+
 
 
 
@@ -195,6 +197,8 @@ class EmployeeController extends Controller
             'per_types' => PerType::get(),
             'leave_types' => LeaveType::get(),
             'leave_statuses' => LeaveStatus::get(),
+             
+
 
 
             'employee_positions' => EmployeePositionSalary::orderByDesc('date_commenced')->where('employee_id',Request::input('employee'))->get()->map(function ($position) {
@@ -217,8 +221,30 @@ class EmployeeController extends Controller
                 ];
             }),
 
+                 'employee_assets' => EmployeeAsset::where('employee_id',Request::input('employee'))->get()->map(function ($asset) {
+                return [
+                    'id' => $asset->id,
+                    'employee_id' => $asset->employee_id ? $asset->employee_id : '',  
+                    'asset_type' => $asset->assetType ? $asset->assetType->name : '',  
+                    'asset_status' => $asset->assetStatus ? $asset->assetStatus->name : '',  
+
+                    'description' => $asset->description ? $asset->description : '', 
+                    'asset_identifier' => $asset->asset_identifier ? $asset->asset_identifier : '', 
+                    'serial_number' => $asset->serial_number ? $asset->serial_number : '', 
+                    'date_released' => $asset->date_released ? $asset->date_released : '', 
+                    'date_returned' => $asset->date_returned ? $asset->date_returned : '', 
+
+
+
+                    'remarks' => $asset->remarks ? $asset->remarks : '', 
+
+                     
+                ];
+            }),
             'leave_data' => EmployeeLeave::query()
                         ->where('employee_id', Request::input('employee')) 
+                            ->orderBy('leave_status_id')
+    ->orderBy('updated_at', 'desc')  // Order by updated_at in descending order
                         ->paginate(10)
                         ->withQueryString()
                         ->through(fn($leave) => [

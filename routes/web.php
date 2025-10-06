@@ -10,6 +10,23 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\TimesheetController;
 use App\Http\Controllers\EmployeeDTRCOntroller;
 
+use App\Http\Controllers\Employee\CalendarController;
+use App\Http\Controllers\Employee\DirectoryController;
+use App\Http\Controllers\Employee\DTRController;
+use App\Http\Controllers\Employee\ExpenseController;
+use App\Http\Controllers\Employee\FormController;
+use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
+use App\Http\Controllers\Employee\LibraryController;
+use App\Http\Controllers\Employee\NewsController;
+use App\Http\Controllers\Employee\OrgChartController;
+use App\Http\Controllers\Employee\PerformanceController;
+use App\Http\Controllers\Employee\ProfileController;
+use App\Http\Controllers\Employee\HomeController;
+
+
+
+
+
 
 
 
@@ -26,7 +43,8 @@ use App\Models\Employee;
 use App\Models\Position;
 use App\Models\Division;
 use App\Models\Location;
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 
 
@@ -41,18 +59,8 @@ Route::get('/notregister', function () {
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::resource('submittedclearances', SubmittedClearance::class);
-    Route::get('semesters', [SemesterController::class,'index']);
-    Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
-
-
-    Route::get('/dashboard', function () {
+Route::group(['middleware' => ['auth','role:admin']], function () { 
+Route::get('/admin/dashboard', function () {
 
         $totalEmployees = Employee::count();
         $maleCount = Employee::where('gender', 'Male')->count();
@@ -92,41 +100,100 @@ Route::middleware([
                                     ];                
                                 }
                             ),
-                            'Location' => Location::get(),
-//             'PositionStat' => Employee::select('position_id')
-//  // Eager load the position relationship
-//     ->groupBy('position_id')
-//     ->with('position')
-//     ->get()
-//     ->map(function($inner) {
-//         // Get the related position
-//         $position = $inner->position;
-
-//         // Fetch all locations and count employees per location for the current position
-//         $locationCounts = Location::all()->map(function($location) use($inner) {
-//             $count = Employee::where('position_id', $inner->position_id)
-//                 ->whereHas('division', function($query) use ($location) {
-//                     $query->where('location_id', $location->id);
-//                 })
-//                 ->count(); // Use count() instead of paginate()->total()
-
-//             return [
-//                 'id' => $location->id,
-//                 'count' => $count,
-//             ];
-//         });
-
-//         return [
-//             'position' => $position,
-//             'count' => $inner->count, // Make sure this is defined correctly; you might need to use selectRaw to get the count.
-//             'location' => $locationCounts,
-//         ];                
-//     }),
+                            'Location' => Location::get(), 
         ]);
-    })->name('dashboard');
+    })->name('admin.dashboard');
+
+// Route::get('/admin/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('admin.dashboard');
+Route::get('/editor/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('editor.dashboard');
+ 
+ 
+ });     
+ Route::group(['middleware' => ['auth','role:user']], function () { 
+     
+
+Route::get('/user/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
+Route::get('/user/profile', [ProfileController::class, 'index'])->name('user.profile');
+Route::get('/user/directory', [DirectoryController::class, 'index'])->name('user.directory');
+Route::get('/user/orgchart', [OrgChartController::class, 'index'])->name('user.orgchart');
+Route::get('/user/calendar', [CalendarController::class, 'index'])->name('user.calendar');
+Route::get('/user/dtr', [DTRController::class, 'index'])->name('user.dtr');
+Route::get('/user/leave', [EmployeeLeaveController::class, 'index'])->name('user.leave');
+Route::get('/user/performances', [PerformanceController::class, 'index'])->name('user.performances');
+Route::get('/user/expenses', [ExpenseController::class, 'index'])->name('user.expenses');
+Route::get('/user/forms', [FormController::class, 'index'])->name('user.forms');
+Route::get('/user/library', [LibraryController::class, 'index'])->name('user.library');
+Route::get('/user/news', [NewsController::class, 'index'])->name('user.news'); 
+
+ 
+ });    
+
+// ,'role:admin'
+Route::group(['middleware' => ['auth','redirect.role']], function () { 
+    
+    Route::get('/dashboard', function () {})->name('dashboard');
+ });
+
+    // Route::get('/dashboard', function () {
+
+    //     $totalEmployees = Employee::count();
+    //     $maleCount = Employee::where('gender', 'Male')->count();
+    //     $femaleCount = Employee::where('gender', 'Female')->count();
+    
+    //     return Inertia::render('Dashboard', [
+    //         'EmployeeCount' => $totalEmployees,
+    //         'MaleCount' => $maleCount,
+    //         'FemaleCount' => $femaleCount,
+    //         'EmployementStat' => [
+    //         Employee::where('employee_type_id', 5)->count(),
+    //         Employee::where('employee_type_id', 6)->count(),
+    //         Employee::where('employee_type_id', 1)->count(),
+    //         Employee::where('employee_type_id', 3)->count(),
+    //         Employee::where('employee_type_id', 2)->count(),
+    //         Employee::where('employee_type_id', 4)->count(),
+    //         ],
+    //         'PositionStat' => Position::orderBy('name')->get()->map(
+    //                             function($inner){
+    //                                 return [
+    //                                     'position' => $inner->name,
+    //                                     'location' => Location::get()->map(
+    //                                         function($inner1) use($inner){
+    //                                             return [
+    //                                                 'id' => $inner1->id,
+    //                                                 'name' => $inner1->name,
+    //                                                 'count' => Employee::where('position_id',$inner->id)->whereHas('division', function($query)use($inner1) {
+    //                                                                         $query->where('location_id', $inner1->id);
+    //                                                                     })
+    //                                                     ->paginate()->total(),
+    //                                             ];                
+    //                                         }
+    //                                     ),
+    //                                     'count' => Employee::where('position_id',$inner->id)
+    //                                                     ->paginate()->total(),
+                
+    //                                 ];                
+    //                             }
+    //                         ),
+    //                         'Location' => Location::get(), 
+    //     ]);
+    // })->name('dashboard');
+
+    // Route::resource('employeeTimesheets', EmployeeDTRCOntroller::class);
+
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::resource('submittedclearances', SubmittedClearance::class);
+    Route::get('semesters', [SemesterController::class,'index']);
+    Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
+
+
+    
     Route::resource('employees', EmployeeController::class);
     Route::resource('timesheets', TimesheetController::class);
-    Route::resource('employeeTimesheets', EmployeeDTRCOntroller::class);
 
     Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
 

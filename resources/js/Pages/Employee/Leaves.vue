@@ -1,6 +1,6 @@
  
 <script setup>
-import AppLayout from '@/Layouts/MyLayout.vue';
+import AppLayout from '@/Layouts/AdminLayout.vue';
 import { Dropdown,Modal } from 'flowbite'
 import { router, usePage, Link, Head, usePoll } from '@inertiajs/vue3'
 import { ref, computed, watch, reactive, onMounted } from 'vue' 
@@ -26,7 +26,7 @@ usePoll(2000, {
     onStart() {
         // getLeaveStat();
 
-        // computeLeaveBalance();
+        computeLeaveBalance();
 
     },
     onFinish() {
@@ -221,7 +221,7 @@ const openUpdateModal = (formData) => {
     form.duration = formData.duration; 
     form.days_with_pay = formData.days_with_pay; 
     form.days_without_pay = formData.days_without_pay; 
-    // form.position = props.employee.position;
+    form.position = props.employee.position;
 
     form.salary = formData.salary; 
     form.credit_to = formData.credit_to;
@@ -235,7 +235,7 @@ const openUpdateModal = (formData) => {
     dialogVisible.value = true;
 
 }
-const leave_data = ref(props.table_data.data)
+const leave_data = ref(props.leave_data.data)
 const time_records_1 = computed(() => props.table_data.data);
 const submit = async () => {
     try {
@@ -413,94 +413,16 @@ const setWithPay = async () => {
                                  
                                 />
                                     </div>
-                                    <div class="col-span-6 sm:col-span-3">
+                                    <div class="col-span-6 sm:col-span-6">
                                         <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>
                                         <input v-model="form.duration"  type="number" name="price" id="price" step="0.001" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0.000" required="">
                                     </div> 
                                    
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days with pay</label>
-                                        <input v-model="form.days_with_pay" @change="setWithPay"  type="number" name="price" id="price" step="0.001" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0.000" >
-                                    </div> 
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Credit To</label>
-                                        <select   v-model="form.credit_to" @change="setWithPay"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                            <option></option>
-                                            <option value="Vacation Leave">Vacation Leave </option>
-                                            <option value="Sick Leave">Sick Leave </option> 
-
-                                        </select>
-                                    </div>
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days without pay</label>
-                                        <input v-model="form.days_without_pay" type="number" name="price" id="price" step="0.001" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0.000" >
-                                    </div> 
                                     
-                                    <div class="col-span-3">
+                                    <div class="col-span-6">
                                         <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remarks</label>
                                         <textarea v-model="form.remarks" id="description" rows="6" class="block   w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write remark here"></textarea>                    
-                                    </div><div class="col-span-3">
-                                        <label for="description" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Leave Credits</label>
-                                        
-                                        <table class="text-xs w-full text-left rtl:text-right text-gray-600 dark:text-gray-400">
-                                            <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                                            <tr> 
-                                                <th scope="col" class="px-2 py-1">
-                                                
-                                                </th>
-                                                <th scope="col" class="px-2 py-1 text-center bg-gray-50 dark:bg-gray-800">
-                                                Vacation Leave
-                                                </th> 
-                                                <th scope="col" class="px-2 py-1  text-center">
-                                                Sick Leave
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody> 
-                                                <tr class="border-b border-gray-200 dark:border-gray-700">
-                                                        <th scope="row"
-                                                        class="px-3 py-2 text-center font-medium text-black-800 italic whitespace-nowrap  dark:text-white ">
-                                                           Total Earned
-                                                        </th>
-                                                        <td class="px-3 py-2 bg-gray-50 text-center dark:bg-gray-800">
-                                                            {{ availableVL }}
-                                                        </td> 
-                                                        <td class="px-3 py-2 text-center">
-                                                            {{ availableSL }}
-                                                        </td> 
-                                                
-                                                    </tr>
-                                                    <tr class="border-b border-gray-200 dark:border-gray-700">
-                                                        <th scope="row"
-                                                        class="px-3 py-2 text-center font-medium text-black-800 italic whitespace-nowrap  dark:text-white ">
-                                                           Less this application
-                                                        </th>
-                                                        <td class="px-3 py-2 bg-gray-50 text-center dark:bg-gray-800">
-                                                            {{ form.vless }}
-                                                        </td> 
-                                                        <td class="px-3 py-2 text-center">
-                                                            {{ form.sless}}
-
-                                                        </td> 
-                                                
-                                                    </tr>
-                                                    <tr class="border-b border-gray-200 dark:border-gray-700">
-                                                        <th scope="row"
-                                                        class="px-3 py-2 text-center font-medium text-black-800 italic whitespace-nowrap  dark:text-white ">
-                                                           Balance
-                                                        </th>
-                                                        <td class="px-3 py-2 bg-gray-50 text-center dark:bg-gray-800">
-                                                            {{ form.credit_to =='Vacation Leave' ? availableVL-form.days_with_pay : availableVL }}
-                                                        </td> 
-                                                        <td class="px-3 py-2 text-center">
-                                                            {{ form.credit_to == 'Sick Leave' ? availableSL-form.days_with_pay : availableSL }}
-
-                                                        </td> 
-                                                
-                                                    </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    </div> 
                                 </div>
                                   <!-- Modal body -->
 
@@ -714,7 +636,7 @@ const setWithPay = async () => {
                                                     
                                                     Edit
                                                 </button> -->
-                                                <button @click="openUpdateModal(employee)"
+                                                <button @click="openUpdateModal(employee)" v-if="employee.status == 'Pending'"
                                                     class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"

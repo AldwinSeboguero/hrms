@@ -460,6 +460,16 @@ class TimesheetController extends Controller
                 //  dd($formData['employee_id']);
                 // Create the timesheet entry
                $timeSheet = Timesheet::create($data);
+                     if(Auth::user()->id != 2){
+                             activity()
+                            ->performedOn($timeSheet) 
+                            ->withProperties([ 'attributes' => $timeSheet])
+                            ->event('created')
+                            ->causedBy(Auth::user()) // Optional
+                                    ->log('Created timesheet of '.$timeSheet->employee->last_name." ".$timeSheet->employee->first_name. ' Dated['.$timeSheet->transaction_date->format('Y-m-d'). "] by ".Auth::user()->name);
+                                            // Update the timesheet entry
+                                            // $timesheet->update($data);
+                        }
                 
             }
             else{
@@ -498,7 +508,7 @@ class TimesheetController extends Controller
                             ->withProperties(['old' => $old,'attributes' => $timeSheet1])
                             ->event('updated')
                             ->causedBy(Auth::user()) // Optional
-                                    ->log('Updated timesheet of '.$timeSheet1->employee->last_name." ".$timeSheet1->employee->first_name." by ".Auth::user()->name);
+                                    ->log('Updated timesheet of '.$timeSheet1->employee->last_name." ".$timeSheet1->employee->first_name.' Dated['.$timeSheet1->transaction_date->format('Y-m-d'). "] by ".Auth::user()->name);
                                             // Update the timesheet entry
                                             // $timesheet->update($data);
                         }

@@ -38,9 +38,17 @@ class Employee extends Model
     {
         return $this->belongsTo('App\Models\Division','division_id');
     }
+      public function campus()
+    {
+        return $this->belongsTo('App\Models\Location','location_id');
+    }
     public function employeeType()
     {
         return $this->belongsTo('App\Models\EmployeeType','employee_type_id');
+    }
+    public function employeeStatus()
+    {
+        return $this->belongsTo('App\Models\EmploymentStatus','employment_status_id');
     }
     public function workDays()
     {

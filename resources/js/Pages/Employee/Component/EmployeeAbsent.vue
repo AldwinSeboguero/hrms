@@ -105,6 +105,7 @@ const openUpdateModal = (formData) => {
         form.searned = formData.searned
         form.vless = formData.vless
         form.sless = formData.sless
+        form.status = formData.status
 
 
 
@@ -129,6 +130,7 @@ const openDeleteModal = (formData) => {
     form.position = formData.position; 
     form.salary = formData.salary;  
     form.credit_to = formData.credit_to;
+    
 
         form.vearned = formData.vearned
         form.searned = formData.searned
@@ -158,6 +160,32 @@ const getRoles = (roles) =>{
 const submit = async () => {
     try {
      
+        const response = await axios.post('/save-leave', { employeePositionData: form });
+        leave_data.value = response.data.employee_position_salaries.data; 
+            dialogVisible.value = false;
+      
+    } catch (error) {
+        console.error('Error updating Positions:', error);
+    } 
+    // toastMessage.value = 'response.props.message'; 
+
+};
+const approved = async () => {
+    try {
+        form.leave_status_id = 2
+        const response = await axios.post('/save-leave', { employeePositionData: form });
+        leave_data.value = response.data.employee_position_salaries.data; 
+            dialogVisible.value = false;
+      
+    } catch (error) {
+        console.error('Error updating Positions:', error);
+    } 
+    // toastMessage.value = 'response.props.message'; 
+
+};
+const disapproved = async () => {
+    try {
+        form.leave_status_id = 1
         const response = await axios.post('/save-leave', { employeePositionData: form });
         leave_data.value = response.data.employee_position_salaries.data; 
             dialogVisible.value = false;
@@ -493,7 +521,7 @@ const monthlyVacationLeave = 1.25; // Vacation leave accrued each month
                 <div class="my-header">
                     <div class="flex items-center justify-between p-2 md:p-3 border-b rounded-t dark:border-gray-600">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                    Add Leave
+                                    {{ form.id ? "Edit" : "Add"}} Leave
                                 </h3>
                                 <button @click="close" type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -523,6 +551,7 @@ const monthlyVacationLeave = 1.25; // Vacation leave accrued each month
 
                                         </select>
                                     </div>
+                                    
                                     <!-- <div class="col-span-4 sm:col-span-2">
                                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Absence Status</label>
                                         <select   v-model="form.leave_status_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -655,6 +684,15 @@ const monthlyVacationLeave = 1.25; // Vacation leave accrued each month
                                 </div>
                                   <!-- Modal body -->
 
+                        <button @click="approved" v-if="form.status == 'Pending'"
+                            class="mt-1 w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            
+                            APPROVE LEAVE</button>
+
+                            <button @click="disapproved" v-else
+                            class="mt-1 w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            
+                            DISAPPROVED LEAVE</button>
                         <button type="submit" v-if="form.id"
                             class="mt-1 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             

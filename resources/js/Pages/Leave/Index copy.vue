@@ -36,9 +36,7 @@ export default {
 }
 </script>
 <script setup>
-// import AppLayout from '@/Layouts/MyLayout.vue';
-import AppLayout from '@/Layouts/AdminLayout.vue';
-
+import AppLayout from '@/Layouts/MyLayout.vue';
 import { ref, computed, watch,reactive } from 'vue'
 import Welcome from '@/Components/Welcome.vue';
 import { router, usePage, Link } from '@inertiajs/vue3'
@@ -46,7 +44,7 @@ import { onMounted, onUpdated } from 'vue'
 import { store } from '../../store.js'
 import debounce from 'lodash/debounce'
 import InputError from '@/Components/InputError.vue';
-import { Dropdown } from 'flowbite'
+
 
 import {
     Combobox,
@@ -140,14 +138,14 @@ onMounted(() => {
 })
 watch(search, debounce(function (value) {
 
-    router.get('/user/dtr', { search: value, selectedMonth: props.selectedMonth, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: value, selectedMonth: props.selectedMonth, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
 
 }, 500));
 watch(selected, debounce(function (value) {
-    router.get('/user/dtr', { search: props.filters.search, employee_id: value.id, page: props.table_data.current_page, selectedMonth: props.selectedMonth, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: props.filters.search, employee_id: value.id, page: props.table_data.current_page, selectedMonth: props.selectedMonth, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
@@ -155,7 +153,7 @@ watch(selected, debounce(function (value) {
     // selected.value = $props.table_data.data['id', 129] ;
 }, 0));
 watch(selectedMonth, debounce(function (value) {
-    router.get('/user/dtr', { search: props.filters.search, employee_id: props.filters.employee_id, selectedMonth: value.id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedMonth: value.id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
@@ -163,7 +161,7 @@ watch(selectedMonth, debounce(function (value) {
 }, 0));
 
 watch(selectedYear, debounce(function (value) {
-    router.get('/user/dtr', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: value, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice }, {
+    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: value, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice }, {
         preserveState: true,
         replace: true
     });
@@ -172,7 +170,7 @@ watch(selectedYear, debounce(function (value) {
 
 watch(selectedOffice, debounce(function (value) {
 
-    router.get('/user/dtr', {   selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: value.id }, {
+    router.get('/timesheets', {   selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: value.id }, {
         preserveState: true,
         replace: true,
     });
@@ -192,7 +190,7 @@ function closeModal() {
 //   isOpen.value = true
 // }
 function generatePdf() {
-    const url = route('generate-pdf', { search: props.filters.search, employee_id: props.employee.id, selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice })
+    const url = route('generate-pdf', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice })
     window.location.href = url
 
     //     axios.get('/generate-pdf',
@@ -252,7 +250,7 @@ const openModal = (time_record) => {
     dialogVisible.value = true
 }
 
-const time_records_1 = computed(() => props.time_records);
+const time_records_1 = computed(() => props.table_data.data);
 let submit = () =>{
  console.log(form);
  axios.post('update-timesheet', { form })
@@ -268,17 +266,10 @@ let submit = () =>{
 
     
 }
-
-const currentYear = new Date().getFullYear();
-
-  const years = computed(() => {
-      const startYear = 2023;
-      return Array.from({ length: currentYear - startYear + 1 }, (_, i) => currentYear - i);
-    });
 </script>
 
 <template>
-    <AppLayout title="Daily Time Record">
+    <AppLayout title="Employees">
 
         <el-dialog v-model="dialogVisible" title="Tips" width="500" :show-close="false" class="rounded-lg ">
             <template #header="{ close, titleId, titleClass }">
@@ -301,7 +292,7 @@ const currentYear = new Date().getFullYear();
 
                 </div>
             </template>
-            <div class="relative p-4 w-full max-h-full">
+            <div class="relative p-4 w-full max-w-2xl max-h-full">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg  dark:bg-gray-700">
 
@@ -419,112 +410,47 @@ const currentYear = new Date().getFullYear();
             </div>
 
         </el-dialog>
-        
+        <div class="mb-4">
+            <nav class="flex mb-5" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="#"
+                            class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                            <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                </path>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center ">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Employee
+                                Leave Requests
+                            </span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
 
 
         <div class="flex flex-col mt-4">
             <div class="">
-                
-                <div class=" ">
-                
-                     <div class="grid gap-4 mb-4 grid-cols-12">
-                        <div class="col-span-12 sm:col-span-3">
-                            <label 
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
-                                            Year</label>
-                                        <Listbox v-model="selectedYear">
-                                            <div class="relative mt-1">
-                                                <ListboxButton class="relative w-full  border border-gray-300 
-                                        cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left 
-                                        shadow-sm focus:outline-none focus-visible:border-indigo-500 
-                                        focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 
-                                        focus-visible:ring-offset-orange-300 sm:text-sm">
-                                                    <span class="block truncate">{{ selectedYear }}</span>
-                                                    <span
-                                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                                        <ChevronUpDownIcon class="h-5 w-5 text-gray-400"
-                                                            aria-hidden="true" />
-                                                    </span>
-                                                </ListboxButton>
-
-                                                <transition leave-active-class="transition duration-100 ease-in"
-                                                    leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                                    <ListboxOptions
-                                                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                                        <ListboxOption v-slot="{ active, selected }" v-for="year in years"
-                                                            :key="year" :value="year" as="template">
-                                                            <li :class="[
-                                                                active ? 'bg-blue-100 text-amber-900' : 'text-gray-900',
-                                                                'relative cursor-default select-none py-2 pl-10 pr-4',
-                                                            ]">
-                                                                <span :class="[
-                                                                    selected ? 'font-medium' : 'font-normal',
-                                                                    'block truncate',
-                                                                ]">{{ year }}</span>
-                                                                <span v-if="selected"
-                                                                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
-                                                                    <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                                                </span>
-                                                            </li>
-                                                        </ListboxOption>
-                                                    </ListboxOptions>
-                                                </transition>
-                                            </div>
-                                        </Listbox>
-                                    </div>
-
-                                          
-                                    <div class="col-span-12 sm:col-span-3">
-                                        <label 
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
-                                            Month</label>
-                                        <Listbox v-model="selectedMonth">
-                                            <div class="relative mt-1">
-                                                <ListboxButton class="relative w-full  border border-gray-300 
-                                        cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left 
-                                        shadow-sm focus:outline-none focus-visible:border-indigo-500 
-                                        focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 
-                                        focus-visible:ring-offset-orange-300 sm:text-sm">
-                                                    <span class="block truncate">{{ selectedMonth.name }}</span>
-                                                    <span
-                                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                                        <ChevronUpDownIcon class="h-5 w-5 text-gray-400"
-                                                            aria-hidden="true" />
-                                                    </span>
-                                                </ListboxButton>
-
-                                                <transition leave-active-class="transition duration-100 ease-in"
-                                                    leave-from-class="opacity-100" leave-to-class="opacity-0">
-                                                    <ListboxOptions
-                                                        class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                                        <ListboxOption v-slot="{ active, selected }" v-for="month in months"
-                                                            :key="month.id" :value="month" as="template">
-                                                            <li :class="[
-                                                                active ? 'bg-blue-100 text-amber-900' : 'text-gray-900',
-                                                                'relative cursor-default select-none py-2 pl-10 pr-4',
-                                                            ]">
-                                                                <span :class="[
-                                                                    selected ? 'font-medium' : 'font-normal',
-                                                                    'block truncate',
-                                                                ]">{{ month.name }}</span>
-                                                                <span v-if="selected"
-                                                                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
-                                                                    <CheckIcon class="h-5 w-5" aria-hidden="true" />
-                                                                </span>
-                                                            </li>
-                                                        </ListboxOption>
-                                                    </ListboxOptions>
-                                                </transition>
-                                            </div>
-                                        </Listbox>
-                                    </div>
-                        </div>
-                
-                                  
+                <div class="grid grid-cols-12 gap-3 mb-4">
+                    
                     <div class=" rounded   dark:bg-gray-800 col-span-12 md:col-span-12">
                         <h1
-                            class="text-xl font-semibold text-white sm:text-2xl dark:text-white  bg-gradient-to-r from-sky-600 to-cyan-400 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md">
-                            Employee Timesheet</h1>
+                            class="text-xl font-semibold text-white sm:text-2xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md">
+                            Employee Leave Requests</h1>
 
                         <!-- <TimeRecordList :products = "time_records"/> -->
 
@@ -532,6 +458,7 @@ const currentYear = new Date().getFullYear();
 
 
                         <div class="sm:flex">
+                            
                             <div
                                 class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
                                 <div class="flex items-center">
@@ -554,23 +481,44 @@ const currentYear = new Date().getFullYear();
 
                                 </div>
                             </div>
-                            <div class="flex items-center ml-auto space-x-2 sm:space-x-3 ">
-                                
+                            <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
 
-                                <button @click="generatePdf" class="inline-flex items-center justify-center w-full sm:w-full px-3 py-2 
-                                    text-sm font-medium text-center 
-                                    bg-red-600 text-white 
-                                    border border-gray-300 rounded-lg hover:bg-red-700 focus:ring-4 
-                                    focus:ring-red-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 
-                                    dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-                                    <svg class="w-5 h-5 mr-2 -ml-1" fill="white" viewBox="0 0 20 20"
+
+                                
+<button  @click="openModal()" type="button" class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
+  <div class="flex items-center space-x-3">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 stroke-sky-500 group-hover:stroke-white">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+</svg>
+ 
+    <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">New Leave Request</h3>
+  </div>
+  <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
+</button>
+<a href="#" class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
+  <div class="flex items-center space-x-3">
+ 
+  <svg class="h-6 w-6 stroke-red-500 group-hover:stroke-white" fill="white" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
                                             d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
                                             clip-rule="evenodd"></path>
                                     </svg>
-                                    Export
-                                </button>
+    <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">Export PDF</h3>
+  </div>
+  <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
+</a>
+
+<a href="#" class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
+  <div class="flex items-center space-x-3"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 stroke-green-500 group-hover:stroke-white">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
+</svg>
+
+    <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">XLS</h3>
+  </div>
+  <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
+</a>
                             </div>
                         </div>
                         <div class="inline-block min-w-full mt-2 pr-1">
@@ -580,86 +528,79 @@ const currentYear = new Date().getFullYear();
                                     <thead class="bg-white dark:bg-gray-700">
                                         <tr>
 
-                                            <!-- <th scope="col"
+                                            <th scope="col"
                                                 class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
 
-                                            </th> -->
+                                            </th> 
                                             <th scope="col"
-                                                class="text-center py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Day
+                                                class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Employee
                                             </th>
+                                          
                                             <th scope="col"
                                                 class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                AM IN
+                                                Status
+                                            </th>
+                                            <th scope="col"
+                                                class="text-left py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                               Details
+                                            </th>
+                                            <th scope="col"
+                                                class="text-left py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Created
                                             </th>
                                             <th scope="col"
                                                 class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                AM OUT
+                                                Actioned By
                                             </th>
-                                            <th scope="col"
-                                                class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                PM IN
-                                            </th>
-                                            <th scope="col"
-                                                class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                PM OUT
-                                            </th>
-                                            <th scope="col"
-                                                class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                OT IN
-                                            </th>
-                                            <th scope="col"
-                                                class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                OT OUT
-                                            </th>
-                                            <th scope="col"
-                                                class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Tardiness
-                                            </th>
+                                           
 
 
-                                            <th scope="col"
-                                                class="hidden text-center py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Actions
-                                            </th>
+                                        
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
-                                        <tr :v-model="item" v-for="time_record in time_records_1"
-                                            :key="time_record.date" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <tr :v-model="item" v-for="employee in time_records_1"
+                                            :key="employee.date" class="hover:bg-gray-100 dark:hover:bg-gray-700">
 
                                             <!-- <td
                                                 class="max-w-sm p-2 overflow-hidden text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
                                             </td> -->
+                                            <td></td>
 
                                             <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ time_record.date }}</td>
-                                            <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ time_record.amin }} </td>
-                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
+                                                {{ employee.employee }}</td>
+                                 
+                                                <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ time_record.amout }}</td>
-                                            <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ time_record.pmin }}</td>
+                                            
+                                                <button type="button" class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-cyan-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    {{ employee.status }}
+                                                </button>
 
+
+                                                </td>
                                             <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ time_record.pmout }}</td>
-                                            <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                class="max-w-sm py-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                <div class="">
+                                                    <div class="text-base font-semibold">{{ employee.description }}</div>
+                                                    <div class="font-normal text-gray-500">{{ employee.type }} - {{ employee.date_commenced }} to {{ employee.date_completed }} ({{ employee.duration }} days)</div>
+                                                </div>      
                                             </td>
                                             <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                            </td>
-
+                                                class="max-w-sm py-2 overflow-hidden text-left text-sm font-normal text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                                {{ employee.created_at}} ({{ employee.when}})</td>
 
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-                                                {{ time_record.remarks }}</td>
+                                                {{ employee.pmout }}</td>
+                                         
+                                           
+
+
+                                            <td></td>
 
                                             <td class="p-1 space-x-2 whitespace-nowrap">
                                                 <!-- <CardListItemModal /> -->
@@ -676,7 +617,7 @@ const currentYear = new Date().getFullYear();
                                                     Edit
                                                 </button> -->
                                                 <button @click="openModal(time_record)"
-                                                    class="hidden inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                                    class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 24 24" stroke-width="1.5"
