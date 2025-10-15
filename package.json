@@ -30,6 +30,7 @@
         "momentum-modal": "^0.2.3",
         "puppeteer": "^23.1.0",
         "qrcode-vue3": "^1.7.1",
-        "qrcode.vue": "^3.6.0"
+        "qrcode.vue": "^3.6.0",
+        "rollup": "^4.52.4"
     }
 }

@@ -53,6 +53,38 @@ class GoogleController extends Controller
 
 
             {
+                 $finduser = Employee::where('email_address', $user->email)->first();
+                 if($finduser)
+
+
+
+                    {
+
+            
+
+                        Auth::login($finduser);
+
+                $newUser = User::create([
+
+                    'name' => $user->name,
+
+                    'email' => $user->email,
+
+
+                    'password' => encrypt('$2y$12$BOw4aPmkN.hT3KEV0zwAAOzfZ/JAhSnhWx9wcFqaam9pkfDsIEpui')
+
+                ]);
+
+      
+
+                Auth::login($newUser);
+
+
+                        return redirect()->intended('/');
+
+            
+
+                    }
 
                 // $newUser = User::create([
 

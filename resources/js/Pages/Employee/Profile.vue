@@ -1,6 +1,6 @@
 <script setup>
 // import AppLayout from '@/Layouts/MyLayout.vue';
-import AppLayout from '@/Layouts/AdminLayout.vue';
+import AppLayout from '@/Layouts/UserLayout.vue';
 import { router, usePage, Link, Head, usePoll } from '@inertiajs/vue3'
 import { ref, computed, watch, reactive, onMounted } from 'vue'
 const { props } = usePage();
@@ -66,7 +66,7 @@ const employee = {
       <div class="col-span-12 lg:col-span-4 lg:h-screen lg:sticky  top-20">
 
         <div class="bg-white  rounded shadow-xl w-full md:full overflow-hidden">
-          
+
           <div class="h-[140px] bg-gradient-to-r from-cyan-500 to-blue-500"></div>
           <div class="px-5 py-2 flex flex-col gap-3 pb-6">
             <div class="h-[90px] shadow-md w-[90px] rounded-full border-4 overflow-hidden -mt-14 border-white bg-white">
@@ -118,15 +118,15 @@ const employee = {
             <!-- <div class="flex gap-2"><button type="button" class="inline-flex w-auto cursor-pointer select-none appearance-none items-center justify-center space-x-1 rounded border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 transition hover:border-gray-300 active:bg-white hover:bg-gray-100 focus:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300">Send Message</button><button type="button" class="inline-flex w-auto cursor-pointer select-none appearance-none items-center justify-center space-x-1 rounded border border-gray-200 bg-blue-700 px-3 py-2 text-sm font-medium text-white transition hover:border-blue-300 hover:bg-blue-600 active:bg-blue-700 focus:blue-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300">Add to projects</button></div> -->
             <h4 class="text-md font-medium leading-3 mt-2">My Information</h4>
             <div class="flex flex-col gap-1">
-                 
-             
+
+
               <div class="flex items-center gap-2 px-2 py-3 bg-white rounded border w-full ">
                 <div class="leading-3">
                   <p class=" text-sm text-slate-500 text-slate-700">Gender</p>
                 </div>
                 <p class="text-sm font-bold  self-start ml-auto">{{ props.employee.gender }}</p>
               </div>
-              
+
               <!-- <div class="flex items-center gap-2 px-2 py-3 bg-white rounded border w-full ">
                 <div class="leading-3">
                   <p class=" text-sm text-slate-500 text-slate-700">Civil Status</p>
@@ -175,7 +175,7 @@ const employee = {
           <nav class=" lg:block overflow-x-auto pb-4">
             <ul class="flex">
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476] lg:text-white lg:dark:text-white lg:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/home">
+                href="/home">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em"
                     width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -187,7 +187,7 @@ const employee = {
                 Home
               </a>
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/resume">
+                href="/resume">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em"
                     xmlns="http://www.w3.org/2000/svg">
@@ -212,7 +212,7 @@ const employee = {
               </a>
 
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/contact">
+                href="/contact">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
                     width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -227,7 +227,7 @@ const employee = {
                 Contact
               </a>
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/contact">
+                href="/contact">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
                     width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -242,7 +242,7 @@ const employee = {
                 Assets
               </a>
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/contact">
+                href="/contact">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
                     width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -257,7 +257,7 @@ const employee = {
                 Trainings
               </a>
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/contact">
+                href="/contact">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em"
                     width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -272,7 +272,7 @@ const employee = {
                 Innovation
               </a>
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5  px-2  text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/works">
+                href="/works">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
                     stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -289,7 +289,7 @@ const employee = {
                 Extensions
               </a>
               <a class="w-full h-20 rounded-[10px] cursor-pointer font-poppins bg-[#F3F6F6] font-medium mx-2.5 px-2 text-xtiny text-gray-lite dark:text-[#A6A6A6] justify-center flex flex-col items-center transition-all duration-300 ease-in-out dark:hover:text-white dark:bg-[#212425] hover:text-white hover:bg-gradient-to-r from-[#FA5252] to-[#DD2476]"
-                href="/home-box-layout/blogs">
+                href="/blogs">
                 <span class="text-xl mb-1">
                   <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em"
                     width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -303,8 +303,8 @@ const employee = {
             </ul>
           </nav>
         </header>
-        <div class="lg:rounded-2xl bg-white dark:bg-[#111111] w-full md:full border border-gray-200 ">
-            <div class="m-6">
+        <div class="lg:rounded-2xl bg-white dark:bg-[#111111] w-full md:full border border-gray-200 mb-10">
+          <!-- <div class="m-6">
             <div
               class="relative flex    w-full flex-col rounded-b-[10px]   bg-white   dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
               <div
@@ -318,10 +318,10 @@ const employee = {
               </div>
             </div>
             <div class=" ">
+            
+              <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 overflow-wrap ">
 
-
-              <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <div class="flex flex-col items-center gap-3 px-8 py-6 bg-white rounded-3xl shadow-md">
+                <div class="flex flex-col w-full items-center gap-3 px-2 py-6 bg-white rounded-3xl shadow-md ">
                   <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
                       <path
@@ -331,8 +331,9 @@ const employee = {
                   </span>
                   <p class="text-2xl font-extrabold text-dark-grey-900">Email</p>
                   <p class="text-base leading-7 text-dark-grey-600">Contact me at</p>
-                  <a class="text-lg font-bold text-purple-blue-500 text-wrap"
-                    href="mailto: hello@loopple.com">{{ props.employee.email_address }} </a>
+                  <p class="text-lg font-bold text-purple-blue-500 text-balance " href="mailto: hello@loopple.com"><span
+                      class="text-balance wrap-anywhere"> {{ props.employee.email_address }} </span></p>
+
                 </div>
                 <div class="flex flex-col items-center gap-3 px-8 py-6 bg-white rounded-3xl shadow-md">
                   <span>
@@ -344,8 +345,8 @@ const employee = {
                   </span>
                   <p class="text-2xl font-extrabold text-dark-grey-900">Phone</p>
                   <p class="text-base leading-7 text-dark-grey-600">Reach out to me by phone</p>
-                  <a class="text-lg font-bold text-purple-blue-500"
-                    href="tel:+516-486-5135">{{ props.employee.contact }}</a>
+                  <a class="text-lg font-bold text-purple-blue-500" href="tel:+516-486-5135">{{ props.employee.contact
+                    }}</a>
                 </div>
                 <div class="flex flex-col items-center gap-3 px-8 py-6 bg-white rounded-3xl shadow-md">
                   <span>
@@ -362,7 +363,7 @@ const employee = {
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="m-6">
 
             <div
@@ -382,12 +383,12 @@ const employee = {
               <div class="grid gap-4 grid-cols-12">
                 <div class="col-span-12 sm:col-span-12">
                   <div class="flex flex-col gap-1">
-                     <div class="flex items-center gap-2 px-2 py-3 bg-white rounded border w-full ">
+                    <div class="flex items-center gap-2 px-2 py-3 bg-white rounded border w-full ">
                       <div class="leading-3">
                         <p class=" text-sm text-slate-500 text-slate-700">Emp. Status</p>
                       </div>
                       <p class="text-sm font-bold  self-start ml-auto">{{ props.employee.employment_status }}</p>
-                    </div> 
+                    </div>
                     <div class="flex items-center gap-2 px-2 py-3 bg-white rounded border w-full ">
                       <div class="leading-3">
                         <p class=" text-sm text-slate-500 text-slate-700">Employee Code</p>
@@ -412,7 +413,7 @@ const employee = {
                       </div>
                       <p class="text-sm font-bold  self-start ml-auto">{{ props.employee.employee_type }}</p>
                     </div>
-                   
+
                     <div class="flex items-center gap-2 px-2 py-3 bg-white rounded border w-full ">
                       <div class="leading-3">
                         <p class=" text-sm text-slate-500 text-slate-700">Start Date</p>
@@ -477,7 +478,7 @@ const employee = {
               </div>
             </div>
           </div>
-        
+
           <div class="m-6">
 
             <div
@@ -546,36 +547,60 @@ const employee = {
                       <td class="py-3 text-sm" role="cell">
                         <div class="flex items-center gap-2">
 
-                          <p class="text-sm font-medium text-navy-700 dark:text-white">
-                            Bachelor Degree
-                          </p>
+                          <div class="mx-2 flex font-bold">
+                            <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                              <div
+                                class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                                style="width: 30%"></div>
+                            </div>
+                          </div>
                         </div>
                       </td>
 
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          BS in Computer Science
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          Partido State University
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          2013
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          2017
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          Completed
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
                         <div class="mx-2 flex font-bold">
@@ -655,9 +680,13 @@ const employee = {
                         </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          100.00
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
                         <div class="mx-2 flex font-bold">
@@ -679,9 +708,13 @@ const employee = {
                         </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
-                        <p class="text-md font-medium text-gray-600 dark:text-white">
-                          20.00
-                        </p>
+                        <div class="mx-2 flex font-bold">
+                          <div class="h-2 w-16 rounded-full bg-gray-200 dark:bg-navy-700">
+                            <div
+                              class="flex h-full items-center justify-center rounded-md bg-brand-500 dark:bg-brand-400"
+                              style="width: 30%"></div>
+                          </div>
+                        </div>
                       </td>
                       <td class="py-3 text-sm" role="cell">
                         <div class="mx-2 flex font-bold">
@@ -699,7 +732,7 @@ const employee = {
               </div>
             </div>
           </div>
-          <div class="m-6">
+          <!-- <div class="m-6">
             <div
               class="relative flex    w-full flex-col rounded-b-[10px]   bg-white bg-clip-border   dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
               <div
@@ -796,7 +829,7 @@ const employee = {
                 </table>
               </div>
             </div>
-          </div>
+          </div> -->
           <div data-aos="fade" class="aos-init aos-animate">
             <!-- <div class="pt-12 md:py-12 px-10 sm:px-10 md:px-10 lg:px-14">
               <h2 class="after-effect after:left-52">About Me</h2>

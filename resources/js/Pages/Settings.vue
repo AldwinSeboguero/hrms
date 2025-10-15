@@ -1,6 +1,6 @@
- 
+
 <script setup>
-import AppLayout from '@/Layouts/UserLayout.vue';
+import AppLayout from '@/Layouts/MyLayout.vue';
 import { Dropdown,Modal } from 'flowbite'
 import { router, usePage, Link, Head, usePoll } from '@inertiajs/vue3'
 import { ref, computed, watch, reactive, onMounted } from 'vue' 
@@ -14,192 +14,32 @@ onMounted(() => {
 })
  
 const { props } = usePage(); 
-
-let plans = ref(props.table_data.data)
-
-let selected = ref(props.filters.employee_id);
-let item = ref('')
-let search = ref(props.filters.search);
-const plan = ref(plans[0]);
+ 
 
 usePoll(2000, {
     onStart() {
         // getLeaveStat();
 
-        computeLeaveBalance();
+        // computeLeaveBalance();
 
     },
     onFinish() {
         // console.log('Polling request finished')
     }
 })
-const months = [
-    { id: 1, name: 'January', unavailable: false },
-    { id: 2, name: 'February', unavailable: false },
-    { id: 3, name: 'March', unavailable: false },
-    { id: 4, name: 'April', unavailable: true },
-    { id: 5, name: 'May', unavailable: false },
-    { id: 6, name: 'June', unavailable: false },
-    { id: 7, name: 'July', unavailable: false },
-    { id: 8, name: 'August', unavailable: false },
-    { id: 9, name: 'September', unavailable: false },
-    { id: 10, name: 'October', unavailable: false },
-    { id: 11, name: 'November', unavailable: false },
-    { id: 12, name: 'December', unavailable: false },
 
-]
-let selectedMonth = ref(months[props.selectedMonth - 1])
-
-
-let selectedYear = ref(props.selectedYear)
-
-let people = [
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' },
-]
-
-let selectedOffice = ref(props.offices.find(office => office.id == props.filters.selectedOffice))
-let query = ref('')
-
-let filteredPeople = computed(() =>
-    query.value === ''
-        ? props.offices
-        : props.offices.filter((person) =>
-            person.name
-                .toLowerCase()
-                .replace(/\s+/g, '')
-                .includes(query.value.toLowerCase().replace(/\s+/g, ''))
-        )
-)
-
-onMounted(() => {
-
-})
-watch(search, debounce(function (value) {
-
-    router.get('/timesheets', { search: value, selectedMonth: props.selectedMonth, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
-        preserveState: true,
-        replace: true
-    });
-
-}, 500));
-watch(selected, debounce(function (value) {
-    router.get('/timesheets', { search: props.filters.search, employee_id: value.id, page: props.table_data.current_page, selectedMonth: props.selectedMonth, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
-        preserveState: true,
-        replace: true
-    });
-    // time_records_1.value = props.time_records;
-    // selected.value = $props.table_data.data['id', 129] ;
-}, 0));
-watch(selectedMonth, debounce(function (value) {
-    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedMonth: value.id, selectedYear: props.selectedYear, selectedOffice: props.filters.selectedOffice }, {
-        preserveState: true,
-        replace: true
-    });
-    // selected.value = $props.table_data.data['id', 129] ;
-}, 0));
-
-watch(selectedYear, debounce(function (value) {
-    router.get('/timesheets', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: value, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice }, {
-        preserveState: true,
-        replace: true
-    });
-    // selected.value = $props.table_data.data['id', 129] ;
-}, 0));
-
-watch(selectedOffice, debounce(function (value) {
-
-    router.get('/timesheets', {   selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: value.id }, {
-        preserveState: true,
-        replace: true,
-    });
-    search.value = '';
-}, 0));
-// onMounted(()=>{
-// // router.visit('/submittedclearances', { page: 11 }, { preserveState: true,preserveScroll: false  }) 
-// increment();
-// })
-
-const isOpen = ref(props.open);
 
 function closeModal() {
     isOpen.value = false
-}
-// function openModal() {
-//   isOpen.value = true
-// }
-function generatePdf() {
-    const url = route('generate-pdf', { search: props.filters.search, employee_id: props.filters.employee_id, selectedYear: props.selectedYear, selectedMonth: props.selectedMonth, selectedOffice: props.filters.selectedOffice })
-    window.location.href = url
-
-    //     axios.get('/generate-pdf',
-    //   { data: props.filters },
-    //   { responseType: 'blob' })
-    //   .then(res => {
-    //     let blob = new Blob([res.data], { type: res.headers['content-type'] });
-    //     let link = document.createElement('a');
-    //     link.href = window.URL.createObjectURL(blob);
-    //     link.download = item.slice(item.lastIndexOf('/')+1);
-    //     link.click()
-    //   }).catch(err => {})
-}
-
-const dialogVisible = ref(false); 
-const transactionDate = ref('')
-const amin = ref('')
-const amout = ref('')
-const pmout = ref('')
-const pmin = ref('')
-const otin = ref('')
-const otout = ref('')
-const availableVL = ref('0'); 
-const availableSL = ref('0'); 
-const total_leave_request = ref(''); 
-const total_vless = ref(''); 
-const total_sless = ref(''); 
+} 
+const dialogVisible = ref(false);   
 
 const form = reactive({
     id: '',
-    position_id: '',
-    employee_id: '', // Ensure you have these fields as needed
-     // Ensure you have these fields as needed
-    date_commenced: '',
-    date_completed: '',
-    remuneration: '',
-    per_type_id: '',
-    remarks: '', 
-    leave_status_id: '1',
-    iscurrent: false,
-     vearned : availableVL.value ,
-        searned : availableSL.value ,
-        vless : '',
-        sless : '',
+
 });
 const openModal = () => {  
-    form.id = '';
-    form.leave_type_id = '';
-    form.leave_status_id = 1;
-
-    form.employee_id = props.employee.id; 
-    form.description = '';
-
-    form.date_commenced = '';
-    form.date_completed = ''; 
-    form.remarks = ''; 
-    form.duration = '';
-    form.days_with_pay = '';
-    form.days_without_pay = '';
-    form.position = props.employee.position;
-    form.salary = '';
-    form.credit_to = '',
-    form.vearned = '',
-        form.searned = '',
-        form.vless = '',
-        form.sless = '',
+   
 
 dialogVisible.value = true;
 
@@ -208,141 +48,36 @@ dialogVisible.value = true;
 
 const openUpdateModal = (formData) => {  
 
-    form.id = formData.id
-    form.leave_type_id = formData.type_id;
-    form.leave_status_id = formData.status_id;
-
-    form.employee_id = formData.employee_id;
-    form.description = formData.description;
-
-    form.date_commenced = formData.date_commenced;
-    form.date_completed = formData.date_completed; 
-    form.remarks = formData.remarks; 
-    form.duration = formData.duration; 
-    form.days_with_pay = formData.days_with_pay; 
-    form.days_without_pay = formData.days_without_pay; 
-    form.position = props.employee.position;
-
-    form.salary = formData.salary; 
-    form.credit_to = formData.credit_to;
-    form.vearned = formData.vearned
-        form.searned = formData.searned
-        form.vless = formData.vless
-        form.sless = formData.sless
-
+    
 
 
     dialogVisible.value = true;
 
-}
-const leave_data = ref(props.leave_data.data)
-const time_records_1 = computed(() => props.table_data.data);
-const submit = async () => {
-    try {
-     
-        const response = await axios.post('/save-leave', { employeePositionData: form });
-        leave_data.value = response.data.employee_position_salaries.data; 
-            dialogVisible.value = false;
-      
-    } catch (error) {
-        console.error('Error updating Positions:', error);
-    } 
-    // toastMessage.value = 'response.props.message'; 
-
-};
-
-const computeLeaveBalance = async () => { 
-const monthlyVacationLeave = 1.25; // Vacation leave accrued each month
-      const monthlySickLeave = 1.25;      // Sick leave accrued each month 
-      if (props.employee.start_date) {
-        const startDate = new Date(props.employee.start_date);
-        const currentDate = new Date();
-        
-        // Calculate the number of months of service
-        let monthsOfService = 0;
-
-        // Calculate month difference
-        monthsOfService = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth());
-
-        // Ensure the value is non-negative
-        
-        monthsOfService = Math.max(monthsOfService, 0);
-
-        const parseDecimal = (value) => {
-            // Ensure the value is a number, fallback to 0 if not a valid number
-            const parsedValue = parseFloat(value);
-            return isNaN(parsedValue) ? 0 : parsedValue; // Return 0 if parsing fails
-        };
-        try {
-     
-            const response = await axios.post('/stat-leave', { employee_id: props.employee.id });
-            total_vless.value = response.data.total_vless;  
-            total_leave_request.value = response.data.total_leave_request;  
-            total_sless.value = response.data.total_sless;  
-            availableVL.value =  (monthsOfService * monthlyVacationLeave)- parseDecimal(total_vless.value);
-            availableSL.value = (monthsOfService * monthlySickLeave) - parseDecimal(total_sless.value);
-            form.vearned =  availableVL.value;
-            form.searned =  availableSL.value;
-
-            // dialogDeleteVisible.value = false;
-        } catch (error) {
-            console.error('Error updating Positions:', error);
-        } 
-        // Calculate available vacation leave and sick leave
-    
-
-      } 
-};
-
-// watch('form.date_commenced', function (value) {
-//     console.log('Error updating Positions:', value);
-// });
-const setDateCompleted = async () => {
-   form.date_completed = form.date_commenced;
-   form.duration = "1.000";
-
-};
-const setDuration = async () => {
-    if (form.date_commenced && form.date_completed) {
-        const startDate = new Date(form.date_commenced);
-        const endDate = new Date(form.date_completed);
-        let totalWeekdays = 0;
-
-        // Loop through the date range
-        for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-          const day = date.getDay();
-          // Check if the day is not Saturday (6) or Sunday (0)
-          if (day !== 0 && day !== 6) {
-            totalWeekdays++;
-          }
-        }
-
-        // Update duration in the form
-        form.duration = Math.max(totalWeekdays, 0).toFixed(3); // Set duration and ensure it's non-negative
-      } else {
-        form.duration = 0; // Reset duration if either date is not set
-      }
-
-};
-const setWithPay = async () => { 
-
-     form.vless = form.credit_to =='Vacation Leave' ? form.days_with_pay : 0 ;
-     form.sless = form.credit_to =='Sick Leave' ? form.days_with_pay : 0 ;
-
-
-
-};
+} 
 </script>
 
 <template>
     <AppLayout title="Leaves & Time-off">
 
-        <el-dialog v-model="dialogVisible" title="Tips" width="700" :show-close="false" class="rounded-lg ">
+        
+
+<div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+        <li class="me-2" role="presentation">
+            <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Work Schedules</button>
+        </li>
+     
+    </ul>
+</div>
+<div id="default-tab-content">
+    <div class="hidden p-4 rounded-lg" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        
+        <el-dialog v-model="dialogVisible" title="Tips" width="840" :show-close="false" class="rounded-lg ">
             <template #header="{ close, titleId, titleClass }">
                 <div class="my-header">
                     <div class="flex items-center justify-between p-2 md:p-3 border-b rounded-t dark:border-gray-600">
                                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                    Add Leave
+                                    Add Work Schedule
                                 </h3>
                                 <button @click="close" type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -364,23 +99,7 @@ const setWithPay = async () => {
                             <!-- Modal body -->
                             <form class=" " @submit.prevent="submit">
                                 <div class="grid gap-4 mb-4 grid-cols-6">
-                                    <div class="col-span-6 sm:col-span-2">
-                                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Leave Type</label>
-                                        <select   v-model="form.leave_type_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                            <option></option>
-                                            <option v-for="data in props.leave_types" :key="data.id" :value="data.id">{{ data.name }} </option>
-
-                                        </select>
-                                    </div>
-                                    <!-- <div class="col-span-4 sm:col-span-2">
-                                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Absence Status</label>
-                                        <select   v-model="form.leave_status_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                            <option></option>
-                                            <option v-for="data in props.leave_statuses" :key="data.id" :value="data.id">{{ data.name }} </option>
-
-                                        </select>
-                                    </div> -->
-                                    <div class="col-span-4">
+                                        <div class="col-span-6">
                                         
                                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                                         
@@ -388,41 +107,93 @@ const setWithPay = async () => {
                                     class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                      >
                                      </div>
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Commenced</label>
-                                        <input  datepicker v-model="form.date_commenced" @input="setDateCompleted"
-                                    type="date" 
-                                    id="dateCommenced" 
-                                    class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                  
-                                />  </div>
-                                    <div class="col-span-6 sm:col-span-3">
-                                        
-                                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Completed</label>
-                                        
-                                        <input   v-model="form.date_completed" datepicker
-                                        :disabled="form.iscurrent" 
-                                         @input="setDuration"
-                                    type="date" 
-                                    id="dateCompleted" 
-                                    class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 
-                                        focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:border-slate-200 disabled:border-red-600 disabled:shadow-none"
-                                 
-                                />
-                                    </div>
                                     <div class="col-span-6 sm:col-span-6">
-                                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Duration</label>
-                                        <input v-model="form.duration"  type="number" name="price" id="price" step="0.001" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="0.000" required="">
-                                    </div> 
-                                   
-                                    
-                                    <div class="col-span-6">
-                                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Remarks</label>
-                                        <textarea v-model="form.remarks" id="description" rows="6" class="block   w-full text-sm text-gray-900  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write remark here"></textarea>                    
-                                    </div> 
+                                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Schedule Type</label>
+                                        <select   v-model="form.leave_type_id"  required  id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            <option></option>
+                                            <option v-for="data in props.leave_types" :key="data.id" :value="data.id">{{ data.name }} </option>
+
+                                        </select>
+                                    </div>
+                             
+                                
+                                
+                                    <div class="col-span-6 sm:col-span-6">
+                                        
+                                     <h2 class="text-2xl font-bold mb-4">Weekly Schedule Form</h2>
+        <form>
+            <table class="divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Day</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enabled</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time In AM</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Out AM</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time In PM</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time Out PM</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Monday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="monday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="monday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="monday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="monday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="monday_time_out_pm" class="form-input"></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Tuesday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="tuesday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="tuesday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="tuesday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="tuesday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="tuesday_time_out_pm" class="form-input"></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Wednesday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="wednesday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="wednesday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="wednesday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="wednesday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="wednesday_time_out_pm" class="form-input"></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Thursday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="thursday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="thursday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="thursday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="thursday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="thursday_time_out_pm" class="form-input"></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Friday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="friday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="friday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="friday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="friday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="friday_time_out_pm" class="form-input"></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Saturday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="saturday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="saturday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="saturday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="saturday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="saturday_time_out_pm" class="form-input"></td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">Sunday</td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="checkbox" name="sunday" class="form-checkbox"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="sunday_time_in_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="sunday_time_out_am" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="sunday_time_in_pm" class="form-input"></td>
+                        <td class="px-6 py-4 whitespace-nowrap"><input type="time" name="sunday_time_out_pm" class="form-input"></td>
+                    </tr>
+                </tbody>
+            </table> 
+        </form>
+                                    </div>
                                 </div>
                                   <!-- Modal body -->
 
@@ -452,41 +223,15 @@ const setWithPay = async () => {
             <div class="">
                 <div class="grid grid-cols-12 gap-3 mb-4">
                     
-                    <div class=" rounded   dark:bg-gray-800 col-span-12 md:col-span-12">
-                        <h1
-                            class="text-xl font-semibold text-white sm:text-2xl dark:text-white  bg-gradient-to-l from-indigo-950 via-blue-800 to-blue-800 py-2 px-4 rounded mb-3 shadow-md">
-                            Employee Leave Requests</h1>
-
-                        <!-- <TimeRecordList :products = "time_records"/> -->
-
+                    <div class=" rounded  col-span-12 md:col-span-12">
+                      
 
                         <div>
                             
                         </div>
 
                         <div class="sm:flex">
-                            <!-- <div
-                                class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0" v-if="props.employee">
-                                        <img class="w-8 h-8" src="/images/profile_male2.png" alt="Profile"
-                                            v-if="props.employee.gender == 'Male'">
-                                        <img class="w-8 h-8" src="/images/profile_female.png" alt="Profile"
-                                            v-if="props.employee.gender == 'Female'">
-
-
-                                    </div>
-                                    <div class="flex-1 min-w-0 ms-4" v-if="props.employee">
-                                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                            {{ employee.name }}
-                                        </p>
-                                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                            {{ employee.position }}
-                                        </p>
-                                    </div>
-
-                                </div>
-                            </div> -->
+                           
                             <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
 
 <button  @click="openModal()" type="button" class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
@@ -495,7 +240,7 @@ const setWithPay = async () => {
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
 </svg>
  
-    <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">New Leave Request</h3>
+    <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">New Work Schedule</h3>
   </div>
   <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
 </button>
@@ -552,24 +297,24 @@ const setWithPay = async () => {
                                             </th> 
                                             <th scope="col"
                                                 class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Employee
+                                                Name
                                             </th>
                                           
                                             <th scope="col"
                                                 class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                Type
+                                            </th>
+                                            <th scope="col"
+                                                class="text-left py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                               Time Description
+                                            </th>
+                                            <th scope="col"
+                                                class="text-left py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
                                                 Status
                                             </th>
                                             <th scope="col"
-                                                class="text-left py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                               Details
-                                            </th>
-                                            <th scope="col"
-                                                class="text-left py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Created
-                                            </th>
-                                            <th scope="col"
                                                 class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Actioned By
+                                                Action
                                             </th>
                                            
 
@@ -636,7 +381,7 @@ const setWithPay = async () => {
                                                     
                                                     Edit
                                                 </button> -->
-                                                <button @click="openUpdateModal(employee)" v-if="employee.status == 'Pending'"
+                                                <button @click="openUpdateModal(employee)"
                                                     class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -788,6 +533,18 @@ const setWithPay = async () => {
         </div>
 
     </div>
+
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+    </div>
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+    </div>
+</div>
 
 
 </AppLayout></template>

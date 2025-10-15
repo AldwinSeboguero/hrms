@@ -143,8 +143,12 @@
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;">
                                 {{$dailyTimeRecord["pmout"] }}
                                 </td>
-                                <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
-                                <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
+                                     <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                                    {{$dailyTimeRecord["otin"] }}
+                                </td>
+                                <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                                    {{$dailyTimeRecord["otout"] }}
+                                </td>
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;">
                                 {{$dailyTimeRecord["remarks"] }}
 
@@ -269,8 +273,12 @@
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;">
                                 {{$dailyTimeRecord["pmout"] }}
                                 </td>
-                                <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
-                                <td style="text-align:center; font-size: 9px; font-weight: bold;"></td>
+                                <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                                    {{$dailyTimeRecord["otin"] }}
+                                </td>
+                                <td style="text-align:center; font-size: 9px; font-weight: bold;">
+                                    {{$dailyTimeRecord["otout"] }}
+                                </td>
                                 <td style="text-align:center; font-size: 9px; font-weight: bold;">
                                 {{$dailyTimeRecord["remarks"] }}
 

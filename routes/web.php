@@ -22,13 +22,7 @@ use App\Http\Controllers\Employee\OrgChartController;
 use App\Http\Controllers\Employee\PerformanceController;
 use App\Http\Controllers\Employee\ProfileController;
 use App\Http\Controllers\Employee\HomeController;
-
-
-
-
-
-
-
+use App\Http\Controllers\SettingController;
 
 
 use App\Http\Resources\SubmittedClearance as SubmittedClearanceResource;
@@ -104,15 +98,40 @@ Route::get('/admin/dashboard', function () {
         ]);
     })->name('admin.dashboard');
 
+    
+    Route::resource('employees', EmployeeController::class);
+    Route::resource('timesheets', TimesheetController::class);
+    Route::resource('settings', SettingController::class);
+
+
+    Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
+
+//Leaves Route
+Route::get('leave/request', [LeaveController::class,'index'])->name('leave.request');
+Route::get('leave/add/request', [LeaveController::class,'request'])->name('leave.add.request');
+Route::post('save-position', [EmployeeController::class,'savePosition'])->name('employee.save.position');
+Route::post('save-leave', [LeaveController::class,'saveLeave'])->name('employee.save.leave');
+Route::post('stat-leave', [LeaveController::class,'statLeave'])->name('employee.stat.leave');
+
+Route::post('delete-leave', [LeaveController::class,'deleteLeave'])->name('employee.delete.leave');
+Route::post('save-profile', [EmployeeController::class,'saveProfile'])->name('employee.save.ptofile');
+
+
 // Route::get('/admin/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('admin.dashboard');
 Route::get('/editor/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('editor.dashboard');
- 
+  Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
+
+
+
+
  
  });     
  Route::group(['middleware' => ['auth','role:user']], function () { 
      
 
+Route::get('/user/dashboard', [DTRController::class, 'index'])->name('user.dtr');
 Route::get('/user/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
+
 Route::get('/user/profile', [ProfileController::class, 'index'])->name('user.profile');
 Route::get('/user/directory', [DirectoryController::class, 'index'])->name('user.directory');
 Route::get('/user/orgchart', [OrgChartController::class, 'index'])->name('user.orgchart');
@@ -188,27 +207,7 @@ Route::middleware([
 ])->group(function () {
     Route::resource('submittedclearances', SubmittedClearance::class);
     Route::get('semesters', [SemesterController::class,'index']);
-    Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
-
-
-    
-    Route::resource('employees', EmployeeController::class);
-    Route::resource('timesheets', TimesheetController::class);
-
-    Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
-
-//Leaves Route
-Route::get('leave/request', [LeaveController::class,'index'])->name('leave.request');
-Route::get('leave/add/request', [LeaveController::class,'request'])->name('leave.add.request');
-Route::post('save-position', [EmployeeController::class,'savePosition'])->name('employee.save.position');
-Route::post('save-leave', [LeaveController::class,'saveLeave'])->name('employee.save.leave');
-Route::post('stat-leave', [LeaveController::class,'statLeave'])->name('employee.stat.leave');
-
-Route::post('delete-leave', [LeaveController::class,'deleteLeave'])->name('employee.delete.leave');
-Route::post('save-profile', [EmployeeController::class,'saveProfile'])->name('employee.save.ptofile');
-
-
-
+   
 
 
 

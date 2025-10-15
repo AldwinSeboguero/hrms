@@ -189,6 +189,8 @@ class PdfController extends Controller
                 $logoutam = Carbon::parse($inner->logoutam);
                 $loginpm = Carbon::parse($inner->loginpm);
                 $logoutpm = Carbon::parse($inner->logoutpm);
+                $loginot = Carbon::parse($inner->loginot);
+                $logoutot = Carbon::parse($inner->logoutot);
                 $absent1 = 0.0;
                 $undertime1 = 0.0;
                 $tardiness1 = 0.0;
@@ -366,6 +368,8 @@ class PdfController extends Controller
                     'logoutam' => $inner->logoutam,
                     'loginpm' => $inner->loginpm,
                     'logoutpm' => $inner->logoutpm,
+                    'loginot' => $inner->loginot,
+                    'logoutot' => $inner->logoutot,
                     'transaction_date' => $inner->transaction_date,
                     'total_tardiness' =>  $totalTardiness, // Add the total tardiness to the return data
                     'absent1' => $absent1,
@@ -408,6 +412,8 @@ class PdfController extends Controller
                     $amout = $log['logoutam'];
                     $pmin = $log['loginpm'];
                     $pmout = $log['logoutpm'];
+                      $otin = $log['loginot'];
+                    $otout = $log['logoutot'];
                     $remarks = $this->formatTardiness($log['total_tardiness']);
                     $absent += $log['absent1'];
 
@@ -504,8 +510,8 @@ class PdfController extends Controller
                         (Holiday::where('holidate',$date)->get()->first()->holidaypm ? 'HOL':'') :''))) ,
                         // 'isHolidayAM' => Holiday::where('holidate',$date)->get()->first() ? Holiday::where('holidate',$date)->get()->first()->holidayam : '',
                         // 'isHolidayPM' => Holiday::where('holidate',$date)->get()->first() ? Holiday::where('holidate',$date)->get()->first()->holidaypm : '',
-                        'otin' => '',
-                        'otout' => '',
+                            'otin' => $otin  ?Carbon::createFromFormat('H:i:s', $otin)->format('h:i') :'',
+                        'otout' => $otout ?Carbon::createFromFormat('H:i:s', $otout)->format('h:i') :'',
                         'remarks' => $remarks ? $remarks : ($date->format('l') == 'Saturday' ? '' : ($date->format('l') == 'Sunday' ? '' : (Holiday::where('holidate',$date)->get()->first() ? 
                         (Holiday::where('holidate',$date)->get()->first()->holidayam ? '':'') : ($date->diffInMinutes(Carbon::now()) > 0 ? '' : '')))) ,
         

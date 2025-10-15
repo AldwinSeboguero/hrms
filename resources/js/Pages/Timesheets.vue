@@ -266,6 +266,13 @@ let submit = () =>{
 
     
 }
+const currentYear = new Date().getFullYear();
+
+const years = computed(() => {
+  const startYear = 2024;
+  const endYear = 2034;
+  return Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
+});
 </script>
 
 <template>
@@ -818,9 +825,11 @@ let submit = () =>{
                                                 {{ time_record.pmout }}</td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                            {{ time_record.otin }}
                                             </td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+                                           {{ time_record.otout }}
                                             </td>
 
 
