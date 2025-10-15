@@ -76,11 +76,11 @@ class GoogleController extends Controller
                 ]);
 
       
-
+$newUser->assignRole('user');
                 Auth::login($newUser);
 
 
-                        return redirect()->intended('/');
+                        return redirect()->intended('/'); 
 
             
 
