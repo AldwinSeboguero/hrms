@@ -294,6 +294,10 @@ class TimesheetController extends Controller
             $amout = '';
             $pmin = '';
             $pmout = '';
+            $otin = '';
+            $otout = '';
+
+
             $bypass = '';
             $bypass1 = '';
             $bypass2 = '';
