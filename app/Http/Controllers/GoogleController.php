@@ -8,6 +8,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Exception;
+use App\Models\Employee;
 class GoogleController extends Controller
 {
     public function googlepage()
