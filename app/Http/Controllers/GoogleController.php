@@ -54,16 +54,17 @@ class GoogleController extends Controller
 
 
             {
-                 $finduser = Employee::where('email_address', $user->email)->first();
-                 if($finduser)
+                 $employee = Employee::where('email_address', $user->email)->first();
+                 if($employee)
 
 
 
                     {
 
+            // $finduser = User::where('email', $user->email)->first();
             
 
-                        Auth::login($finduser);
+            //             Auth::login($finduser);
 
                 $newUser = User::create([
 
