@@ -416,8 +416,8 @@ class PdfController extends Controller
                     $pmout = $log['logoutpm'];
                       $otin = $log['loginot'];
                     $otout = $log['logoutot'];
-                    $remarks = $this->formatTardiness($log['total_tardiness']);
-                    $absent += $log['absent1'];
+                    // $remarks = $this->formatTardiness($log['total_tardiness']);
+                    // $absent += $log['absent1'];
 
 
                     
@@ -538,10 +538,12 @@ class PdfController extends Controller
             'attendances' => Timesheet::orderByDesc('transaction_date')->whereBetween('transaction_date',['2024-07-01','2024-07-31'])->where('employee_id',128)->get(),
             'time_records' => $days,
             'tardy' => $this->formatTardiness($tardy) ,
-            'absent' => $absent.' Day(s)',
-            'undertime' =>  $this->formatTardiness($undertime) ,
-            'tardiness' =>  $this->formatTardiness($tardiness) ,
-
+            // 'absent' => $absent.' Day(s)',
+            // 'undertime' =>  $this->formatTardiness($undertime) ,
+            // 'tardiness' =>  $this->formatTardiness($tardiness) ,
+            'absent' => 0,
+            'undertime' => 0 ,
+            'tardiness' =>  0 ,
 
         ];
         $pdf = PDF::loadView('dtr', $data);
