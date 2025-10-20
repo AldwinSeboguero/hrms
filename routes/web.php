@@ -22,7 +22,8 @@ use App\Http\Controllers\Employee\OrgChartController;
 use App\Http\Controllers\Employee\PerformanceController;
 use App\Http\Controllers\Employee\ProfileController;
 use App\Http\Controllers\Employee\HomeController;
-use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SettingController; 
+
 
 
 use App\Http\Resources\SubmittedClearance as SubmittedClearanceResource;
@@ -33,10 +34,14 @@ use App\Http\Controllers\GoogleController;
 
 use Illuminate\Http\Request; 
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\PositionController;
+use App\Http\Controllers\WorkDayController;
+
 use App\Models\Employee;
 use App\Models\Position;
 use App\Models\Division;
 use App\Models\Location;
+use App\Models\WorkDay;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -102,6 +107,10 @@ Route::get('/admin/dashboard', function () {
     Route::resource('employees', EmployeeController::class);
     Route::resource('timesheets', TimesheetController::class);
     Route::resource('settings', SettingController::class);
+    Route::resource('positions', PositionController::class);
+    Route::resource('workdays', WorkDayController::class);
+
+
 
 
     Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
@@ -120,7 +129,6 @@ Route::post('save-profile', [EmployeeController::class,'saveProfile'])->name('em
 // Route::get('/admin/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('admin.dashboard');
 Route::get('/editor/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('editor.dashboard');
   Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
-
 
 
 
