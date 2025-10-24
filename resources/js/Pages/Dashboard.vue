@@ -5,6 +5,10 @@ import Welcome from '@/Components/Welcome.vue';
 import { ref, onMounted } from 'vue';
 import { initFlowbite } from 'flowbite'
 import ApexCharts from 'apexcharts';
+import EmployeeIcon from '@/Images/Employees.png'
+import MaleEmployeeIcon from '@/Images/Male.png'
+import FemaleEmployeeIcon from '@/Images/Female.png'
+
 const props = defineProps({
     EmployeeCount: String,
     MaleCount: String,
@@ -231,7 +235,7 @@ export default {
                                     </span>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img class="h-20" src="images/Employees.png" alt="Female Logo">
+                                    <img class="h-20" :src="EmployeeIcon" alt="Female Logo">
 
                                 </div>
                             </div>
@@ -251,7 +255,7 @@ export default {
                                     </span>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img class="h-20" src="images/Female.png" alt="Female Logo">
+                                    <img class="h-20" :src="FemaleEmployeeIcon" alt="Female Logo">
 
                                 </div>
                             </div>
@@ -270,7 +274,7 @@ export default {
                                     </span>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <img class="h-20" src="images/Male.png" alt="Male Logo">
+                                    <img class="h-20" :src="MaleEmployeeIcon" alt="Male Logo">
 
                                 </div>
                             </div>

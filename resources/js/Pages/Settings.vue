@@ -7,6 +7,8 @@ import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
 import Position from './Settings/Position.vue'
 import WorkSchedule from './Settings/WorkSchedule.vue'
+import UserTab from './Settings/User.vue'
+
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -75,6 +77,11 @@ const openUpdateModal = (formData) => {
                         data-tabs-target="#position" type="button" role="tab" aria-controls="position"
                         aria-selected="false">Positions</button>
                 </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="user-tab"
+                        data-tabs-target="#user" type="button" role="tab" aria-controls="user"
+                        aria-selected="false">Users</button>
+                </li>
             </ul>
         </div>
         <div id="position-tab-content">
@@ -88,14 +95,9 @@ const openUpdateModal = (formData) => {
                <WorkSchedule/>
 
             </div>
-            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel"
-                aria-labelledby="dashboard-tab">
-                <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                        class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>.
-                    Clicking
-                    another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                    control the
-                    content visibility and styling.</p>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="user" role="tabpanel"
+                aria-labelledby="user-tab">
+              <UserTab/>
             </div>
             <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel"
                 aria-labelledby="settings-tab">
