@@ -35,6 +35,7 @@ use App\Http\Controllers\GoogleController;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkDayController;
 
 use App\Models\Employee;
@@ -56,7 +57,9 @@ Route::get('/notregister', function () {
     return Inertia::render('NotRegister');
 })->name('notregister');
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return Inertia::render('Home');
+
+    // return redirect()->route('dashboard');
 });
 Route::group(['middleware' => ['auth','role:admin']], function () { 
 Route::get('/admin/dashboard', function () {
@@ -109,6 +112,8 @@ Route::get('/admin/dashboard', function () {
     Route::resource('settings', SettingController::class);
     Route::resource('positions', PositionController::class);
     Route::resource('workdays', WorkDayController::class);
+    Route::resource('users', UserController::class);
+
 
 
 

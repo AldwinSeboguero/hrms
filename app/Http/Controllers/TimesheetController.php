@@ -63,6 +63,7 @@ class TimesheetController extends Controller
     
     public function index()
     {
+           app()['cache']->forget('spatie.permission.cache');
         $data = [
             'title' => 'Welcome!',
             'date' => date('m/d/Y')

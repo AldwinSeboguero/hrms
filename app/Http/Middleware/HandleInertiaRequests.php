@@ -42,16 +42,21 @@ class HandleInertiaRequests extends Middleware
             'auth'=> [
                 'user' => $request->user() ? $request->user() : null,
                 'permissionNames' => $request->user() ? $request->user()->getPermissionNames() : null, // collection of name strings
-                'permissions1' => $request->user() ? $request->user()->permissions : null, // collection of permission objects
+                'permissions' => $request->user() ? $request->user()->permissions : null, // collection of permission objects
 
                 // get all permissions for the user, either directly, or from roles, or from both
-                'permissions2' => $request->user() ? $request->user()->getDirectPermissions() : null,
-                'permissions3' => $request->user() ? $request->user()->getPermissionsViaRoles() : null,
-                'permissions4' => $request->user() ? $request->user()->getAllPermissions() : null,
+                'DirectPermissions' => $request->user() ? $request->user()->getDirectPermissions() : null,
+                'PermissionsViaRoles' => $request->user() ? $request->user()->getPermissionsViaRoles() : null,
+                'AllPermissions' => $request->user() ? $request->user()->getAllPermissions() : null,
 
                 // get the names of the user's roles
                 'roles' => $request->user() ? $request->user()->getRoleNames() : null, // Returns a collection
             ],
+                 'can' => [
+            'createTask' => auth()->user() ? auth()->user()->can('task_create'): null,
+            'editTask' => auth()->user() ? auth()->user()->can('edit timesheets'): null,
+            'destroyTask' => auth()->user() ? auth()->user()->can('task_destroy'): null,
+        ],
       
         ]);
     }

@@ -23,7 +23,7 @@ onMounted(() => {
 
 const { props } = usePage();
  const positions = ref({});
- const paginations = ref({});
+ const work_days = ref({});
 
 const loading = ref(true);
 const search = ref('');
@@ -33,10 +33,8 @@ const search = ref('');
 const getPositions = async (page) => {
   loading.value = true;
   try {
-    const response = await axios.get(`/positions?page=${page}`);
+    const response = await axios.get(`/sessions?page=${page}`);
     positions.value = response.data.positions;
-    paginations.value = response.data.paginations;
-
   } catch (error) {
     console.error('Error fetching positions:', error);
   } finally {
@@ -48,8 +46,6 @@ const searchName = async (search) => {
   try {
     const response = await axios.get(`/positions?search=${search}`);
     positions.value = response.data.positions;
-    paginations.value = response.data.paginations;
-
   } catch (error) {
     console.error('Error fetching positions:', error);
   } finally {
@@ -94,7 +90,6 @@ const saveData = async () => {
             
             const response = await axios.post('/positions', { data: form });
     positions.value = response.data.positions;
-    paginations.value = response.data.paginations;
             dialogVisible.value = false;
       
     } catch (error) {
@@ -188,77 +183,8 @@ const saveData = async () => {
 
                     <div class=" rounded  col-span-12 md:col-span-12">
 
-
-                        <div>
-
-                        </div>
-
-                        <div class="sm:flex">
-
-                            <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
-
-                                <button @click="openModal()" type="button"
-                                    class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
-                                    <div class="flex items-center space-x-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor"
-                                            class="h-6 w-6 stroke-sky-500 group-hover:stroke-white">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                                        </svg>
-
-                                        <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">
-                                            New Position</h3>
-                                    </div>
-                                    <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
-                                </button>
-                                <a href="#"
-                                    class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
-                                    <div class="flex items-center space-x-3">
-
-                                        <svg class="h-6 w-6 stroke-red-500 group-hover:stroke-white" fill="white"
-                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                        <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">
-                                            Export PDF</h3>
-                                    </div>
-                                    <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
-                                </a>
-
-                                <a href="#"
-                                    class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
-                                    <div class="flex items-center space-x-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor"
-                                            class="h-6 w-6 stroke-green-500 group-hover:stroke-white">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
-                                        </svg>
-
-                                        <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">
-                                            XLS</h3>
-                                    </div>
-                                    <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
-                                </a>
-                                <!-- <button @click="generatePdf" class="inline-flex items-center justify-center w-1/2 px-3 py-2 
-                                    text-sm font-medium text-center 
-                                    bg-red-600 text-white 
-                                    border border-gray-300 rounded-lg hover:bg-red-700 focus:ring-4 
-                                    focus:ring-red-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 
-                                    dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
-                                    <svg class="w-5 h-5 mr-2 -ml-1" fill="white" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                    Export
-                                </button> -->
-                            </div>
-                        </div>
+ 
+ 
                         <div class="inline-block min-w-full mt-2 pr-1">
                             <div class="overflow-hidden shadow p-4">
 
@@ -289,20 +215,33 @@ const saveData = async () => {
 
                                         </tr>
                                         <tr>
- 
+  <th scope="col"
+                                                class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                User
+                                            </th>
                                             <th scope="col"
                                                 class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Name
+                                                agent
                                             </th>
 
                                             <th scope="col"
                                                 class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Salary Grade
+                                                ip_address
+                                            </th>
+                                                 <th scope="col"
+                                                class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                is_current_device
+                                            </th>
+
+                                            <th scope="col"
+                                                class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
+                                                last_active
                                             </th>
                                               <th scope="col"
                                                 class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                Total
+                                                previous_url
                                             </th>
+                                            
 
                                             <th scope="col"
                                                 class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
@@ -317,28 +256,52 @@ const saveData = async () => {
                                     <tbody
                                         class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
-                                        <tr :v-model="item" v-for="position in positions" :key="position.id"
+                                        <tr :v-model="item" v-for="data in props.visitedPages" :key="data.agent"
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700">
 
                                          
-
+  <td
+                                                class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
+                                                {{ data.user }}</td>
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ position.name }}</td>
+                                                {{ data.agent }}</td>
 
                                             <td
                                                 class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
 
                                                 <button type="button"
                                                     class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                    {{ position.sg }}
+                                                    {{ data.ip_address }}
                                                 </button>
 
 
                                             </td>
- <td
+                                                <td
                                                 class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ position.count }}</td>
+                                                {{ data.is_current_device }}</td>
+
+                                            <td
+                                                class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+
+                                                <button type="button"
+                                                    class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    {{ data.last_active }}
+                                                </button>
+
+
+                                            </td>
+                                             <td
+                                                class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
+
+                                                <button type="button"
+                                                    class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    {{ data.previous_url }}
+                                                </button>
+
+
+                                            </td>
+
 
                                             <td class="p-1 space-x-2 whitespace-nowrap">
                                                 <!-- <CardListItemModal /> -->
@@ -354,7 +317,7 @@ const saveData = async () => {
                                                     
                                                     Edit
                                                 </button> -->
-                                                <button @click="openUpdateModal(position)"
+                                                <!-- <button @click="openUpdateModal(data)"
                                                     class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -365,7 +328,7 @@ const saveData = async () => {
                                                     </svg>
 
                                                     Edit
-                                                </button>
+                                                </button> -->
 
 
                                             </td>
@@ -377,17 +340,17 @@ const saveData = async () => {
                                          <div class="flex flex-col items-left mt-4">
                                                           <span class="text-sm text-gray-700 dark:text-gray-400">
                                     Showing <span class="font-semibold text-gray-900 dark:text-white">{{
-                                        paginations.from
+                                        positions.from
                                         }}</span> to <span
-                                        class="font-semibold text-gray-900 dark:text-white">{{ paginations.to }}</span>
+                                        class="font-semibold text-gray-900 dark:text-white">{{ positions.to }}</span>
                                     of
                                     <span
-                                        class="font-semibold text-gray-900 dark:text-white">{{ paginations.total }}</span>
+                                        class="font-semibold text-gray-900 dark:text-white">{{ positions.total }}</span>
                                     Entries
                                 </span>
                                 <div class="inline-flex mt-2 xs:mt-0">
                                     <!-- Buttons -->
-                                    <button v-if="(paginations.current_page-1)>=1"  @click="getPositions(paginations.current_page-1)"
+                                    <button v-if="(positions.current_page-1)>=1"  @click="getPositions(positions.current_page-1)"
                                         class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                         <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -396,7 +359,7 @@ const saveData = async () => {
                                         </svg>
                                         Prev
                                     </button>
-                                    <button v-if="(paginations.current_page+1)<=paginations.last_page" @click="getPositions(paginations.current_page+1)"
+                                    <button v-if="(positions.current_page+1)<=positions.last_page" @click="getPositions(positions.current_page+1)"
                                         class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                         Next
                                         <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true"

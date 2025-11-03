@@ -36,8 +36,70 @@ const form = reactive({
 
 });
 const openModal = () => {
-    form.id = '';
-
+      form.id = '';
+    form.name = '';
+    form.TimeDesc = '';
+    form.Type = '';
+ 
+    // Default days structure
+    form.Days = { 
+            FRI: {
+                hours: 8,
+                enabled: false,
+                timeInAM: null,
+                timeInPM: null,
+                timeOutAM: null,
+                timeOutPM:null,
+            },
+            MON: {
+                hours: 8,
+                enabled: false,
+                timeInAM: null,
+                timeInPM: null,
+                timeOutAM: null,
+                timeOutPM:null,
+            },
+            SAT: {
+                hours: 0,
+                enabled: false,
+                timeInAM: "",
+                timeInPM: "",
+                timeOutAM: "",
+                timeOutPM: ""
+            },
+            SUN: {
+                hours: 0,
+                enabled: false,
+                timeInAM: "",
+                timeInPM: "",
+                timeOutAM: "",
+                timeOutPM: ""
+            },
+            THU: {
+                hours: 8,
+                enabled: false,
+                timeInAM: null,
+                timeInPM: null,
+                timeOutAM: null,
+                timeOutPM:null,
+            },
+            TUE: {
+                hours: 8,
+                enabled: false,
+                timeInAM: null,
+                timeInPM: null,
+                timeOutAM: null,
+                timeOutPM:null,
+            },
+            WED: {
+                hours: 8,
+                enabled: false,
+                timeInAM: null,
+                timeInPM: null,
+                timeOutAM: null,
+                timeOutPM:null,
+            } 
+    };
     dialogVisible.value = true;
 
 }
