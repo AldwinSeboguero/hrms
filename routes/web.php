@@ -35,6 +35,7 @@ use App\Http\Controllers\GoogleController;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkDayController;
 
@@ -113,6 +114,8 @@ Route::get('/admin/dashboard', function () {
     Route::resource('positions', PositionController::class);
     Route::resource('workdays', WorkDayController::class);
     Route::resource('users', UserController::class);
+    Route::resource('sessions', SessionController::class);
+
 
 
 
