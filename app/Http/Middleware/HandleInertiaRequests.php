@@ -54,7 +54,7 @@ class HandleInertiaRequests extends Middleware
             ],
                  'can' => [
             'createTask' => auth()->user() ? auth()->user()->can('task_create'): null,
-            'editTask' => auth()->user() ? auth()->user()->can('edit timesheets'): null,
+            'editTimesheet' => auth()->user() ? auth()->user()->can('edit timesheets'): null,
             'destroyTask' => auth()->user() ? auth()->user()->can('task_destroy'): null,
         ],
       
