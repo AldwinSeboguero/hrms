@@ -16,8 +16,8 @@ class RedirectBasedOnRole
             // Check the user's role and redirect accordingly
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard'); // Change to your admin route
-            } elseif ($user->hasRole('editor')) {
-                return redirect()->route('editor.dashboard'); // Change to your editor route
+            } elseif ($user->hasRole('super-admin')) {
+                return redirect()->route('admin.dashboard'); // Change to your editor route
             } elseif ($user->hasRole('user')) {
                 return redirect()->route('user.dashboard'); // Change to your user route
             }

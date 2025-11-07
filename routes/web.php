@@ -62,7 +62,7 @@ Route::get('/', function () {
 
     // return redirect()->route('dashboard');
 });
-Route::group(['middleware' => ['auth','role:admin']], function () { 
+Route::group(['middleware' =>  ['auth', 'role:super-admin|admin']], function () { 
 Route::get('/admin/dashboard', function () {
 
         $totalEmployees = Employee::count();

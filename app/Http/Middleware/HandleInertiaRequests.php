@@ -53,9 +53,9 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $request->user() ? $request->user()->getRoleNames() : null, // Returns a collection
             ],
                  'can' => [
-            'createTask' => auth()->user() ? auth()->user()->can('task_create'): null,
+            'showUsers' => auth()->user() ? auth()->user()->can('show users'): null,
             'editTimesheet' => auth()->user() ? auth()->user()->can('edit timesheets'): null,
-            'destroyTask' => auth()->user() ? auth()->user()->can('task_destroy'): null,
+            'showSessions' => auth()->user() ? auth()->user()->can('show sessions'): null,
         ],
       
         ]);

@@ -79,11 +79,11 @@ const openUpdateModal = (formData) => {
                         data-tabs-target="#position" type="button" role="tab" aria-controls="position"
                         aria-selected="false">Positions</button>
                 </li>
-                <li class="me-2" role="presentation">
+                <li class="me-2" role="presentation" v-if="$page.props.can.showUsers">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg" id="user-tab" data-tabs-target="#user"
                         type="button" role="tab" aria-controls="user" aria-selected="false">Users</button>
                 </li>
-                <li class="me-2" role="presentation">
+                <li class="me-2" role="presentation" v-if="$page.props.can.showSessions">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg" id="session-tab" data-tabs-target="#session"
                         type="button" role="tab" aria-controls="session" aria-selected="false">Sessions</button>
                 </li>
