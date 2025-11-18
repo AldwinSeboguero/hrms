@@ -354,7 +354,7 @@
         </div>
     </div>
 </section>
-
+<!-- 
 <section class="bg-white dark:bg-gray-900">
 	<div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
 		<div class="max-w-screen-md mx-auto mb-8 text-center lg:mb-12">
@@ -743,7 +743,7 @@ May 29, 2023</span> <span>–</span> <span class="mc_de">May 31, 2023</span>, Al
 				<p class="text-xl font-medium text-gray-900 md:text-2xl dark:text-white">"The Partido State University commits to provide quality instruction, responsive research and needs-based extension services for global competitiveness and satisfaction of its clients, stakeholders, regulatory bodies, and other service providers through continual improvement of the quality management system."</p>
 			</blockquote>
 			<figcaption class="flex items-center justify-center mt-6 space-x-3">
-				<!-- <img class="w-6 h-6 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png" alt="profile picture"> -->
+			 
 				<div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
 					<div class="pr-3 font-medium text-gray-900 dark:text-white">ISO 9001:2015 </div>
 					<div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">Quality Policy</div>
@@ -751,11 +751,11 @@ May 29, 2023</span> <span>–</span> <span class="mc_de">May 31, 2023</span>, Al
 			</figcaption>
 		</figure>
 	</div>
-</section>
+</section> -->
 
 
 
-
+<!-- 
 
 <section class="bg-white dark:bg-gray-900">
 	<div class="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-24 lg:px-6 ">
@@ -1006,7 +1006,7 @@ Landwind
 		</div>
 	</div>
 </footer>
- 
+  -->
 
 </template>
 
