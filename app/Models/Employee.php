@@ -22,7 +22,7 @@ class Employee extends Model
         'contact_number',
         'email_address',
         'employment_status_id',
-        'employee_type',
+        'employee_type_id',
         'position_id',
         'location_id',
         'department_id',

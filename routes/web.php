@@ -22,6 +22,7 @@ use App\Http\Controllers\Employee\OrgChartController;
 use App\Http\Controllers\Employee\PerformanceController;
 use App\Http\Controllers\Employee\ProfileController;
 use App\Http\Controllers\Employee\HomeController;
+use App\Http\Controllers\GetEmployeesController;
 use App\Http\Controllers\SettingController; 
 
 
@@ -34,8 +35,11 @@ use App\Http\Controllers\GoogleController;
 
 use Illuminate\Http\Request; 
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\PerformanceManagementController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SummaryRatingIPCRController;
+use App\Http\Controllers\SummaryRatingOPCRController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkDayController;
 
@@ -115,12 +119,12 @@ Route::get('/admin/dashboard', function () {
     Route::resource('workdays', WorkDayController::class);
     Route::resource('users', UserController::class);
     Route::resource('sessions', SessionController::class);
+    Route::resource('performance', PerformanceManagementController::class);
+    Route::resource('summary-rating-ipcr', SummaryRatingIPCRController::class);
+    Route::resource('summary-rating-opcr', SummaryRatingOPCRController::class);
 
-
-
-
-
-
+    Route::resource('getemployees', GetEmployeesController::class);
+Route::get('pm-get-stat', [PerformanceManagementController::class,'getStat'])->name('pm.getStat'); 
     Route::post('update-timesheet', [TimesheetController::class,'update'])->name('update.timesheet');
 
 //Leaves Route
