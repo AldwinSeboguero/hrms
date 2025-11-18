@@ -123,7 +123,15 @@ const saveData = async () => {
 
         const response = await axios.post('/summary-rating-ipcr', { data: form });
         data.value = response.data.data;
-        dialogVisible.value = false;
+           form.id = '';
+            form.employee_id = '';
+            form.year = selectedYear;
+            form.numerical_rating = '';
+
+            form.adjectival_rating = '';
+
+            form.comment_and_recommendation = '';
+        // dialogVisible.value = false;
 
     } catch (error) {
         console.error('Error updating summary-rating:', error);
@@ -510,14 +518,14 @@ onMounted(() => {
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             <tr v-for="data in data" :key="data.id" class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <td class="p-2 text-sm font-black text-gray-800">{{ data.name }}</td>
+                                <td class="p-2 text-sm font-black text-gray-800 uppercase ">{{ data.name }}</td>
                                 <td class="p-2 text-sm font-black text-gray-800">{{ data.office }}</td>
                                 <td class="p-2 text-sm font-black text-gray-800">{{ data.year }}</td>
                                 <td class="p-2 text-sm font-black text-gray-800">{{ data.numerical_rating }}</td>
-                                <td class="p-2 text-sm font-black text-gray-800">{{ data.adjectival_rating }}</td>
-                                <td class="p-2 text-sm font-black text-gray-800">{{ data.comment_and_recommendation }}
+                                <td class="p-2 text-sm font-black text-gray-800 uppercase">{{ data.adjectival_rating }}</td>
+                                <td class="p-2 text-sm font-black text-gray-800 uppercase">{{ data.comment_and_recommendation }}
                                 </td>
-                                <td class="p-2 text-sm font-black text-gray-800">{{ data.type }}</td>
+                                <td class="p-2 text-sm font-black text-gray-800 uppercase">{{ data.type }}</td>
                                 <td class="p-2 flex space-x-2">
                                     <button @click="openUpdateModal(data)"
                                         class="flex items-center justify-center px-3 py-1 text-sm text-gray-900 bg-white border rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 dark:bg-gray-800 dark:text-gray-400">
