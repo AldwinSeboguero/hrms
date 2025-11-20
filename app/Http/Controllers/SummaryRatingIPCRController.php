@@ -62,7 +62,7 @@ $employeeId = $data['employee_id'];
 $currentYear = $data['year'];
 $id = $data['id'];
 // Find the existing record by employee_id
-$existingRecord = SummaryIpcr::find($id)->where('type','ipcr');
+$existingRecord = SummaryIpcr::where('id',$id)->where('type','ipcr')->first();
 
 if ($existingRecord) {
     // Check if the year matches

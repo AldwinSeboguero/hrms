@@ -94,6 +94,8 @@ const openModal = () => {
     form.numerical_rating = '';
 
     form.adjectival_rating = '';
+    form.type = 'opcr';
+
 
     form.comment_and_recommendation = '';
 
@@ -123,6 +125,14 @@ const saveData = async () => {
 
         const response = await axios.post('/summary-rating-opcr', { data: form });
         data.value = response.data.data;
+           form.id = '';
+            form.employee_id = '';
+            form.year = selectedYear;
+            form.numerical_rating = '';
+
+            form.adjectival_rating = '';
+
+            form.comment_and_recommendation = '';
         // dialogVisible.value = false;
 
     } catch (error) {
@@ -309,19 +319,20 @@ onMounted(() => {
 
 
                     </div>
-                    <div class="col-span-6 sm:col-span-6">
-                        <label for="category"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year</label>
-                        <input v-model="form.year" required type="number"
-                            class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-
-                    </div>
+                 
                     <div class="col-span-6 sm:col-span-6">
                         <label for="category"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numerical
                             Rating</label>
                         <input v-model="form.numerical_rating" required type="number" min="0" max="5" step="0.1"
                             @input="checkMaxValue"
+                            class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <label for="category"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year</label>
+                        <input v-model="form.year" required type="number"
                             class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
 
                     </div>
@@ -510,7 +521,7 @@ onMounted(() => {
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             <tr v-for="data in data" :key="data.id" class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                       <td class="p-2 text-sm font-black text-gray-800 uppercase ">{{ data.name }}</td>
+                                <td class="p-2 text-sm font-black text-gray-800 uppercase ">{{ data.name }}</td>
                                 <td class="p-2 text-sm font-black text-gray-800">{{ data.office }}</td>
                                 <td class="p-2 text-sm font-black text-gray-800">{{ data.year }}</td>
                                 <td class="p-2 text-sm font-black text-gray-800">{{ data.numerical_rating }}</td>
