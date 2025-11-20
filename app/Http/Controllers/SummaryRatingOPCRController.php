@@ -51,7 +51,7 @@ class SummaryRatingOPCRController extends Controller
         $data = Request::input('data');
 $id = $data['id'];
 // Find the existing record by employee_id
-$existingRecord = SummaryIpcr::find($id);
+$existingRecord = SummaryIpcr::find($id)->where('type','opcr');
 
 if ($existingRecord) {
     // Check if the year matches

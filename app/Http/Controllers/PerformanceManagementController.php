@@ -42,11 +42,17 @@ class PerformanceManagementController extends Controller
             [
                 'totalIPCR' => SummaryIpcr::where('type', 'ipcr')->paginate(5)->total(),
                 'totalOPCR' => SummaryIpcr::where('type', 'opcr')->paginate(5)->total(),
-                'totalOutstanding' => SummaryIpcr::where('adjectival_rating', 'Outstanding')->paginate(5)->total(),
-                'totalVerySatisfactory' => SummaryIpcr::where('adjectival_rating', 'Very Satisfactory')->paginate(5)->total(),
-                'totalSatisfactory' => SummaryIpcr::where('adjectival_rating', 'Satisfactory')->paginate(5)->total(),
-                'totalUnsatisfactory' => SummaryIpcr::where('adjectival_rating', 'Unsatisfactory')->paginate(5)->total(),
-                'totalPoor' => SummaryIpcr::where('adjectival_rating', 'Poor')->paginate(5)->total(),
+                'totalIPCROutstanding' => SummaryIpcr::where('adjectival_rating', 'Outstanding')->where('type','ipcr')->paginate(5)->total(),
+                'totalIPCRVerySatisfactory' => SummaryIpcr::where('adjectival_rating', 'Very Satisfactory')->where('type','ipcr')->paginate(5)->total(),
+                'totalIPCRSatisfactory' => SummaryIpcr::where('adjectival_rating', 'Satisfactory')->where('type','ipcr')->paginate(5)->total(),
+                'totalIPCRUnsatisfactory' => SummaryIpcr::where('adjectival_rating', 'Unsatisfactory')->where('type','ipcr')->paginate(5)->total(),
+                'totalIPCRPoor' => SummaryIpcr::where('adjectival_rating', 'Poor')->where('type','ipcr')->paginate(5)->total(),
+
+                'totalOPCROutstanding' => SummaryIpcr::where('adjectival_rating', 'Outstanding')->where('type','opcr')->paginate(5)->total(),
+                'totalOPCRVerySatisfactory' => SummaryIpcr::where('adjectival_rating', 'Very Satisfactory')->where('type','opcr')->paginate(5)->total(),
+                'totalOPCRSatisfactory' => SummaryIpcr::where('adjectival_rating', 'Satisfactory')->where('type','opcr')->paginate(5)->total(),
+                'totalOPCRUnsatisfactory' => SummaryIpcr::where('adjectival_rating', 'Unsatisfactory')->where('type','opcr')->paginate(5)->total(),
+                'totalOPCRPoor' => SummaryIpcr::where('adjectival_rating', 'Poor')->where('type','opcr')->paginate(5)->total(),
 
 
             ]

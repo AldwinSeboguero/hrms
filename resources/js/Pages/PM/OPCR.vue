@@ -123,7 +123,7 @@ const saveData = async () => {
 
         const response = await axios.post('/summary-rating-opcr', { data: form });
         data.value = response.data.data;
-        dialogVisible.value = false;
+        // dialogVisible.value = false;
 
     } catch (error) {
         console.error('Error updating summary-rating:', error);
@@ -542,7 +542,7 @@ onMounted(() => {
                                 <div class="inline-flex mt-2 xs:mt-0">
                                     <!-- Buttons -->
                                     <button v-if="(pagination.current_page - 1) >= 1"
-                                        @click="getusers(pagination.current_page - 1)"
+                                        @click="getData(pagination.current_page - 1)"
                                         class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                         <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -552,7 +552,7 @@ onMounted(() => {
                                         Prev
                                     </button>
                                     <button v-if="(pagination.current_page + 1) <= pagination.last_page"
-                                        @click="getusers(pagination.current_page + 1)"
+                                        @click="getData(pagination.current_page + 1)"
                                         class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                         Next
                                         <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true"
