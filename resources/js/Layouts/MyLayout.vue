@@ -54,7 +54,7 @@
                     Timesheets
                 </a>
              </li>
-                <li>
+                <!-- <li>
               <a :href="route('timesheets.index')"  :active="route().current('timesheets.index')"  class="hidden inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group"  :class="{ 'bg-blue-50 text-blue-950':  route().current('timesheets.index') }" aria-current="page">
                  
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 me-2  text-gray-800">
@@ -63,7 +63,7 @@
     
                     Daily Time Record
                 </a>
-             </li>
+             </li> -->
              <li>
               <a type="button" active="true"
                 class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group" 
@@ -313,7 +313,7 @@
             </a> -->
             
        <!-- <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-6"> -->
-       <div class="  mt-1 ">
+       <div class="p-4  mt-1 ">
 
         <main>
              <div class="mt-2">

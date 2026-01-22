@@ -500,7 +500,7 @@ useCORS: true,
                                 <h2 id="badgeName" class="text-center">{{ participant.name }}</h2>
                                 <p id="badgeDesignation" class="text-center">{{ participant.position }}</p>
                                 <h3 id="badgecontainer" class="text-center">{{ participant.office }}</h3>
-                                <h3 id="badgecontainer" class="text-center">{{ participant.uuid }}</h3>
+                                <!-- <h3 id="badgecontainer" class="text-center">{{ participant.uuid }}</h3> -->
 
                             </div>
                             <div id="qrcode" class="badge-qr-container ">

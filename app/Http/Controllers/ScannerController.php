@@ -77,7 +77,11 @@ class ScannerController extends Controller
 
     public function getParticipantDetails()
     {
+       
         $participant_id = EventParticipant::where('uuid',Request::input('participant_id'))->first();
+         if($participant_id){
+            
+        
         // dd( $participant_id);
         $event_id = Request::input('event_id');
 
@@ -97,6 +101,22 @@ class ScannerController extends Controller
          
         $data
         );
+
+        if ($participant_id) {
+            return [
+                'uuid' => $participant_id->uuid,
+                'name' => $participant_id->name  ,
+                'date' =>  $data['date_time_arrive'] ?  \Carbon\Carbon::parse($data['date_time_arrive'])->format(' g:i A') : '',
+            ];
+        }
+        }
+     return [
+               
+                'date' => "The QR code is not recognized for this event." ,
+            ];
+        // Return the found record as JSON
+        // $eventDate = EventDate::where('id', Request::input('event_id'))->first();
+        // dd($eventDate);
 //   ApplicantSchedule::where('uuid', Request::input('exam_id'))
 //     ->where('exam_schedule_id', Request::input('exam_schedule_id'))
 //     ->whereNull('scan_at')

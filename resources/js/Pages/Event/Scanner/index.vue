@@ -7,6 +7,8 @@ import { onMounted, onUpdated } from 'vue'
 import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
 import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
+import logo3 from '../../../images/psu_logo.png';
+
 // const props = defineProps({
 //         Campuses : Object,
 //         Courses : Object,
@@ -17,9 +19,33 @@ import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
 //         Gender : Object,
 //         filters : Object,
 //         } )
-onMounted(() => {
-  initFlowbite();
+import {
+  initAccordions,
+  initCarousels,
+  initCollapses,
+  initDials,
+  initDismisses,
+  initDrawers,
+  initDropdowns,
+  initModals,
+  initPopovers,
+  initTabs,
+  initTooltips
+} from 'flowbite'
 
+// initialize components based on data attribute selectors
+onMounted(() => {
+  initAccordions();
+  initCarousels();
+  initCollapses();
+  initDials();
+  initDismisses();
+  initDrawers();
+  initDropdowns();
+  initModals();
+  initPopovers();
+  initTabs();
+  initTooltips();
 })
 const { props } = usePage();
 const dialogVisible = ref(true);
@@ -49,9 +75,9 @@ async function onDetect(detectedCodes) {
 
   // Check if rawValue exists and remove the substring
   // const cleanedValue = rawValue ? rawValue.replace('https://hrms.parsu.edu.ph/examverification?exam=', '') : '';
-if (event_date_id.value == '') {
+  if (event_date_id.value == '') {
     dialogVisible.value = true;
-  
+
   }
 
   else {
@@ -286,7 +312,7 @@ watch(event_date_id, async function (value) {
 </style>
 
 <template>
-  <AppLayout>
+ 
 
     <Head title="Registration" />
     <el-dialog v-model="dialogVisible" title="Tips" width="300" :show-close="false" class="rounded-lg ">
@@ -296,7 +322,7 @@ watch(event_date_id, async function (value) {
           <div
             class="flex items-center justify-between  border-b border-dashed border-b-2  rounded-t dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Set Exam Schedule
+              Set Event Schedule
             </h3>
 
 
@@ -348,13 +374,21 @@ watch(event_date_id, async function (value) {
 
     </el-dialog>
 
-    <div class="">
+    <div style="background-image: url('https://wallpaperaccess.com/full/295661.jpg');" class=" items-center justify-center bg-gradient-to-t h-full p-6 bg-no-repeat bg-center">
       <div class="max-w-full mx-auto sm:px-6 lg:px-8">
 
-
+    <div   class= "px-8 py-4 mb-4 w-full  bg-white/50 rounded-xl  md:mt-0 sm:max-w-md shadow-lg flex items-center space-x-6 ">
+      <div class="">
+                <img class="h-12 w-12" :src="logo3" alt="PSU Logo">
+            </div>
+            <div>
+                <div class="text-sm md:text-xl text-blue-950 font-black font-sans uppercase">Partido State University</div>
+                <p class="text-slate-500 text-xs md:text-sm  ">Human Resource Management System</p>
+            </div>
+            </div>
 
         <div
-          class="w-full  p-4 bg-white border-dotted border-2 border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          class="w-full bg-white/50 p-4 bg-white  rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
 
 
 
@@ -362,7 +396,7 @@ watch(event_date_id, async function (value) {
 
             <div class="relative">
               <select v-model="event_date_id" id="exam-schedule"
-                class="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                class="block rounded-lg bg-white/80 px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
 
                 <option v-for="schedule in props.Schedules" :key="schedule.id" :value="schedule.id">{{
                   schedule.event_name }} - ({{ schedule.when }})
@@ -379,17 +413,30 @@ watch(event_date_id, async function (value) {
 
           </form>
           <p class="error">{{ error }}</p>
+          <div class="flex justify-between py-3 px-4 bg-green-100/40 rounded-lg m-3" v-if="resulted">
+            <div class="flex items-center space-x-4">
 
-          <p class="decode-result mt-2 ">
+              <div class="flex flex-col space-y-1">
+                <span class="text-xs md:text-xl text-blue-950 font-black font-sans uppercase">{{ resulted.name }}</span>
+                <span class="text-sm">Has arrive 🔥</span>
+              </div>
+            </div>
+            <div class="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm">
+              {{ resulted.date }}
+            </div>
+          </div>
+
+
+          <!-- <p class="decode-result mt-2 ">
             Result: <b> <span v-if="resulted">
-                {{ resulted.name }} {{ resulted.date }}
+                
               </span>
               <span v-else>
 
               </span></b>
 
-          </p>
-          <div class="flex justify-center items-center   ">
+          </p> -->
+          <div class="flex justify-center items-center   mt-2">
             <div class="relative   border-4 border-green-500 rounded-lg overflow-hidden shadow-lg">
               <div class="absolute inset-0 flex justify-center items-center">
                 <div class="border-t-4 border-green-500 w-full h-8 absolute top-0 transform -translate-y-1/2">
@@ -401,10 +448,10 @@ watch(event_date_id, async function (value) {
               </div>
               <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value"
                 :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady"
-                  class="w-1/2 h-64"></qrcode-stream>
+                class="w-1/2 h-64"></qrcode-stream>
             </div>
           </div>
-          <div class="bg-white rounded-lg shadow-md p-6">
+          <div class="bg-white rounded-lg shadow-md p-6 mt-4">
             <p class="error">{{ error }}</p>
             <div class="bg-white rounded-lg   ">
               <div class="flex flex-col md:flex-row justify-between items-center mb-4">
@@ -431,7 +478,7 @@ watch(event_date_id, async function (value) {
               </div>
 
 
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
 
                 <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
@@ -477,5 +524,5 @@ watch(event_date_id, async function (value) {
         </div>
       </div>
     </div>
-  </AppLayout>
+ 
 </template>
