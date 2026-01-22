@@ -409,10 +409,10 @@ watch(event_date_id, async function (value) {
 
     </el-dialog>
 
-    <div class="h-screen w-full bg-[url(https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/486575578_1149828820487521_8969542889143746598_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeH-STpz7zhlT0yj0qhBvGuUHnw4rp45QmwefDiunjlCbAANDahnBEE2xPBLR1-jEzaV9prh-eKr5kCrsM4keDS-&_nc_ohc=DL4h7v1MvSMQ7kNvwF4wrgj&_nc_oc=AdmpRTrdsjxDoeUCVM9Ofl2CmjzWKUliH7I1DiVmWNra2B0eQ-DurkemLwM0C-zMTq8&_nc_zt=23&_nc_ht=scontent.fmnl13-1.fna&_nc_gid=lzmxfO4Tq1LB2X-in45Arw&oh=00_AfrZdBMWwVJEAq54AnHkBZVqGlH6QgrLaeO8UFxwi0Cbuw&oe=6977DBD7)] 
+    <div class="h-full w-full bg-[url(https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/486575578_1149828820487521_8969542889143746598_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeH-STpz7zhlT0yj0qhBvGuUHnw4rp45QmwefDiunjlCbAANDahnBEE2xPBLR1-jEzaV9prh-eKr5kCrsM4keDS-&_nc_ohc=DL4h7v1MvSMQ7kNvwF4wrgj&_nc_oc=AdmpRTrdsjxDoeUCVM9Ofl2CmjzWKUliH7I1DiVmWNra2B0eQ-DurkemLwM0C-zMTq8&_nc_zt=23&_nc_ht=scontent.fmnl13-1.fna&_nc_gid=lzmxfO4Tq1LB2X-in45Arw&oh=00_AfrZdBMWwVJEAq54AnHkBZVqGlH6QgrLaeO8UFxwi0Cbuw&oe=6977DBD7)] 
     bg-center bg-no-repeat  backdrop-filter backdrop-blur-xl bg-blue-100/10 bg-opacity-80 relative bg-cover flex items-center justify-center">
 
-    <div class="max-w-full sm:px-6 lg:px-8 relative z-10 p-6 ">
+    <div class="max-w-full sm:px-6 lg:px-8 relative z-10 p-6">
         <!-- <div class="px-8 py-4 mb-4 w-full 
         bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm rounded-xl 
         md:mt-0 sm:max-w-md shadow-lg flex items-center space-x-6">
@@ -423,7 +423,7 @@ watch(event_date_id, async function (value) {
             </div>
         </div> -->
 
-        <div class="w-full h-screen md:max-w-sm  bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm   rounded-xl shadow-xl sm:p-6 md:p-8 p-4">
+        <div class="w-full h-screen md:max-w-sm  bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm   rounded-xl shadow-xl sm:p-6 md:p-8 p-4 ">
             <div class="logo-container flex justify-center w-full px-4 mb-2">
                                           <img :src="logo3" alt="Logo 3" class="logo mx-2 h-15  " />
           
