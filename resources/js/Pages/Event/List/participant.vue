@@ -500,10 +500,12 @@ useCORS: true,
                                 <h2 id="badgeName" class="text-center">{{ participant.name }}</h2>
                                 <p id="badgeDesignation" class="text-center">{{ participant.position }}</p>
                                 <h3 id="badgecontainer" class="text-center">{{ participant.office }}</h3>
+                                <h3 id="badgecontainer" class="text-center">{{ participant.uuid }}</h3>
+
                             </div>
                             <div id="qrcode" class="badge-qr-container ">
                                 <div class="w-3/4">
-                                    <QRCodeVue3 :value="participant.uuid"
+                                    <QRCodeVue3 :key="participant.uuid" :value="participant.uuid"
                                         :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
                                         image="../../images/psu_logo.png"
                                         :imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
