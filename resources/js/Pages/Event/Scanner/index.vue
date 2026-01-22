@@ -423,7 +423,7 @@ watch(event_date_id, async function (value) {
             </div>
         </div> -->
 
-        <div class="w-full h-full md:max-w-sm  bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm   rounded-xl shadow-xl sm:p-6 md:p-8 p-4">
+        <div class="w-full h-screen md:max-w-sm  bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm   rounded-xl shadow-xl sm:p-6 md:p-8 p-4">
             <div class="logo-container flex justify-center w-full px-4 mb-2">
                                           <img :src="logo3" alt="Logo 3" class="logo mx-2 h-15  " />
           
@@ -456,7 +456,7 @@ watch(event_date_id, async function (value) {
                 <div class="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm">{{ resulted.date }}</div>
             </div>
 
-            <div class="flex justify-center items-center mt-2">
+            <div class="flex justify-center items-center mt-2   ">
                 <div class="relative border-4 border-green-500 rounded-lg overflow-hidden shadow-lg">
                     <div class="absolute inset-0 flex justify-center items-center">
                         <div class="border-t-4 border-green-500 w-full h-8 absolute top-0 transform -translate-y-1/2">
@@ -466,7 +466,7 @@ watch(event_date_id, async function (value) {
                             <div class="animate-pulse h-full w-full bg-gray-900"></div>
                         </div>
                     </div>
-                    <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value" :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" class="w-1/2 h-64"></qrcode-stream>
+                    <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value" :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" class="w-1/2 max-h-64"></qrcode-stream>
                 </div>
             </div>
 
