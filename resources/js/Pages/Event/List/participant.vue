@@ -540,9 +540,7 @@ async function onGenHtmlToCanvas(badgeName) {
                         </div>
                       
                     </div>
-                    <div class="badge-footer rounded-b-lg">
-                        <p id="badgeAccess" class="text-center text-xs uppercase">ATTENDEE</p>
-                    </div>
+                    <div class="h-4 badge-footer  rounded-b-lg "></div>
                 </div>
             </div>
 
@@ -1416,7 +1414,7 @@ body {
 }
 
 .badge-footer {
-    background-color: #1e1b4b;
+     background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
     color: white;
     padding-bottom: 10px;
 }
@@ -1425,6 +1423,7 @@ body {
     margin: 0;
     font-size: 12px;
     font-weight: bold;
+    
 }
 
 .badge-qr-container {
