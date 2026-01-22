@@ -410,7 +410,8 @@ watch(event_date_id, async function (value) {
     </el-dialog>
 
     <div class="h-full w-full bg-[url(https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/486575578_1149828820487521_8969542889143746598_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeH-STpz7zhlT0yj0qhBvGuUHnw4rp45QmwefDiunjlCbAANDahnBEE2xPBLR1-jEzaV9prh-eKr5kCrsM4keDS-&_nc_ohc=DL4h7v1MvSMQ7kNvwF4wrgj&_nc_oc=AdmpRTrdsjxDoeUCVM9Ofl2CmjzWKUliH7I1DiVmWNra2B0eQ-DurkemLwM0C-zMTq8&_nc_zt=23&_nc_ht=scontent.fmnl13-1.fna&_nc_gid=lzmxfO4Tq1LB2X-in45Arw&oh=00_AfrZdBMWwVJEAq54AnHkBZVqGlH6QgrLaeO8UFxwi0Cbuw&oe=6977DBD7)] 
-    bg-center bg-no-repeat  backdrop-filter backdrop-blur-xl bg-blue-100/10 bg-opacity-80 relative bg-cover flex items-center justify-center">
+    bg-center bg-no-repeat  backdrop-filter backdrop-blur-xl bg-blue-100/10 bg-opacity-80 relative bg-cover flex items-center justify-center 
+    pb-10 ">
 
     <div class="max-w-full sm:px-6 lg:px-8 relative z-10 p-6">
         <!-- <div class="px-8 py-4 mb-4 w-full 
@@ -446,14 +447,14 @@ watch(event_date_id, async function (value) {
 
             <p class="error text-xs">{{ error }}</p>
 
-            <div class="flex justify-between py-3 px-4 bg-green-100/40 rounded-lg m-3" v-if="resulted">
+            <div class="flex justify-between py-1 px-4 bg-green-100/40 rounded-lg m-3" v-if="resulted">
                 <div class="flex items-center space-x-4">
-                    <div class="flex flex-col space-y-1">
-                        <span class="text-xs md:text-xl text-blue-950 font-black font-sans uppercase">{{ resulted.name }}</span>
+                    <div class="flex flex-col space-y-0">
+                        <span class="text-xs md:text-xl text-blue-950 font-black font-sans uppercase"> {{ resulted.name }}</span>
                         <span class="text-sm">Has arrived 🔥</span>
                     </div>
                 </div>
-                <div class="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm">{{ resulted.date }}</div>
+                <div class="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm text-white">{{ resulted.date }}</div>
             </div>
 
             <div class="flex justify-center items-center mt-2   ">
@@ -466,7 +467,7 @@ watch(event_date_id, async function (value) {
                             <div class="animate-pulse h-full w-full bg-gray-900"></div>
                         </div>
                     </div>
-                    <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value" :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" class="w-1/2 max-h-64"></qrcode-stream>
+                    <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value" :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" class="w-1/2 max-h-48"></qrcode-stream>
                 </div>
             </div>
 
