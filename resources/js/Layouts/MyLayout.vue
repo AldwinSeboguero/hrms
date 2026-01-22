@@ -252,11 +252,10 @@
               <div class="">
                 <img class="h-12 w-12" :src="logo" alt="ChitChat Logo">
             </div>
-                <div>
-                    <div class="text-md text-blue-950 font-black font-sans uppercase">Partido State University</div>
-                    <p class="text-slate-500">Human Resource Management System</p>
-                    
-                </div>
+              <div>
+                <div class="text-sm md:text-xl text-blue-950 font-black font-sans uppercase">Partido State University</div>
+                <p class="text-slate-500 text-xs md:text-sm ">Human Resource Management System</p>
+            </div>
             </a> 
           </div>
           <div class="flex items-center hidden">
@@ -314,7 +313,7 @@
             </a> -->
             
        <!-- <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-6"> -->
-       <div class="p-4  mt-1 ">
+       <div class="  mt-1 ">
 
         <main>
              <div class="mt-2">

@@ -85,6 +85,9 @@ const openModal = () => {
 
 }
 const dialogAddDateVisible = ref(false);
+const deleteDateModal = ref(false);
+
+const eventDates = ref(props.event_dates);
 
 const openAddDatesModal = () => {
     eventDate.id = '';
@@ -107,6 +110,15 @@ const openUpdateModal = (formData) => {
     dialogVisible.value = true;
 
 }
+const openDeleteModal = (formData) => {
+    console.log(formData)
+
+    eventDate.id = formData.id; 
+
+
+    deleteDateModal.value = true;
+
+}
 let form = reactive({
     id: '',
     name: '',
@@ -120,7 +132,9 @@ let form = reactive({
 });
 let eventDate = reactive({
     id: '',
-    when: '',
+    when_date: '',
+    when_time: '',
+
     event_id: props.event_id
 
 
@@ -144,15 +158,23 @@ const submit = async () => {
 
 const submitDates = async () => {
     try {
-
-        await axios.post('/Event/List/Dates/Save', { data: eventDate });
-        dialogVisible.value = false;
+        const response = await axios.post('/Event/List/Dates/Save', { data: eventDate });
+        
+        // Assuming the response data structure is: { event_dates: [...] }
+        if (response.data && response.data.event_dates) {
+            eventDates.value = response.data.event_dates; // Update the eventDates variable
+        }
+        eventDate.id = '';
+        eventDate.when_date = '';
+        eventDate.when_time = '';
+        dialogVisible.value = false; // Close the dialog
 
     } catch (error) {
-        console.error('Error updating timesheet:', error);
+        console.error('Error submitting dates:', error);
+        // Optionally, display an error message to the user
+        // errorMessage.value = error.response?.data?.error || 'An error occurred while saving the dates.'; 
+        // Set an error message if you have a mechanism to display it
     }
-  
-
 };
 
 const openParticipant = async () => {
@@ -324,6 +346,28 @@ const deleteParticipant = async () => {
 
 };
 
+
+const deleteEventDate = async () => {
+    
+    try {
+        const response = await axios.post('/Event/List/Dates/Delete', { data: eventDate });
+        
+        // Assuming the response data structure is: { event_dates: [...] }
+        if (response.data && response.data.event_dates) {
+            eventDates.value = response.data.event_dates; // Update the eventDates variable
+        }
+        
+        deleteDateModal.value = false; // Close the dialog
+
+    } catch (error) {
+        console.error('Error submitting dates:', error);
+        // Optionally, display an error message to the user
+        // errorMessage.value = error.response?.data?.error || 'An error occurred while saving the dates.'; 
+        // Set an error message if you have a mechanism to display it
+    }
+
+};
+
 const html2canvas = useHtml2Canvas();
 const canvasTarget = ref(null);
 const containerShowCanvas = ref(null);
@@ -353,6 +397,43 @@ useCORS: true,
     <AppLayout>
 
         <Head title="Applicants" />
+
+        <el-dialog v-model="deleteDateModal" title="Tips" width="500" :show-close="false" class="rounded-lg ">
+            <template #header="{ close, titleId, titleClass }">
+                <div class="relative  w-full max-h-full">
+                    <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                        <button @click="close" type="button"
+                            class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="popup-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                        <div class="p-4 md:p-5 text-center">
+                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want
+                                to Delete this Event Date?</h3>
+                            <button @click="deleteEventDate" data-modal-hide="popup-modal" type="button"
+                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                Yes, I'm sure
+                            </button>
+                            <button @click="close" data-modal-hide="popup-modal" type="button"
+                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No,
+                                cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+
+        </el-dialog>
         <el-dialog v-model="disapprovedModalVisible" title="Tips" width="500" :show-close="false" class="rounded-lg ">
             <template #header="{ close, titleId, titleClass }">
                 <div class="relative  w-full max-h-full">
@@ -629,7 +710,7 @@ useCORS: true,
                     <form @submit.prevent="submitDates">
  
                         <div class="relative w-full mb-3">
-                            <input type="date" id="small_filled" v-model="form.name"
+                            <input type="date" id="small_filled" v-model="eventDate.when_date"
                                 class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" " />
                             <label for="small_filled"
@@ -638,7 +719,7 @@ useCORS: true,
                             </label>
                         </div>
                             <div class="relative w-full mb-1">
-                            <input type="time" id="small_filled" v-model="form.name"
+                            <input type="time" id="small_filled" v-model="eventDate.when_time"
                                 class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" " />
                             <label for="small_filled"
@@ -662,7 +743,7 @@ useCORS: true,
                                 </thead>
                                 <tbody>
                                     <tr class="border-b border-gray-200 dark:border-gray-700"
-                                        v-for="(schedule, index) in props.participants.data" :key="schedule.id"
+                                        v-for="(schedule, index) in eventDates" :key="schedule.id"
                                         :value="schedule.id">
                                         <th scope="row"
                                             class="px-6 py-2 font-medium text-black-800 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
@@ -682,7 +763,7 @@ useCORS: true,
                                                     </svg>
 
                                                 </button>
- <button @click="openDelete(schedule)"
+ <button @click="openDeleteModal(schedule)"
                                                     class="middle none center flex items-center mr-2 justify-center rounded-lg p-2 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                                     data-ripple-dark="true">
 

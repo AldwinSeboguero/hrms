@@ -36,4 +36,5 @@ class EventParticipant extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+   
 }

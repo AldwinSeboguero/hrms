@@ -8,6 +8,8 @@ use App\Models\Timesheet;
 use App\Models\Holiday;
 use App\Models\Division;
 use App\Models\Event;
+use App\Models\EventAttendance;
+use App\Models\EventDate;
 use App\Models\EventParticipant;
 use Carbon\Carbon;
 use Spatie\Activitylog\Models\Activity;
@@ -133,5 +135,70 @@ class EventController extends Controller
         return response()->json(['error' => 'Cannot delete the event because participants are associated with it.'], 400);
     }
             Event::where('id', Request::input('data.id'))->delete();
+    }
+     public function SaveDate()
+    {
+
+        $scheduleDate = [
+     
+    'when' => Request::input('data.when_date').' '.Request::input('data.when_time') , 
+
+    'event_id' => Request::input('data.event_id'),
+
+];
+// dd($scheduleDate);
+        EventDate::updateOrCreate(
+        ['id' => Request::input('data.id'),],
+         
+       $scheduleDate
+        );
+
+        return response()->json(
+            [
+                'event_dates' => EventDate::where('event_id',Request::input("data.event_id"))->get()->map(function ($eventDate) {
+        return [
+            'id' => $eventDate->id,
+            'event_id' => $eventDate->event_id,
+            'when' => Carbon::parse($eventDate->when)->format('M d, Y H:i A'), // Specify your desired format
+        ];
+    }),
+            ]
+        );
+    }
+         public function DeleteDate()
+    {
+ $scheduleDate = [
+     
+    'when' => Request::input('data.when_date').' '.Request::input('data.when_time') , 
+
+    'event_id' => Request::input('data.event_id'),
+
+];
+// dd($scheduleDate);
+    //     EventDate::updateOrCreate(
+    //     ['id' => Request::input('data.id'),],
+         
+    //    $scheduleDate
+    //     );
+
+             if (EventAttendance::where('event_date_id', Request::input('data.id'))->exists()) {
+        return response()->json(['error' => 'Cannot delete the event because attendance are associated with it.'], 400);
+    }
+     EventDate::where('id', Request::input('data.id'))->delete();
+        return response()->json(
+            [
+                'event_dates' => EventDate::where('event_id',Request::input("data.event_id"))->get()->map(function ($eventDate) {
+        return [
+            'id' => $eventDate->id,
+            'event_id' => $eventDate->event_id,
+            'when' => Carbon::parse($eventDate->when)->format('M d, Y H:i A'), // Specify your desired format
+        ];
+    }),
+            ]
+        );
+      
+        // dd(Request::input('data'));
+       
+           
     }
 }

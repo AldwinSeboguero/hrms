@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Timesheet;
 use App\Models\Holiday;
 use App\Models\Event;
+use App\Models\EventDate;
 use App\Models\EventParticipant;
 use Carbon\Carbon;
 use Spatie\Activitylog\Models\Activity;
@@ -21,6 +22,13 @@ class ParticipantController extends Controller
       
       'filters' =>  Request::only(['search','selectedStatus','venue','exam_date']),
             'event_id' => Request::input("event"),
+            'event_dates' => EventDate::where('event_id',Request::input("event"))->get()->map(function ($eventDate) {
+        return [
+            'id' => $eventDate->id,
+            'event_id' => $eventDate->event_id,
+            'when' => Carbon::parse($eventDate->when)->format('M d, Y H:i A'), // Specify your desired format
+        ];
+    }),
             'participants' => EventParticipant::where('event_id',Request::input("event"))->orderBy('updated_at', 'desc')  
             ->paginate(100)
             ->withQueryString()

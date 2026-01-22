@@ -15,6 +15,8 @@ class EventAttendance extends Model
         'event_date_id',
         'participant_id',
         'date_time_arrive',
+        'scanned_by',
+
     ];
 
     // Define the relationship with the EventDate model

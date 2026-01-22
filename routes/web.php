@@ -151,11 +151,20 @@ Route::post('/Event/List/Save', [EventController::class, 'save'])->name('event.s
 Route::post('/Event/List/Delete', [EventController::class, 'delete'])->name('event.delete');
 Route::get('/Event/List/Participant', [ParticipantController::class, 'index'])->name('event.participant');
 Route::post('/Event/List/Participant/Save', [ParticipantController::class, 'save'])->name('event.participant.save');
+
 Route::post('/Event/List/Participant/Delete', [ParticipantController::class, 'delete'])->name('event.participant.save');
+
+Route::post('/Event/List/Dates/Save', [EventController::class, 'SaveDate'])->name('event.participant.save');
+
+Route::post('/Event/List/Dates/Delete', [EventController::class, 'DeleteDate'])->name('event.participant.delete');
 
 
 
 Route::get('/Event/Scanner', [ScannerController::class, 'index'])->name('event.scanner');
+Route::post('/Event/Scanner/GetPaticipants', [ScannerController::class, 'getParticipants'])->name('event.getparticipants');
+Route::post('/Event/Scanner/GetPaticipantDetails', [ScannerController::class, 'getParticipantDetails'])->name('event.getparticipantdetails');
+
+
 
 
 Route::get('/Event/Attendance', [EventAttendanceController::class, 'index'])->name('event.attendance');

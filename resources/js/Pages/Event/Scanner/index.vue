@@ -22,15 +22,15 @@ onMounted(() => {
 
 })
 const { props } = usePage();
-const dialogVisible = ref(false);
+const dialogVisible = ref(true);
 const result = ref(null);
 const loading = ref(false);
 /*** detection handling ***/
 const resulted = ref('')
-const exam_id = ref('')
-const examinees = ref('')
-const count = ref('')
-const scanned = ref('')
+const event_date_id = ref('')
+const participants = ref('')
+const participant_arrive_count = ref('')
+const participant_count = ref('')
 
 
 
@@ -43,42 +43,50 @@ async function onDetect(detectedCodes) {
   const rawValue = detectedCodes[0]?.rawValue;
   console.log(rawValue);
   console.log(detectedCodes);
+  console.log(event_date_id.value);
+
 
 
   // Check if rawValue exists and remove the substring
-  const cleanedValue = rawValue ? rawValue.replace('https://samrs.parsu.edu.ph/examverification?exam=', '') : '';
-
-  try {
-    const response = await axios.post('/get-examinee-details', {
-      exam_id: cleanedValue,
-      exam_schedule_id: exam_id.value + '',
-    });
-
-    // Access the response data after awaiting
-    resulted.value = response.data;
-
-  } catch (error) {
-    console.error('Error fetching data1:', error);
-    resulted.value = null; // Handle error appropriately
-  } finally {
-    loading.value = false; // Reset loading state
+  // const cleanedValue = rawValue ? rawValue.replace('https://hrms.parsu.edu.ph/examverification?exam=', '') : '';
+if (event_date_id.value == '') {
+    dialogVisible.value = true;
+  
   }
-  try {
-    const response = await axios.post('/get-examinees', {
-      exam_id: exam_id.value,
-    });
 
-    // Access the response data after awaiting
-    examinees.value = response.data.applicant;
-    count.value = response.data.count;
-    scanned.value = response.data.scanned;
-    console.log(response.data.applicant);
+  else {
+    try {
+      const response = await axios.post('/Event/Scanner/GetPaticipantDetails', {
+        participant_id: rawValue,
+        event_id: event_date_id.value + '',
+      });
 
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    resulted.value = null; // Handle error appropriately
-  } finally {
-    loading.value = false; // Reset loading state
+      // Access the response data after awaiting
+      resulted.value = response.data;
+
+    } catch (error) {
+      console.error('Error fetching data1:', error);
+      resulted.value = null; // Handle error appropriately
+    } finally {
+      loading.value = false; // Reset loading state
+    }
+    try {
+      const response = await axios.post('/Event/Scanner/GetPaticipants', {
+        event_id: event_date_id.value,
+      });
+
+      // Access the response data after awaiting
+      participants.value = response.data.participants;
+      participant_count.value = response.data.participant_count;
+      participant_arrive_count.value = response.data.participant_arrive_count;
+      console.log(response.data.applicant);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      resulted.value = null; // Handle error appropriately
+    } finally {
+      loading.value = false; // Reset loading state
+    }
   }
 }
 
@@ -224,18 +232,18 @@ function onError(err) {
       error.value += err.message
   }
 }
-watch(exam_id, async function (value) {
+watch(event_date_id, async function (value) {
   try {
 
-    const response = await axios.post('/get-examinees', {
-      exam_id: value,
+    const response = await axios.post('/Event/Scanner/GetPaticipants', {
+      event_id: value,
     });
 
     // Access the response data after awaiting
-    examinees.value = response.data.applicant;
-    count.value = response.data.count;
-    scanned.value = response.data.scanned;
-
+    participants.value = response.data.participants;
+    participant_count.value = response.data.participant_count;
+    participant_arrive_count.value = response.data.participant_arrive_count;
+    dialogVisible.value = false;
     console.log(response.data.applicant);
 
   } catch (error) {
@@ -281,7 +289,7 @@ watch(exam_id, async function (value) {
   <AppLayout>
 
     <Head title="Registration" />
-    <el-dialog v-model="dialogVisible" title="Tips" width="500" :show-close="false" class="rounded-lg ">
+    <el-dialog v-model="dialogVisible" title="Tips" width="300" :show-close="false" class="rounded-lg ">
       <template #header="{ close, titleId, titleClass }">
         <div class="my-header">
           <!-- Modal header -->
@@ -315,10 +323,24 @@ watch(exam_id, async function (value) {
 
 
           <!-- Modal body -->
-          <form @submit.prevent="submit">
+          <form class="max-w-full mx-auto">
 
-            <button type="submit"
-              class="mt-4 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+            <div class="relative">
+              <select v-model="event_date_id" id="exam-schedule"
+                class="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+
+                <option v-for="schedule in props.Schedules" :key="schedule.id" :value="schedule.id">{{
+                  schedule.event_name }} - ({{ schedule.when }})
+                </option>
+
+              </select>
+              <label for="floating_helper"
+                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Select
+                Event Schedule</label>
+            </div>
+            <p id="floating_helper_text" class="mt-2 text-xs text-gray-500 dark:text-gray-400">Remember, to select
+              event schedule before scanning participant QRCODE .</p>
+
 
           </form>
         </div>
@@ -326,8 +348,8 @@ watch(exam_id, async function (value) {
 
     </el-dialog>
 
-    <div class="m-2">
-      <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
+    <div class="">
+      <div class="max-w-full mx-auto sm:px-6 lg:px-8">
 
 
 
@@ -339,11 +361,11 @@ watch(exam_id, async function (value) {
           <form class="max-w-full mx-auto">
 
             <div class="relative">
-              <select v-model="exam_id" id="exam-schedule"
+              <select v-model="event_date_id" id="exam-schedule"
                 class="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
 
                 <option v-for="schedule in props.Schedules" :key="schedule.id" :value="schedule.id">{{
-                  schedule.exam_date }} - Available({{ schedule.available }}) - {{ schedule.venue }}
+                  schedule.event_name }} - ({{ schedule.when }})
                 </option>
 
               </select>
@@ -352,7 +374,7 @@ watch(exam_id, async function (value) {
                 Event Schedule</label>
             </div>
             <p id="floating_helper_text" class="mt-2 text-xs text-gray-500 dark:text-gray-400">Remember, to select
-              examination schedule before scanning applicant QRCODE .</p>
+              event schedule before scanning participant QRCODE .</p>
 
 
           </form>
@@ -368,7 +390,7 @@ watch(exam_id, async function (value) {
 
           </p>
           <div class="flex justify-center items-center   ">
-            <div class="relative w-3/4 h-80 border-4 border-green-500 rounded-lg overflow-hidden shadow-lg">
+            <div class="relative   border-4 border-green-500 rounded-lg overflow-hidden shadow-lg">
               <div class="absolute inset-0 flex justify-center items-center">
                 <div class="border-t-4 border-green-500 w-full h-8 absolute top-0 transform -translate-y-1/2">
                   <div class="animate-pulse h-full w-full bg-gray-900"></div>
@@ -379,7 +401,7 @@ watch(exam_id, async function (value) {
               </div>
               <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value"
                 :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady"
-                class="w-full h-full"></qrcode-stream>
+                  class="w-1/2 h-64"></qrcode-stream>
             </div>
           </div>
           <div class="bg-white rounded-lg shadow-md p-6">
@@ -388,8 +410,8 @@ watch(exam_id, async function (value) {
               <div class="flex flex-col md:flex-row justify-between items-center mb-4">
                 <h3 class="text-lg font-bold mb-2 md:mb-0">
                   Attendance Overview:
-                  <span class="text-blue-600">{{ scanned }}</span> /
-                  <span class="text-gray-700">{{ count }}</span>
+                  <span class="text-blue-600">{{ participant_arrive_count }}</span> /
+                  <span class="text-gray-700">{{ participant_count }}</span>
                 </h3>
 
                 <div class="relative flex-1 md:flex-none w-full md:w-64">
@@ -423,21 +445,21 @@ watch(exam_id, async function (value) {
                       <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                         Date and Time Arrive
                       </th>
-                      
+
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="border-b border-gray-200 dark:border-gray-700" v-for="(examinee, index) in examinees"
-                      :key="examinee.id" :value="examinee.id">
+                    <tr class="border-b border-gray-200 dark:border-gray-700"
+                      v-for="(participant, index) in participants" :key="participant.id" :value="participant.id">
                       <th scope="row"
                         class="px-6 py-4 font-medium text-black-800 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                         {{ index + 1 }}
                       </th>
                       <td class="px-6 py-4">
-                        {{ examinee.name.toUpperCase() }}
+                        {{ participant.name.toUpperCase() }}
                       </td>
                       <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                        {{ examinee.date }}
+                        {{ participant.date_time_arrive }}
                       </td>
                     </tr>
 
