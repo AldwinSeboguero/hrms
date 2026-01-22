@@ -37,8 +37,8 @@ const submit = () => {
                 <img class="h-12 w-12" src="images/psu_logo.png" alt="ChitChat Logo">
             </div>
             <div>
-                <div class="text-xl text-blue-950 font-black font-sans uppercase">Partido State University</div>
-                <p class="text-slate-500">Human Resource Management System</p>
+                <div class="text-sm md:text-xl text-blue-950 font-black font-sans uppercase">Partido State University</div>
+                <p class="text-slate-500 text-xs md:text-sm ">Human Resource Management System</p>
             </div>
             </div>
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">

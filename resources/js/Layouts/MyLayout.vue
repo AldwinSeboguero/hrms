@@ -145,6 +145,56 @@
                     Recruitment
                 </a>
              </li>
+
+                    <li>
+              <a type="button" active="true"
+                class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group" 
+                aria-controls="dropdown-event" data-collapse-toggle="dropdown-event">
+                 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 me-2  text-gray-800">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+</svg>
+
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Events </span>
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                  </svg>
+                </a>
+                <ul id="dropdown-event" class="py-2 space-y-2"  :class="{ 'hidden':  !route().current('event.list') && !route().current('event.scanner') && !route().current('event.attendance') }" >
+                    
+                       <li>
+                        <a  :href="route('event.list')"
+                        :active="route().current('event.list')"  
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "
+                        :class="{ 'bg-blue-50 text-blue-950':  route().current('event.list') }"
+                        >
+                          <span class="flex-1  whitespace-nowrap">List of Events</span>
+
+                        </a>
+                      </li>
+                          <li>
+                        <a  :href="route('event.attendance')"
+                        :active="route().current('event.attendance')"  
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "
+                        :class="{ 'bg-blue-50 text-blue-950':  route().current('event.attendance') }"
+                        >
+                          <span class="flex-1  whitespace-nowrap">Generate Attendance</span>
+
+                        </a>
+                      </li>
+                      <li>
+                        <a  :href="route('event.scanner')"
+                        :active="route().current('event.scanner')"  
+                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 "
+                        :class="{ 'bg-blue-50 text-blue-950':  route().current('event.scanner') }"
+                        >
+                          <span class="flex-1  whitespace-nowrap">Scanner</span>
+
+                        </a>
+                      </li>
+                       
+                </ul>
+             </li>
              <!-- <li>
                 <a href="#" class="inline-flex items-center px-4 py-3  text-gray-800  text-md font-black font-sans rounded-lg active w-full dark:bg-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 group"  :class="{ 'bg-blue-50 text-blue-950':  route().current('settings') }" aria-current="page">
                      

@@ -16,10 +16,22 @@ class GetEmployeesController extends Controller
                 ->paginate(10);
 
                     $data = $paginations->map(function ($pagination) {
+                          $nameParts = preg_split('/\s+/', $pagination->middle_name); // Split by spaces
+        $initials = '';
+        foreach ($nameParts as $part) {
+            if (!empty($part)) {
+                $initials .= strtoupper($part[0]); // Append the uppercase initial
+            }
+        }
+
                     return (object) [
                         'id' => $pagination->id,
-                        'name' => strtoupper($pagination->last_name . ", " . $pagination->first_name . ' ' . $pagination->middle_name),
+                        'name' => strtoupper( $pagination->first_name .' '. $initials. ($initials ? '. ' : ''). $pagination->last_name ),
                         'code' => strtoupper($pagination->employee_code),
+                        'position' => strtoupper($pagination->position->name),
+                        'office' => strtoupper($pagination->division->name),
+
+
 
 
  

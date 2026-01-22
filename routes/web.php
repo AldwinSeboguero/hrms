@@ -22,6 +22,8 @@ use App\Http\Controllers\Employee\OrgChartController;
 use App\Http\Controllers\Employee\PerformanceController;
 use App\Http\Controllers\Employee\ProfileController;
 use App\Http\Controllers\Employee\HomeController;
+use App\Http\Controllers\EventAttendanceController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GetEmployeesController;
 use App\Http\Controllers\SettingController; 
 
@@ -32,11 +34,12 @@ use App\Http\Resources\SubmittedClearanceCollection;
 use App\Models\SubmitClearance; 
 use App\Models\Semester; 
 use App\Http\Controllers\GoogleController;
-
+use App\Http\Controllers\ParticipantController;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PerformanceManagementController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SummaryRatingIPCRController;
 use App\Http\Controllers\SummaryRatingOPCRController;
@@ -142,6 +145,20 @@ Route::post('save-profile', [EmployeeController::class,'saveProfile'])->name('em
 Route::get('/editor/dashboard', [EmployeeDTRCOntroller::class, 'index'])->name('editor.dashboard');
   Route::get('employee/edit', [EmployeeController::class,'edit'])->name('employee.edit');
 
+
+Route::get('/Event/List', [EventController::class, 'index'])->name('event.list');
+Route::post('/Event/List/Save', [EventController::class, 'save'])->name('event.save');
+Route::post('/Event/List/Delete', [EventController::class, 'delete'])->name('event.delete');
+Route::get('/Event/List/Participant', [ParticipantController::class, 'index'])->name('event.participant');
+Route::post('/Event/List/Participant/Save', [ParticipantController::class, 'save'])->name('event.participant.save');
+Route::post('/Event/List/Participant/Delete', [ParticipantController::class, 'delete'])->name('event.participant.save');
+
+
+
+Route::get('/Event/Scanner', [ScannerController::class, 'index'])->name('event.scanner');
+
+
+Route::get('/Event/Attendance', [EventAttendanceController::class, 'index'])->name('event.attendance');
 
 
  
