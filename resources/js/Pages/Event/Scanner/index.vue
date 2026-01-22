@@ -484,7 +484,7 @@ watch(event_date_id, async function (value) {
                     </div>
                 </div>
 
-                <div class="relative overflow-x-auto shadow-md rounded-xl sm:rounded-lg">
+                <div class="relative overflow-auto max-h-32 shadow-md rounded-xl sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                             <tr>
@@ -493,7 +493,7 @@ watch(event_date_id, async function (value) {
                                 <th scope="col" class="px-6 py-2 text-[10px] bg-gray-50 dark:bg-gray-800">Date and Time Arrive</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="">
                             <tr class="border-b " v-for="(participant, index) in participants" :key="participant.id" :value="participant.id">
                                 <th scope="row" class="px-6 py-2  text-[10px]font-medium text-black-800 whitespace-nowrap transparent text-white">{{ index + 1 }}</th>
                                 <td class="px-6 py-2 text-[10px] bg-transparent text-white">{{ participant.name.toUpperCase() }}</td>

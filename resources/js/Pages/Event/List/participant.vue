@@ -91,7 +91,7 @@ const eventDates = ref(props.event_dates);
 
 const openAddDatesModal = () => {
     eventDate.id = '';
-    eventDate.when = ''; 
+    eventDate.when = '';
     dialogAddDateVisible.value = true;
 
 }
@@ -113,7 +113,7 @@ const openUpdateModal = (formData) => {
 const openDeleteModal = (formData) => {
     console.log(formData)
 
-    eventDate.id = formData.id; 
+    eventDate.id = formData.id;
 
 
     deleteDateModal.value = true;
@@ -159,7 +159,7 @@ const submit = async () => {
 const submitDates = async () => {
     try {
         const response = await axios.post('/Event/List/Dates/Save', { data: eventDate });
-        
+
         // Assuming the response data structure is: { event_dates: [...] }
         if (response.data && response.data.event_dates) {
             eventDates.value = response.data.event_dates; // Update the eventDates variable
@@ -348,15 +348,15 @@ const deleteParticipant = async () => {
 
 
 const deleteEventDate = async () => {
-    
+
     try {
         const response = await axios.post('/Event/List/Dates/Delete', { data: eventDate });
-        
+
         // Assuming the response data structure is: { event_dates: [...] }
         if (response.data && response.data.event_dates) {
             eventDates.value = response.data.event_dates; // Update the eventDates variable
         }
-        
+
         deleteDateModal.value = false; // Close the dialog
 
     } catch (error) {
@@ -372,12 +372,12 @@ const html2canvas = useHtml2Canvas();
 const canvasTarget = ref(null);
 const containerShowCanvas = ref(null);
 async function onGenHtmlToCanvas(badgeName) {
-        const canvas = await html2canvas(canvasTarget.value, {
-        allowTaint : false,
-useCORS: true,
+    const canvas = await html2canvas(canvasTarget.value, {
+        allowTaint: false,
+        useCORS: true,
         scale: 5,
-         quality: 0.95
-        
+        quality: 0.95
+
     });
     // containerShowCanvas.value.appendChild(canvas)
 
@@ -471,88 +471,90 @@ useCORS: true,
 
         </el-dialog>
 
-        <el-dialog v-model="qrDialog" title="QRCODE" width="380" :show-close="false" class="rounded-lg " >
-            <template #header="{ close, titleId, titleClass }">
-                <!-- QR Code Section -->
-                <div class="p-4" ref="canvasTarget">
-                    <!-- <p class="font-semibold text-base mb-2 text-center">QR Code</p> -->
-                    <div class="w-full h-3/4 mx-auto ">
-                        <div class="badge-header rounded-t-lg flex flex-col items-center">
-                            <svg width="0" height="0">
-    <defs>
-        <radialGradient id="myGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-            <stop offset="30%" stop-color="rgba(255, 255, 255, 0.4)" />
-            <stop offset="100%" stop-color="transparent" />
-        </radialGradient>
-    </defs>
-</svg>
-                            <div class="badge-bg"></div>
-                            <div class="logo-container flex justify-center w-full px-4 mb-2">
-                                <!-- <img :src="logo3" alt="Logo 3" class="logo mx-1 h-16  " /> -->
+       <el-dialog 
+        v-model="qrDialog" 
+        title="QRCODE" 
+        width="480" 
+        height="300" 
+        :show-close="false" 
+        class="rounded-lg"
+    >
+        <template #header="{ close, titleId, titleClass }">
+            <div class="p-4" ref="canvasTarget">
+                <div class="w-full h-auto mx-auto">
+                    <div class="badge-header rounded-t-lg flex flex-col items-center">
+                        <svg width="0" height="0">
+                            <defs>
+                                <radialGradient id="myGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                    <stop offset="30%" stop-color="rgba(255, 255, 255, 0.4)" />
+                                    <stop offset="100%" stop-color="transparent" />
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                        <div class="badge-bg"></div>
+                        <div class="logo-container flex justify-center w-full px-4 mb-2 mt-2">
+                            <img :src="logo3" alt="Logo 1" class="logo mx-1 h-10" />
 
-                                <img :src="logo" alt="Logo 1" class="logo mx-1 h-16  " />
-                                <img :src="logo2" alt="Logo 2" class="logo mx-1 h-16  " />
-                            </div>
-                            <h1 id="badgeEvent" class="text-center text-xl font-semibold">PARTIDO STATE UNIVERSITY</h1>
+                            <img :src="logo" alt="Logo 1" class="logo mx-1 h-10" />
+                            <img :src="logo2" alt="Logo 2" class="logo mx-1 h-10" />
                         </div>
-                        <div class="border-x-2">
-                            <div class="badge-body ">
-                                <h2 id="badgeName" class="text-center">{{ participant.name }}</h2>
-                                <p id="badgeDesignation" class="text-center">{{ participant.position }}</p>
-                                <h3 id="badgecontainer" class="text-center">{{ participant.office }}</h3>
-                                <!-- <h3 id="badgecontainer" class="text-center">{{ participant.uuid }}</h3> -->
-
-                            </div>
-                            <div id="qrcode" class="badge-qr-container ">
-                                <div class="w-3/4">
-                                    <QRCodeVue3 :key="participant.uuid" :value="participant.uuid"
-                                        :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
-                                        image="../../images/psu_logo.png"
-                                        :imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
-                                        :dotsOptions="{
-                                            type: 'rounded',
-                                            color: '#E74694',
-                                            gradient: {
-                                                type: 'linear',
-                                                rotation: 0,
-                                                colorStops: [
-                                                    { offset: 0, color: '#26249a' },
-                                                    { offset: 1, color: '#26249a' },
-                                                ],
-                                            },
-                                        }" :backgroundOptions="{ color: '#ffffff' }" fileExt="png" :download="false" myclass="my-qur"
-                                        imgclass="img-qr"
-                                        downloadButton="rounded-lg mt-1 w-full bg-pink-500 p-3 
-          font-sans text-xs font-bold uppercase text-white shadow-md 
-          shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                        :downloadOptions="{ name: participant.uuid, extension: 'png' }" />
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="badge-footer rounded-b-lg">
-                            <p id="badgeAccess" class="text-center uppercase">ATTENDEE</p>
-                        </div>
-
-
+                        <!-- <h1 id="badgeEvent" class="text-center text-xl font-semibold">PARTIDO STATE UNIVERSITY</h1> -->
                     </div>
-
-
+                    <div class="border-x-1 pb-2">
+                          <div id="qrcode" class="badge-qr-container mt-0">
+                            <div class="w-30 mx-auto">
+                                <QRCodeVue3 
+                                    :key="participant.uuid" 
+                                    :value="participant.uuid"
+                                    :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+                                    image="../../images/psu_logo.png"
+                                    :imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
+                                    :dotsOptions="{
+                                        type: 'rounded',
+                                        color: '#E74694',
+                                        gradient: {
+                                            type: 'linear',
+                                            rotation: 0,
+                                            colorStops: [
+                                                { offset: 0, color: '#26249a' },
+                                                { offset: 1, color: '#26249a' },
+                                            ],
+                                        },
+                                    }" 
+                                    :backgroundOptions="{ color: '#ffffff' }" 
+                                    fileExt="png" 
+                                    :download="false"
+                                    myclass="my-qr" 
+                                    imgclass="img-qr"
+                                    downloadButton="rounded-lg mt-1 w-full bg-pink-500 p-3 
+                                        font-sans text-xs font-bold uppercase text-white shadow-md 
+                                        shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                    :downloadOptions="{ name: participant.uuid, extension: 'png' }" 
+                                />
+                            </div>
+                        </div>
+                        <div class="badge-body mt-0 pb-2">
+                            <h2 id="badgeName" class="text-center">{{ participant.name }}</h2>
+                            <p id="badgeDesignation" class="text-center">{{ participant.position }} - <span id="badgeOffice" class="text-center">{{ participant.office }}</span></p>
+                            <!-- <h3 id="badgeOffice" class="text-center">{{ participant.office }}</h3> -->
+                        </div>
+                      
+                    </div>
+                    <div class="badge-footer rounded-b-lg">
+                        <p id="badgeAccess" class="text-center text-xs uppercase">ATTENDEE</p>
+                    </div>
                 </div>
+            </div>
 
-                <!-- <button  >Click here for download demo pdf</button> -->
-                <!-- <div ref="containerShowCanvas" style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
-    
-  </div> -->
-                <button type="button" @click="onGenHtmlToCanvas(participant)"
-                    class=" mt-2 w-full  text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center   items-center dark:focus:ring-[#2557D6]/50 me-2 mb-2">
-                    Download
-                </button>
-            </template>
-
-
-        </el-dialog>
+            <button 
+                type="button" 
+                @click="onGenHtmlToCanvas(participant)"
+                class="mt-2 w-full text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+                Download
+            </button>
+        </template>
+    </el-dialog>
         <!-- component -->
         <el-dialog v-model="dialogVisible" title="Tips" width="400" :show-close="false" class="rounded-lg ">
             <template #header="{ close, titleId, titleClass }">
@@ -678,7 +680,7 @@ useCORS: true,
         </el-dialog>
 
 
-             <el-dialog v-model="dialogAddDateVisible" title="Tips" width="400" :show-close="false" class="rounded-lg ">
+        <el-dialog v-model="dialogAddDateVisible" title="Tips" width="400" :show-close="false" class="rounded-lg ">
             <template #header="{ close, titleId, titleClass }">
                 <div class="my-header">
                     <!-- Modal header -->
@@ -710,7 +712,7 @@ useCORS: true,
                     <!-- component -->
 
                     <form @submit.prevent="submitDates">
- 
+
                         <div class="relative w-full mb-3">
                             <input type="date" id="small_filled" v-model="eventDate.when_date"
                                 class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -720,7 +722,7 @@ useCORS: true,
                                 Date
                             </label>
                         </div>
-                            <div class="relative w-full mb-1">
+                        <div class="relative w-full mb-1">
                             <input type="time" id="small_filled" v-model="eventDate.when_time"
                                 class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" " />
@@ -729,66 +731,65 @@ useCORS: true,
                                 Time
                             </label>
                         </div>
- 
 
-                        <button type="submit" 
+
+                        <button type="submit"
                             class="mt-4 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 
                             ADD DATE</button>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400 mt-2">
-                                <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                                            When
-                                        </th> 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="border-b border-gray-200 dark:border-gray-700"
-                                        v-for="(schedule, index) in eventDates" :key="schedule.id"
-                                        :value="schedule.id">
-                                        <th scope="row"
-                                            class="px-6 py-2 font-medium text-black-800 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                            {{ schedule.when }}
-                                        </th>  
-                                        <td class="px-6 py-2">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400 mt-2">
+                            <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                                        When
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-200 dark:border-gray-700"
+                                    v-for="(schedule, index) in eventDates" :key="schedule.id" :value="schedule.id">
+                                    <th scope="row"
+                                        class="px-6 py-2 font-medium text-black-800 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                                        {{ schedule.when }}
+                                    </th>
+                                    <td class="px-6 py-2">
 
 
-                                            <div class="flex">
-                                                <button @click="openUpdateModal(schedule)"
-                                                    class="middle none center mr-2 flex items-center justify-center rounded-lg bg-pink-500 p-2 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                                    data-ripple-light="true">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                    </svg>
+                                        <div class="flex">
+                                            <button @click="openUpdateModal(schedule)"
+                                                class="middle none center mr-2 flex items-center justify-center rounded-lg bg-pink-500 p-2 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                data-ripple-light="true">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
 
-                                                </button>
- <button @click="openDeleteModal(schedule)"
-                                                    class="middle none center flex items-center mr-2 justify-center rounded-lg p-2 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                                    data-ripple-dark="true">
+                                            </button>
+                                            <button @click="openDeleteModal(schedule)"
+                                                class="middle none center flex items-center mr-2 justify-center rounded-lg p-2 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                data-ripple-dark="true">
 
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                        fill="currentColor" class="size-4">
-                                                        <path fill-rule="evenodd"
-                                                            d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    fill="currentColor" class="size-4">
+                                                    <path fill-rule="evenodd"
+                                                        d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
 
 
 
-                                                </button>
-                                                 
+                                            </button>
 
-                                            </div>
-                                        </td>
-                                    </tr>
 
-                                </tbody>
-                       
-                            </table>
-                        
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
 
 
                     </form>
@@ -811,14 +812,14 @@ useCORS: true,
                             <h3 class="text-lg font-bold mb-2 md:mb-0">
                                 Participant List
                             </h3>
-                            
+
                             <!-- Align the search input and button to the right -->
                             <div class="flex items-center md:ml-auto">
                                 <div class="relative flex-1 md:flex-none w-full md:w-64">
                                     <select id="venue" v-model="venue"
                                         class="sm:w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value="" disabled selected>Select a Event Dates</option>
-                                        
+
                                         <option v-for="venue in props.event_dates" :key="venue.id" :value="venue.id">{{
                                             venue.date_time }}
                                         </option>
@@ -829,10 +830,10 @@ useCORS: true,
                                     </label>
                                 </div>
                             </div>
-   <button @click="openAddDatesModal"
-                class="focus:ring-2 w-42 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded ml-3">
-            <p class="text-sm font-medium leading-none text-white">Add Event Dates</p>
-        </button>
+                            <button @click="openAddDatesModal"
+                                class="focus:ring-2 w-42 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded ml-3">
+                                <p class="text-sm font-medium leading-none text-white">Add Event Dates</p>
+                            </button>
                             <button @click="openModal"
                                 class=" mt-2 focus:ring-2 w-42 focus:ring-offset-2 focus:ring-indigo-600 sm:mt-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-700 hover:bg-indigo-600 focus:outline-none rounded ml-3">
                                 <p class="text-sm font-medium leading-none text-white ">Add Participant</p>
@@ -840,23 +841,23 @@ useCORS: true,
                         </div>
 
 
-<form class="max-w-full mx-auto">
+                        <form class="max-w-full mx-auto">
 
-                                <div class="relative">
+                            <div class="relative">
 
-                                    <input type="date" id="small_filled" v-model="exam_date"
-                                        class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                        placeholder=" " />
-                                    <label for="small_filled"
-                                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                                        Select Event Date
-                                    </label>
+                                <input type="date" id="small_filled" v-model="exam_date"
+                                    class="block rounded-t-lg px-2.5 pb-1.5 pt-4 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                    placeholder=" " />
+                                <label for="small_filled"
+                                    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-3 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                                    Select Event Date
+                                </label>
 
-                                </div>
+                            </div>
 
-                            </form>
+                        </form>
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
-                            
+
                             <!-- <div
                                 class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4   ">
                                 <div class="col-span-1">
@@ -979,7 +980,7 @@ useCORS: true,
                                                         props.participants.from || 0 }}</span> to
                                                     <span class="font-semibold text-gray-900 dark:text-white">{{
                                                         props.participants.to || 0
-                                                        }}</span> of
+                                                    }}</span> of
                                                     <span class="font-semibold text-gray-900 dark:text-white">{{
                                                         props.participants.total }}</span>
                                                     Entries
@@ -1316,7 +1317,7 @@ body {
 }
 
 .badge {
-    width: 280px;
+    width: 580px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -1334,20 +1335,23 @@ body {
     position: relative;
     overflow: hidden;
 }
+
 .badge-bg {
     position: absolute;
     top: -4px;
     left: -20px;
     width: 40%;
     height: 180%;
-background: url("#myGradient");
- 
- 
+    background: url("#myGradient");
+
+
     background-size: 10px 10px;
     transform: rotate(52deg);
     opacity: 0.8;
-    z-index: -1; /* Place it behind the badge content */
+    z-index: -1;
+    /* Place it behind the badge content */
 }
+
 .badge-header::after {
     content: '';
     position: absolute;
@@ -1380,29 +1384,30 @@ background: url("#myGradient");
 }
 
 .badge-body {
-    padding: 20px;
+    padding: 0px;
     display: flex;
     flex-direction: column;
 }
 
 .badge-body h2 {
     margin: 0;
-    font-size: 22px;
+    font-size: 18px;
     color: #333;
 }
 
 .badge-body p {
-    font-size: 14px;
+    font-size: 12px;
     margin: 0;
     color: #777;
     font-weight: 600;
 }
 
-.badge-body h3 {
+.badge-body #badgeOffice {
     color: #1d72b8;
-    font-size: 14px;
+    font-size: 10px;
     margin: 0;
     font-weight: 600;
+    margin-bottom:10px;
 
 }
 
@@ -1413,12 +1418,12 @@ background: url("#myGradient");
 .badge-footer {
     background-color: #1e1b4b;
     color: white;
-    padding: 15px;
+    padding-bottom: 10px;
 }
 
 .badge-footer p {
     margin: 0;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
 }
 
@@ -1426,7 +1431,32 @@ background: url("#myGradient");
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0;
+    padding: 0px 0;
     /* Adjust margin as needed */
 }
+
+
+
+.badge-header {
+    background-color: #3f0500;
+    background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
+    padding: 10px; /* Adjust padding for smaller size */
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.badge-body {
+    padding: 0px; /* Adjust padding as needed */
+}
+
+
+.badge-qr-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    
+}
+
 </style>
