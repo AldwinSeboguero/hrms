@@ -7,6 +7,8 @@ import { onMounted, onUpdated } from 'vue'
 import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
 import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
+import logo from '../../../images/csc.png';
+import logo2 from '../../../images/PRIME.png';
 import logo3 from '../../../images/psu_logo.png';
 
 // const props = defineProps({
@@ -309,6 +311,39 @@ watch(event_date_id, async function (value) {
   white-space: nowrap;
   display: inline-block;
 }
+/* .bg-cover {
+    position: relative;
+    background-image: url('https://edms.parsu.edu.ph/images/konektify_hero_bg_v3.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+.bg-cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
+    backdrop-filter: blur(4px);
+    z-index: 1;
+    pointer-events: none;
+}
+.glass-container {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  position: relative;
+  z-index: 20;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: fadeInScale 0.6s ease-out;
+}
 </style>
 
 <template>
@@ -320,7 +355,7 @@ watch(event_date_id, async function (value) {
         <div class="my-header">
           <!-- Modal header -->
           <div
-            class="flex items-center justify-between  border-b border-dashed border-b-2  rounded-t dark:border-gray-600">
+            class="flex items-center justify-between    rounded-t dark:border-gray-600">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
               Set Event Schedule
             </h3>
@@ -340,7 +375,7 @@ watch(event_date_id, async function (value) {
         </div>
       </template>
 
-      <div class="relative px-4 pb-4 w-full max-w-2xl max-h-full">
+      <div class="relative pb-4 w-full max-w-2xl max-h-full">
 
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg  dark:bg-gray-700">
@@ -353,7 +388,7 @@ watch(event_date_id, async function (value) {
 
             <div class="relative">
               <select v-model="event_date_id" id="exam-schedule"
-                class="block rounded-t-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                class="block rounded-xl px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
 
                 <option v-for="schedule in props.Schedules" :key="schedule.id" :value="schedule.id">{{
                   schedule.event_name }} - ({{ schedule.when }})
@@ -374,155 +409,102 @@ watch(event_date_id, async function (value) {
 
     </el-dialog>
 
-    <div style="background-image: url('https://wallpaperaccess.com/full/295661.jpg');" class=" items-center justify-center bg-gradient-to-t h-full p-6 bg-no-repeat bg-center">
-      <div class="max-w-full mx-auto sm:px-6 lg:px-8">
+    <div class="h-screen w-full bg-[url(https://scontent.fmnl13-1.fna.fbcdn.net/v/t39.30808-6/486575578_1149828820487521_8969542889143746598_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeH-STpz7zhlT0yj0qhBvGuUHnw4rp45QmwefDiunjlCbAANDahnBEE2xPBLR1-jEzaV9prh-eKr5kCrsM4keDS-&_nc_ohc=DL4h7v1MvSMQ7kNvwF4wrgj&_nc_oc=AdmpRTrdsjxDoeUCVM9Ofl2CmjzWKUliH7I1DiVmWNra2B0eQ-DurkemLwM0C-zMTq8&_nc_zt=23&_nc_ht=scontent.fmnl13-1.fna&_nc_gid=lzmxfO4Tq1LB2X-in45Arw&oh=00_AfrZdBMWwVJEAq54AnHkBZVqGlH6QgrLaeO8UFxwi0Cbuw&oe=6977DBD7)] 
+    bg-center bg-no-repeat  backdrop-filter backdrop-blur-xl bg-blue-100/10 bg-opacity-80 relative bg-cover flex items-center justify-center">
 
-    <div   class= "px-8 py-4 mb-4 w-full  bg-white/50 rounded-xl  md:mt-0 sm:max-w-md shadow-lg flex items-center space-x-6 ">
-      <div class="">
-                <img class="h-12 w-12" :src="logo3" alt="PSU Logo">
-            </div>
+    <div class="max-w-full sm:px-6 lg:px-8 relative z-10 p-6 ">
+        <!-- <div class="px-8 py-4 mb-4 w-full 
+        bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm rounded-xl 
+        md:mt-0 sm:max-w-md shadow-lg flex items-center space-x-6">
+            <img class="h-12 w-12" :src="logo3" alt="PSU Logo">
             <div>
-                <div class="text-sm md:text-xl text-blue-950 font-black font-sans uppercase">Partido State University</div>
-                <p class="text-slate-500 text-xs md:text-sm  ">Human Resource Management System</p>
+                <div class="text-[16px] font-black tracking-wide text-white uppercase leading-none whitespace-nowrap">Partido State University</div>
+                <p class="text-slate-300 md:text-sm font-black text-xs">Human Resource Management System</p>
             </div>
-            </div>
+        </div> -->
 
-        <div
-          class="w-full bg-white/50 p-4 bg-white  rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-
-
-
+        <div class="w-full h-full md:max-w-sm  bg-blue-900/20  bg-clip-padding backdrop-filter backdrop-blur-sm   rounded-xl shadow-xl sm:p-6 md:p-8 p-4">
+            <div class="logo-container flex justify-center w-full px-4 mb-2">
+                                          <img :src="logo3" alt="Logo 3" class="logo mx-2 h-15  " />
+          
+                                          <img :src="logo" alt="Logo 1" class="logo mx-1 h-16  " />
+                                          <img :src="logo2" alt="Logo 2" class="logo mx-2 h-16  " />
+                                      </div>     
+          <h3 class="text-[16px] text-lg font-bold mb-2 text-center text-white uppercase">
+                    Event scanner
+                </h3>
           <form class="max-w-full mx-auto">
+                <p class="mt-2 mb-2 text-xs text-white dark:text-gray-400">Remember, to select event schedule before scanning participant QRCODE.</p>
 
-            <div class="relative">
-              <select v-model="event_date_id" id="exam-schedule"
-                class="block rounded-lg bg-white/80 px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-
-                <option v-for="schedule in props.Schedules" :key="schedule.id" :value="schedule.id">{{
-                  schedule.event_name }} - ({{ schedule.when }})
-                </option>
-
-              </select>
-              <label for="floating_helper"
-                class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Select
-                Event Schedule</label>
-            </div>
-            <p id="floating_helper_text" class="mt-2 text-xs text-gray-500 dark:text-gray-400">Remember, to select
-              event schedule before scanning participant QRCODE .</p>
-
-
-          </form>
-          <p class="error">{{ error }}</p>
-          <div class="flex justify-between py-3 px-4 bg-green-100/40 rounded-lg m-3" v-if="resulted">
-            <div class="flex items-center space-x-4">
-
-              <div class="flex flex-col space-y-1">
-                <span class="text-xs md:text-xl text-blue-950 font-black font-sans uppercase">{{ resulted.name }}</span>
-                <span class="text-sm">Has arrive 🔥</span>
-              </div>
-            </div>
-            <div class="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm">
-              {{ resulted.date }}
-            </div>
-          </div>
-
-
-          <!-- <p class="decode-result mt-2 ">
-            Result: <b> <span v-if="resulted">
-                
-              </span>
-              <span v-else>
-
-              </span></b>
-
-          </p> -->
-          <div class="flex justify-center items-center   mt-2">
-            <div class="relative   border-4 border-green-500 rounded-lg overflow-hidden shadow-lg">
-              <div class="absolute inset-0 flex justify-center items-center">
-                <div class="border-t-4 border-green-500 w-full h-8 absolute top-0 transform -translate-y-1/2">
-                  <div class="animate-pulse h-full w-full bg-gray-900"></div>
+                <div class="relative">
+                    <select v-model="event_date_id" id="exam-schedule" class="block mb-2 rounded-lg bg-white/80 px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 appearance-none border-0 border-b-2 border-gray-300 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                        <option v-for="schedule in props.Schedules" :key="schedule.id" :value="schedule.id">{{ schedule.event_name }} - ({{ schedule.when }})</option>
+                    </select>
+                    <label for="exam-schedule" class="absolute text-sm text-gray-500 transition-transform duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-focus:text-blue-600 dark:text-gray-400 peer-focus:dark:text-blue-500">Select Event Schedule</label>
                 </div>
-                <div class="border-b-4 border-green-500 w-full h-8 absolute bottom-0 transform translate-y-1/2">
-                  <div class="animate-pulse h-full w-full bg-gray-900"></div>
+            </form>
+
+            <p class="error text-xs">{{ error }}</p>
+
+            <div class="flex justify-between py-3 px-4 bg-green-100/40 rounded-lg m-3" v-if="resulted">
+                <div class="flex items-center space-x-4">
+                    <div class="flex flex-col space-y-1">
+                        <span class="text-xs md:text-xl text-blue-950 font-black font-sans uppercase">{{ resulted.name }}</span>
+                        <span class="text-sm">Has arrived 🔥</span>
+                    </div>
                 </div>
-              </div>
-              <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value"
-                :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady"
-                class="w-1/2 h-64"></qrcode-stream>
+                <div class="flex-none px-4 py-2 text-stone-600 text-xs md:text-sm">{{ resulted.date }}</div>
             </div>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-6 mt-4">
-            <p class="error">{{ error }}</p>
-            <div class="bg-white rounded-lg   ">
-              <div class="flex flex-col md:flex-row justify-between items-center mb-4">
-                <h3 class="text-lg font-bold mb-2 md:mb-0">
-                  Attendance Overview:
-                  <span class="text-blue-600">{{ participant_arrive_count }}</span> /
-                  <span class="text-gray-700">{{ participant_count }}</span>
+
+            <div class="flex justify-center items-center mt-2">
+                <div class="relative border-4 border-green-500 rounded-lg overflow-hidden shadow-lg">
+                    <div class="absolute inset-0 flex justify-center items-center">
+                        <div class="border-t-4 border-green-500 w-full h-8 absolute top-0 transform -translate-y-1/2">
+                            <div class="animate-pulse h-full w-full bg-gray-900"></div>
+                        </div>
+                        <div class="border-b-4 border-green-500 w-full h-8 absolute bottom-0 transform translate-y-1/2">
+                            <div class="animate-pulse h-full w-full bg-gray-900"></div>
+                        </div>
+                    </div>
+                    <qrcode-stream :constraints="selectedConstraints" :track="trackFunctionSelected.value" :formats="selectedBarcodeFormats" @error="onError" @detect="onDetect" @camera-on="onCameraReady" class="w-1/2 h-64"></qrcode-stream>
+                </div>
+            </div>
+
+            <div class=" rounded-lg shadow-md  mt-2">
+                <h3 class="text-lg font-bold mb-2 text-center text-white">
+                    Attendance Overview: <span class="text-blue-600">{{ participant_arrive_count }}</span> / <span class="text-white">{{ participant_count }}</span>
                 </h3>
 
-                <div class="relative flex-1 md:flex-none w-full md:w-64">
-                  <input type="text" id="search" class="block p-2 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-full md:w-64 bg-gray-50 
-            focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
-            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search...">
-                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
-                      viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"></path>
-                    </svg>
-                  </div>
+                <div class="relative flex-1 md:flex-none w-full  mb-4">
+                    <input type="text" id="search" class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-full bg-gray-50 dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500" placeholder="Search...">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
                 </div>
-              </div>
 
-
-              <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
-
-                <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                    <tr>
-                      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                        #
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                        Name
-                      </th>
-                      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                        Date and Time Arrive
-                      </th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="border-b border-gray-200 dark:border-gray-700"
-                      v-for="(participant, index) in participants" :key="participant.id" :value="participant.id">
-                      <th scope="row"
-                        class="px-6 py-4 font-medium text-black-800 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                        {{ index + 1 }}
-                      </th>
-                      <td class="px-6 py-4">
-                        {{ participant.name.toUpperCase() }}
-                      </td>
-                      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                        {{ participant.date_time_arrive }}
-                      </td>
-                    </tr>
-
-                  </tbody>
-                </table>
-              </div>
-
-
-
-
-
+                <div class="relative overflow-x-auto shadow-md rounded-xl sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-2 text-[10px] bg-gray-50 dark:bg-gray-800">#</th>
+                                <th scope="col" class="px-6 py-2 text-[10px] bg-gray-50">Name</th>
+                                <th scope="col" class="px-6 py-2 text-[10px] bg-gray-50 dark:bg-gray-800">Date and Time Arrive</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b " v-for="(participant, index) in participants" :key="participant.id" :value="participant.id">
+                                <th scope="row" class="px-6 py-2  text-[10px]font-medium text-black-800 whitespace-nowrap transparent text-white">{{ index + 1 }}</th>
+                                <td class="px-6 py-2 text-[10px] bg-transparent text-white">{{ participant.name.toUpperCase() }}</td>
+                                <td class="px-6 py-2 text-[10px] bg-transparent text-white">{{ participant.date_time_arrive }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-
         </div>
-      </div>
     </div>
+</div>
  
 </template>
