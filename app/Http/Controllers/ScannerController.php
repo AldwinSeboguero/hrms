@@ -56,7 +56,10 @@ class ScannerController extends Controller
 
         $eventDate = EventDate::where('id', Request::input('event_id'))->first();
     return response()->json([
-        'participants' => EventParticipant::where('event_id', $eventDate->event_id)->get()
+        'participants' => EventParticipant::where('event_id', $eventDate->event_id)
+         ->when(Request::input('search'), function($inner, $search) {
+                $inner->where('name', 'LIKE', "%" . $search . "%");
+            })->orderBy('name')->get()
         ->map(function ($participant) use($eventDate) {
             $atteendance =EventAttendance::where('event_date_id',$eventDate->id )->where('participant_id',$participant->id )->first();
             return [
