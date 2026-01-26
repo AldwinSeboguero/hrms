@@ -3,9 +3,12 @@ import AppLayout from '@/Layouts/MyLayout.vue';
 import { router, usePage, Link, Head, usePoll } from '@inertiajs/vue3'
 import { ref, computed, watch, reactive, onMounted } from 'vue'
 import debounce from 'lodash/debounce'
-import logo from '../../../images/csc.png';
-import logo2 from '../../../images/PRIME.png';
-import logo3 from '../../../images/psu_logo.png';
+import logo3 from '../../../images/csc.png';
+import logo from '../../../images/PRIME.png';
+import logo4 from '../../../images/psu_logo.png';
+import logo2 from '../../../images/bagong_pilipinas.png';
+
+
 
 import { initFlowbite } from 'flowbite'
 import QRCodeVue3 from "qrcode-vue3";
@@ -1367,7 +1370,7 @@ body {
 .badge-header::before {
     content: '';
     position: absolute;
-    background-color: #fff;
+    /* background-color: #fff; */
     width: 12px;
     height: 12px;
     border-radius: 20px;
