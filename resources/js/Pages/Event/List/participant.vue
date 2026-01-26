@@ -495,12 +495,13 @@ async function onGenHtmlToCanvas(badgeName) {
                             </defs>
                         </svg>
                         <div class="badge-bg"></div>
-                        <div class="logo-container flex justify-center w-full px-4 mb-2 mt-2">
-                            <img :src="logo3" alt="Logo 1" class="logo mx-1 h-10" />
-
-                            <img :src="logo" alt="Logo 1" class="logo mx-1 h-10" />
-                            <img :src="logo2" alt="Logo 2" class="logo mx-1 h-10" />
-                        </div>
+<div class="logo-container flex justify-center w-full px-4 mb-2 mt-2">
+    <span class="bg-white w-12 h-12 rounded-full flex justify-center items-center">
+        <img :src="logo3" alt="Logo 3" class="h-8 " />
+    </span>
+    <img :src="logo" alt="Logo 1" class="logo mx-3 h-12" />
+    <img :src="logo2" alt="Logo 2" class="logo mx-1 h-12" />
+</div>
                         <!-- <h1 id="badgeEvent" class="text-center text-xl font-semibold">PARTIDO STATE UNIVERSITY</h1> -->
                     </div>
                     <div class="border-x-1 pb-2">
