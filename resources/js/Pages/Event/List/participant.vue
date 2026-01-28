@@ -7,6 +7,10 @@ import logo3 from '../../../images/csc.png';
 import logo from '../../../images/PRIME.png';
 import logo4 from '../../../images/psu_logo.png';
 import logo2 from '../../../images/bagong_pilipinas.png';
+import pusogLogo from '../../../images/pusog.jpg';
+import bg from '../../../images/bg.png';
+
+
 
 
 
@@ -322,6 +326,12 @@ const openQRDialog = (participantData) => {
     participant.name = participantData.name;
     participant.office = participantData.office;
     participant.position = participantData.position;
+    participant.event_name = participantData.event_name;
+    participant.event_venue = participantData.event_venue;
+    participant.event_date = participantData.event_date;
+
+
+
 
 
 
@@ -474,89 +484,108 @@ async function onGenHtmlToCanvas(badgeName) {
 
         </el-dialog>
 
-       <el-dialog 
-        v-model="qrDialog" 
-        title="QRCODE" 
-        width="480" 
-        height="300" 
-        :show-close="false" 
-        class="rounded-lg"
-    >
-        <template #header="{ close, titleId, titleClass }">
-            <div class="p-4" ref="canvasTarget">
-                <div class="w-full h-auto mx-auto">
-                    <div class="badge-header rounded-t-lg flex flex-col items-center">
-                        <svg width="0" height="0">
-                            <defs>
+        <el-dialog v-model="qrDialog" title="QRCODE" width="480" height="300" :show-close="false" class="rounded-lg">
+            <template #header="{ close, titleId, titleClass }">
+
+
+                <div class="p-4 " ref="canvasTarget">
+                    <div class="flex  max-w-screen-sm items-center justify-center">
+                        <div class="borderHeader rounded-xl w-full bg-header-b px-1 pt-1">
+                            <div class=" h-full w-full bg-white rounded-xl">
+                                <div class="w-full  h-full">
+                                    <div class="flex  max-w-screen-sm items-center justify-center">
+                                        <div class="borderHeader rounded-t-xl w-full bg-header-b pb-1">
+                                            <div class=" h-full w-full bg-white rounded-t-xl">
+                                                <div class="badge-header rounded-t-lg flex flex-col items-center">
+                                                    <svg width="0" height="0">
+                                                        <!-- <defs>
                                 <radialGradient id="myGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
                                     <stop offset="30%" stop-color="rgba(255, 255, 255, 0.4)" />
                                     <stop offset="100%" stop-color="transparent" />
                                 </radialGradient>
-                            </defs>
-                        </svg>
-                        <div class="badge-bg"></div>
-<div class="logo-container flex justify-center w-full px-4 mb-2 mt-2">
-    <span class="bg-white w-12 h-12 rounded-full flex justify-center items-center">
-        <img :src="logo3" alt="Logo 3" class="h-8 " />
-    </span>
-    <img :src="logo" alt="Logo 1" class="logo mx-3 h-12" />
-    <img :src="logo2" alt="Logo 2" class="logo mx-1 h-12" />
-</div>
-                        <!-- <h1 id="badgeEvent" class="text-center text-xl font-semibold">PARTIDO STATE UNIVERSITY</h1> -->
-                    </div>
-                    <div class="border-x-1 pb-2">
-                          <div id="qrcode" class="badge-qr-container mt-0">
-                            <div class="w-30 mx-auto">
-                                <QRCodeVue3 
-                                    :key="participant.uuid" 
-                                    :value="participant.uuid"
-                                    :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
-                                    image="../../images/psu_logo.png"
-                                    :imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
-                                    :dotsOptions="{
-                                        type: 'rounded',
-                                        color: '#E74694',
-                                        gradient: {
-                                            type: 'linear',
-                                            rotation: 0,
-                                            colorStops: [
-                                                { offset: 0, color: '#26249a' },
-                                                { offset: 1, color: '#26249a' },
-                                            ],
-                                        },
-                                    }" 
-                                    :backgroundOptions="{ color: '#ffffff' }" 
-                                    fileExt="png" 
-                                    :download="false"
-                                    myclass="my-qr" 
-                                    imgclass="img-qr"
-                                    downloadButton="rounded-lg mt-1 w-full bg-pink-500 p-3 
+                            </defs> -->
+                                                    </svg>
+                                                    <div class="badge-bg"></div>
+                                                    <div
+                                                        class="logo-container flex justify-center w-full px-4  border-b-4 ">
+                                                        <a href="https://hrms.parsu.edu.ph"
+                                                            class=" flex items-center space-x-6">
+
+                                                            <div class="">
+                                                                <img class="h-12 w-12" :src="logo4" alt="PSU Logo">
+                                                            </div>
+                                                            <div>
+                                                                <div
+                                                                    class="text-xs md:text-sm text-Customblue-950 font-black font-sans uppercase text-center">
+                                                                    Partido State University</div>
+                                                                <p
+                                                                    class="text-Customgray-500  text-xs md:text-xs text-center">
+                                                                    {{ participant.event_name }}</p>
+                                                                <p class=" text-Customgray-500 md:text-xs text-center">
+                                                                    {{ participant.event_date }}</p>
+
+                                                            </div>
+                                                            <div class="">
+                                                                <img class="h-12 w-12" :src="logo2"
+                                                                    alt="Bagong Pilipinas Logo">
+                                                            </div>
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pb-2">
+                                        <div id="qrcode" class="badge-qr-container mt-0">
+                                            <div class="w-30 mx-auto">
+                                                <QRCodeVue3 :key="participant.uuid" :value="participant.uuid"
+                                                    :qrOptions="{ typeNumber: 0, mode: 'Byte', errorCorrectionLevel: 'H' }"
+                                                    image="../../images/pusog.jpg"
+                                                    :imageOptions="{ hideBackgroundDots: true, imageSize: 0.4, margin: 0 }"
+                                                    :dotsOptions="{
+                                                        type: 'rounded',
+                                                        color: '#E74694',
+                                                        gradient: {
+                                                            type: 'linear',
+                                                            rotation: 0,
+                                                            colorStops: [
+                                                                { offset: 0, color: '#26249a' },
+                                                                { offset: 1, color: '#26249a' },
+                                                            ],
+                                                        },
+                                                    }" :backgroundOptions="{ color: '#ffffff' }" fileExt="png" :download="false"
+                                                    myclass="my-qr" imgclass="img-qr"
+                                                    downloadButton="rounded-lg mt-1 w-full bg-pink-500 p-3 
                                         font-sans text-xs font-bold uppercase text-white shadow-md 
                                         shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                    :downloadOptions="{ name: participant.uuid, extension: 'png' }" 
-                                />
+                                                    :downloadOptions="{ name: participant.uuid, extension: 'png' }" />
+                                            </div>
+                                        </div>
+                                        <div class="badge-body mt-0 pb-2">
+                                            <h2 id="badgeName" class="text-center">{{ participant.name }}</h2>
+                                            <p id="badgeDesignation" class="text-center">{{ participant.position }} -
+                                                <span id="badgeOffice" class="text-center">{{ participant.office
+                                                    }}</span></p>
+                                            <!-- <h3 id="badgeOffice" class="text-center">{{ participant.office }}</h3> -->
+                                        </div>
+
+                                    </div>
+                                    <div class="h-5 badge-footer  rounded-b-lg"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="badge-body mt-0 pb-2">
-                            <h2 id="badgeName" class="text-center">{{ participant.name }}</h2>
-                            <p id="badgeDesignation" class="text-center">{{ participant.position }} - <span id="badgeOffice" class="text-center">{{ participant.office }}</span></p>
-                            <!-- <h3 id="badgeOffice" class="text-center">{{ participant.office }}</h3> -->
-                        </div>
-                      
                     </div>
-                    <div class="h-4 badge-footer  rounded-b-lg "></div>
-                </div>
-            </div>
 
-            <button 
-                type="button" 
-                @click="onGenHtmlToCanvas(participant)"
-                class="mt-2 w-full text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            >
-                Download
-            </button>
-        </template>
-    </el-dialog>
+                </div>
+
+                <button type="button" @click="onGenHtmlToCanvas(participant)"
+                    class="mt-2 w-full text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                    Download
+                </button>
+            </template>
+        </el-dialog>
         <!-- component -->
         <el-dialog v-model="dialogVisible" title="Tips" width="400" :show-close="false" class="rounded-lg ">
             <template #header="{ close, titleId, titleClass }">
@@ -1330,8 +1359,8 @@ body {
 }
 
 .badge-header {
-    background-color: #3f0500;
-    background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
+    /* background-color: #3f0500; */
+    /* background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%); */
     padding: 20px;
     color: white;
     position: relative;
@@ -1409,7 +1438,7 @@ body {
     font-size: 10px;
     margin: 0;
     font-weight: 600;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 
 }
 
@@ -1418,16 +1447,15 @@ body {
 }
 
 .badge-footer {
-     background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
+    background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
     color: white;
-    padding-bottom: 10px;
 }
 
 .badge-footer p {
     margin: 0;
     font-size: 12px;
     font-weight: bold;
-    
+
 }
 
 .badge-qr-container {
@@ -1441,16 +1469,28 @@ body {
 
 
 .badge-header {
-    background-color: #3f0500;
-    background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
-    padding: 10px; /* Adjust padding for smaller size */
+    /* background-color: #3f0500; */
+    /* background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%); */
+    padding: 10px;
+    /* Adjust padding for smaller size */
     color: white;
     position: relative;
     overflow: hidden;
 }
 
+.bg-header {
+    /* background-color: #3f0500; */
+    background-color: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
+}
+
+.borderHeader {
+    /* background-color: #3f0500; */
+    background-image: linear-gradient(to right, #1E429F 0%, #1e1b4b 100%);
+}
+
 .badge-body {
-    padding: 0px; /* Adjust padding as needed */
+    padding: 0px;
+    /* Adjust padding as needed */
 }
 
 
@@ -1459,7 +1499,15 @@ body {
     justify-content: center;
     align-items: center;
     padding-top: 10px;
-    
+
 }
 
+.text-Customblue-950 {
+    color: #162456;
+}
+
+.text-Customgray-500 {
+    color: #162456;
+
+}
 </style>

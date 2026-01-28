@@ -26,6 +26,7 @@ class ParticipantController extends Controller
         return [
             'id' => $eventDate->id,
             'event_id' => $eventDate->event_id,
+
             'when' => Carbon::parse($eventDate->when)->format('M d, Y H:i A'), // Specify your desired format
         ];
     }),
@@ -38,6 +39,10 @@ class ParticipantController extends Controller
                 'position' => $schedule->position,
                 'office' => $schedule->office, 
                 'event_id' => $schedule->event_id, 
+            'event_name' => $schedule->event->name,
+            'event_date' => $schedule->event->when ,
+
+
                 'employee' => $schedule->employee, 
 
 
