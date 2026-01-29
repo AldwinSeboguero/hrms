@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 
+use App\Models\Event;
+use App\Models\EventAttendance;
+use App\Models\EventDate;
+use App\Models\EventParticipant;
+use Spatie\Activitylog\Models\Activity; 
 class PdfController extends Controller
 {
     public function formatTardiness($totalHours) {
@@ -559,539 +564,58 @@ class PdfController extends Controller
         
         
     }
-    // public function create(Request $request)
-    // {   
-       
-    //     $paperSize = 'a4';
-    //     $orientation = 'portrait';
-    //     $clearance = Clearance::where('id',$request->clearance)->first();
-    //     // dd($clearance);
-    //     $student = Student::find($clearance->student_id);
-    //     $purposeClearance = ClearancePurpose::where('id',$clearance->purpose_id)->first();
-    //     $purpose = json_decode($purposeClearance->purpose)->name.' '.
-    //         json_decode($purposeClearance->purpose)->description;
-	// 	/* When saved, the PDF file generated will have a name with the format */
-    //     /* 2010-john-doe-01012085945.pdf */
-        
-    //     $activeClearancePurpose = $purposeClearance;
-  
-    //     $clearanceRequest = ClearanceRequest::where('student_id',$student->id)->get();
-    //     //signatories info
-    //     $staffPD = Staff_PD::where('program_id', $student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffDEAN = Staff_DEAN::where('college_id', $student->program->college_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffSTCOUNCIL = StaffStCouncil::where('college_id', $student->program->college_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffCASHIER = Staff::where('designee_id',Designee::where('name','Cashier')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffOSAS = Staff::where('designee_id',Designee::where('short_name','OSAS')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffLIBRARY = Staff::where('designee_id',Designee::where('name','Library')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffREGISTRAR = Staff::where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffREGISTRARSTAFF = StaffRegistrar::with('user')->where('program_id',$student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first() ? 
-    //     StaffRegistrar::where('program_id',$student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first()
-    //     :
-    //     Staff::where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();;
+   
 
-    //     //staff
-    //     $staffPD_id =null;
-    //     $staffDEAN_id =null;
-    //     $staffSTCOUNCIL_id =null;
-    //     $staffCASHIER_id =null;
-    //     $staffOSAS_id =null;
-    //     $staffLIBRARY_id =null;
-    //     $staffREGISTRAR_id =null;
-    //     $staffREGISTRARSTAFF_id =null;
+     public function generateAttendanceWithScanned()
+    {
+        $eventDate = EventDate::where('id', Request::input('event_id'))->first();
 
-    //     //clearance request signatory
-    //     $pd = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',1);
-    //     })
-    //     ->latest('id')->first();
-
-    //     $dean = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',2);
-    //     })
-    //     ->latest('id')->first();
-    //     $council = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',8);
-    //     })
-    //     ->latest('id')->first();
-
-    //     $cashier = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',3);
-    //     })
-    //     ->latest('id')->first();
-
-    //     $osas = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',6);
-    //     })
-    //     ->latest('id')->first();
-
-    //     $library = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',5);
-    //     })
-    //     ->latest('id')->first();
-
-    //     $registrar = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',4);
-    //     })
-    //     ->latest('id')->first();
-       
-    //     $registrarstaff = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('approved_at','!=',null)
-    //     ->where('purpose_id',$clearance->purpose_id)
-    //     ->whereHas('staff',function($query){
-    //         $query->where('designee_id',9);
-    //     })
-    //     ->latest('id')->first();
-
-    //     // dd($pd);
-    //      //staff id
-    //      if ($staffPD) {
-    //         $staffPD_id = $pd->staff_id;
-         
-    //      }
-        
-       
-    //      if ($staffDEAN) {
-    //         $staffDEAN_id = $dean->staff_id;
-    //     }
-    //     if ($staffSTCOUNCIL) {
-    //         $staffSTCOUNCIL_id = $council->staff_id;
-    //     }
-    //     if ($staffCASHIER) {
-    //         $staffCASHIER_id = $cashier->staff_id;
-    //     }
-    //     if ($staffOSAS) {
-    //         $staffOSAS_id = $osas->staff_id;
-    //     }
-    //     if ($staffLIBRARY) {
-    //         $staffLIBRARY_id = $library->staff_id;
-    //     }
-    //     if ($staffREGISTRAR && $registrar) {
-    //         $staffREGISTRAR_id = $registrar->staff_id;
-    //     } 
-    //     if ($staffREGISTRARSTAFF) {
-            
-           
-              
-    //             //  $staf1 = $registrarstaff->staff_id;
-    //             //  $staf2 = $registrar->staff_id;
-    //              $staffREGISTRARSTAFF_id = $registrarstaff ? $registrarstaff->staff_id : $registrar->staff_id;
-                
-    //     }
- 
-    //     $clearanceRequestSTCOUNCIL = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id',$staffSTCOUNCIL_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestCASHIER = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id', $staffCASHIER_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestLIBRARY = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id', $staffLIBRARY_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestOSAS = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id',$staffOSAS_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestPROGRAMDIRECTOR = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id',$staffPD_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestDEAN = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id',$staffDEAN_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestREGISTRARSTAFF = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id', $staffREGISTRARSTAFF_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestREGISTRAR = ClearanceRequest::orderBy('approved_at','desc')->where('approved_at','!=',null)->where('student_id',$student->id)
-    //     ->where('staff_id',$staffREGISTRAR_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
- 
-    //     $clearanceREGS = $clearanceRequestREGISTRARSTAFF ? $clearanceRequestREGISTRARSTAFF : $clearanceRequestREGISTRAR;
-
-
-
-
-	// 	$format = "mdyhis";
-	// 	$file_name = $student->slug . "-".
-    //                 Carbon::now()->format($format) . ".pdf";
       
-    //        $pdf = PDF::loadView('pdf',compact('student'
-    //        , 'file_name'
-    //        ,'purpose'
-    //        ,'staffPD'
-    //        ,'staffDEAN'
-    //        ,'staffCASHIER'
-    //        ,'staffSTCOUNCIL'
-    //        ,'staffLIBRARY'
-    //        ,'staffOSAS'
-    //        ,'staffREGISTRARSTAFF'
-    //        ,'clearanceRequestCASHIER'
-    //        ,'clearanceRequestPROGRAMDIRECTOR'
-    //        ,'clearanceRequestDEAN'
-    //        ,'clearanceRequestSTCOUNCIL'
-    //        ,'clearanceRequestLIBRARY'
-    //        ,'clearanceRequestOSAS'
-    //        ,'clearanceREGS'
-    //        ,'clearance'
-    //     ));
-       
-    // 	// $data = ['title' => 'Laravel 7 Generate PDF From View Example Tutorial'];
-    //     // $pdf = PDF::loadView('pdf', $student);
-  
-    //     return $pdf->output();
-    // }
-    // public function createSGS(Request $request)
-    // {
-    //     $paperSize = 'a4';
-    //     $orientation = 'portrait';
+        $data = [
+            'applicant' => EventParticipant::
+        when(Request::input('event_id') ,function($inner, $search) {
+                $inner->where('event_id',  $search );
+            })
+         ->when(Request::input('search'), function($inner, $search) {
+                $inner->where('name', 'LIKE', "%" . $search . "%");
+            })->orderBy('name')->get()
+        ->map(function ($participant) use($eventDate) {
+            $atteendance =$eventDate ? EventAttendance::where('event_date_id',$eventDate->id )->where('participant_id',$participant->id )->first() : '';
+            return [
+                'id' => $participant->id,
+                'name' => $participant->name,
+                'event_name' => $participant->event->name,
+
+                'date_time_arrive' => $atteendance ? Carbon::parse( $atteendance->date_time_arrive)->format('M d, Y H:i A'):'',
+                'when' => Carbon::parse($participant->when)->format('M d, Y H:i A'), // Specify your desired format
+            ];
+        })
+            ->sortBy('name') // Sort by name
+            ->values() // Reset the keys after sorting
+            ->map(function($schedule, $index) {
+                return [
+                    'index' => $index + 1, // Add 1 to make it 1-based index
+                    // 'uuid' => $schedule['uuid'],
+                    'name' => $schedule['name'],
+                    'date' => $schedule['date_time_arrive'],
+                ];
+            }),
+        'event' => EventDate::where('id', Request::input('event_id'))->first(),    
+        ];
+        $schedule = EventDate::where('id', Request::input('event_id'))->first();
+        $pdf = PDF::loadView('attendancewithscanned', $data);
+        $width = 8.5 * 72; // Convert inches to points (1 inch = 72 points)
+        $height = 13 * 72; // Convert inches to points
+        $pdf->setPaper([ 0, 0,  $width, $height], 'portrait');
+        // $pdf->setPaper('legal', 'portrait'); // Adjust paper size and orientation as needed
+        //A3: 'A3' - 297 x 420 mm or 11.7 x 16.5 inches
+        //A4: 'A4' - 210 x 297 mm or 8.3 x 11.7 inches
+        //A5: 'A5' - 148 x 210 mm or 5.8 x 8.3 inches
+        //Letter: 'letter' or '8.5x11' - 8.5 x 11 inches
+        //Legal: 'legal' or '8.5x14' - 8.5 x 14 inches
+        //Tabloid: 'tabloid' or '11x17' - 11 x 17 inches
+        return $pdf->download('Attendance-With Scanned'.'-'.$schedule->when.''.$schedule->event->venue.'.pdf');
         
-    //     $clearance = Clearance::where('id',$request->clearance)->first();
-    //     // dd($clearance);
-    //     $student = Student::find($clearance->student_id);
-    //     $purposeClearance = ClearancePurpose::where('id',$clearance->purpose_id)->first();
-    //     $purpose = json_decode($purposeClearance->purpose)->name.' '.
-    //         json_decode($purposeClearance->purpose)->description;
-    //     $student = Student::find($clearance->student_id);
         
-       
-       
-	// 	/* When saved, the PDF file generated will have a name with the format */
-    //     /* 2010-john-doe-01012085945.pdf */
-        
-    //     $activeClearancePurpose = $purposeClearance;
-  
-    //         $clearanceRequest = ClearanceRequest::where('student_id',$student->id)->get();
-    //     //signatories info
-    //     $staffPD = Staff_PD::where('program_id', $student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffDEAN = Staff_DEAN::where('college_id', $student->program->college_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffSTCOUNCIL = StaffStCouncil::where('college_id', $student->program->college_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffCASHIER = Staff::where('designee_id',Designee::where('name','Cashier')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffOSAS = Staff::where('designee_id',Designee::where('short_name','OSAS')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffLIBRARY = Staff::where('designee_id',Designee::where('name','Library')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffREGISTRAR = Staff::where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffREGISTRARSTAFF = StaffRegistrar::where('program_id',$student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first() ? 
-    //     StaffRegistrar::where('program_id',$student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first()
-    //     :
-    //     Staff::where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();;
-
-    //     //staff
-    //     $staffPD_id =null;
-    //     $staffDEAN_id =null;
-    //     $staffSTCOUNCIL_id =null;
-    //     $staffCASHIER_id =null;
-    //     $staffOSAS_id =null;
-    //     $staffLIBRARY_id =null;
-    //     $staffREGISTRAR_id =null;
-    //     $staffREGISTRARSTAFF_id =null;
-    //      //staff id
-    //      //clearance request signatory
-    //      $pd = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',1);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      $dean = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',2);
-    //      })
-    //      ->latest('id')->first();
-    //      $council = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',8);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      $cashier = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',3);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      $osas = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',6);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      $library = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',5);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      $registrar = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',4);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      $registrarstaff = ClearanceRequest::where('student_id',$student->id)
-    //      ->where('approved_at','!=',null)
-    //      ->where('purpose_id',$clearance->purpose_id)
-    //      ->whereHas('staff',function($query){
-    //          $query->where('designee_id',4);
-    //      })
-    //      ->latest('id')->first();
- 
-    //      // dd($pd);
-    //       //staff id
-    //       if ($staffPD) {
-    //          $staffPD_id = $pd->staff_id;
-          
-    //       }
-         
-        
-    //       if ($staffDEAN) {
-    //          $staffDEAN_id = $dean->staff_id;
-    //      }
-    //      if ($staffSTCOUNCIL) {
-    //          $staffSTCOUNCIL_id = $council->staff_id;
-    //      }
-    //      if ($staffCASHIER) {
-    //          $staffCASHIER_id = $cashier->staff_id;
-    //      }
-    //      if ($staffOSAS) {
-    //          $staffOSAS_id = $osas->staff_id;
-    //      }
-    //      if ($staffLIBRARY) {
-    //          $staffLIBRARY_id = $library->staff_id;
-    //      }
-    //      if ($staffREGISTRAR) {
-    //          $staffREGISTRAR_id = $registrar->staff_id;
-    //      } 
-    //      if ($staffREGISTRARSTAFF) {
-    //         $staffREGISTRARSTAFF_id = Staff::where('designee_id',Designee::where('short_name','registrarstaff')->first()->id)->where('user_id',$staffREGISTRARSTAFF->user_id)->where('semester_id',$activeClearancePurpose->semester_id)->first()->id;
- 
-    //     }
-    //     $clearanceRequestSTCOUNCIL = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffSTCOUNCIL_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestCASHIER = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id', $staffCASHIER_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestLIBRARY = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id', $staffLIBRARY_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestOSAS = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffOSAS_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestPROGRAMDIRECTOR = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffPD_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestDEAN = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffDEAN_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestREGISTRARSTAFF = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id', $staffREGISTRARSTAFF_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestREGISTRAR = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffREGISTRAR_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
- 
-    //     $clearanceREGS = $clearanceRequestREGISTRARSTAFF ? $clearanceRequestREGISTRARSTAFF : $clearanceRequestREGISTRAR;
-
-
-
-
-	// 	$format = "mdyhis";
-	// 	$file_name = $student->slug . "-".
-    //                 Carbon::now()->format($format) . ".pdf";
-      
-    //        $pdf = PDF::loadView('sgspdf',compact('student'
-    //        , 'file_name'
-    //        ,'purpose'
-    //        ,'staffPD'
-    //        ,'staffDEAN'
-    //        ,'staffCASHIER'
-    //        ,'staffSTCOUNCIL'
-    //        ,'staffLIBRARY'
-    //        ,'staffOSAS'
-    //        ,'staffREGISTRARSTAFF'
-    //        ,'clearanceRequestCASHIER'
-    //        ,'clearanceRequestPROGRAMDIRECTOR'
-    //        ,'clearanceRequestDEAN'
-    //        ,'clearanceRequestSTCOUNCIL'
-    //        ,'clearanceRequestLIBRARY'
-    //        ,'clearanceRequestOSAS'
-    //        ,'clearanceREGS'
-    //        ,'clearance'
-    //     ));
-       
-    // 	// $data = ['title' => 'Laravel 7 Generate PDF From View Example Tutorial'];
-    //     // $pdf = PDF::loadView('pdf', $student);
-  
-    //     return $pdf->output();
-    // }
-    // public function createLHS(Request $request)
-    // {
-    //     $paperSize = 'a4';
-    //     $orientation = 'portrait';
-    //     $clearance = Clearance::where('id',$request->clearance)->first();
-    //     $student = Student::find($clearance->student_id);
-    //     $purposeClearance = ClearancePurpose::find($clearance->purpose_id);
-    //     $purpose = json_decode($purposeClearance->purpose)->name.' '.
-    //         json_decode($purposeClearance->purpose)->description;
-	// 	/* When saved, the PDF file generated will have a name with the format */
-    //     /* 2010-john-doe-01012085945.pdf */
-        
-    //     $activeClearancePurpose = $purposeClearance;
-  
-    //         $clearanceRequest = ClearanceRequest::where('student_id',$student->id)->get();
-    //     //signatories info
-    //     $staffPD = Staff_PD::where('program_id', $student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffDEAN = Staff_DEAN::where('college_id', $student->program->college_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffSTCOUNCIL = StaffStCouncil::where('college_id', $student->program->college_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffCASHIER = Staff::where('designee_id',Designee::where('name','Cashier')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffOSAS = Staff::where('designee_id',Designee::where('short_name','OSAS')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffLIBRARY = Staff::where('designee_id',Designee::where('name','Library')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffREGISTRAR = Staff::where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();
-    //     $staffREGISTRARSTAFF = StaffRegistrar::where('program_id',$student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first() ? 
-    //     StaffRegistrar::where('program_id',$student->program_id)->where('semester_id',$activeClearancePurpose->semester_id)->first()
-    //     :
-    //     Staff::where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->semester_id)->first();;
-
-    //     //staff
-    //     $staffPD_id =null;
-    //     $staffDEAN_id =null;
-    //     $staffSTCOUNCIL_id =null;
-    //     $staffCASHIER_id =null;
-    //     $staffOSAS_id =null;
-    //     $staffLIBRARY_id =null;
-    //     $staffREGISTRAR_id =null;
-    //     $staffREGISTRARSTAFF_id =null;
-    //      //staff id
-    //      if ($staffPD) {
-    //         $staffPD_id = Staff::where('designee_id',Designee::where('short_name','pd')->first()->id)->where('user_id',$staffPD->user_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-         
-    //      }
-    //      if ($staffADVISER) {
-    //         $staffADVISER_id = Staff::where('designee_id',Designee::where('short_name','pd')->first()->id)->where('user_id',$staffADVISER->user_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-         
-    //      }
-    //      if ($staffPRINCIPAL) {
-    //         $staffPRINCIPAL_id = Staff::where('designee_id',Designee::where('name','Principal')->first()->id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-        
-    //     }
-    //      if ($staffDEAN) {
-    //         $staffDEAN_id = Staff::where('designee_id',Designee::where('short_name','dean')->first()->id)->where('user_id',$staffDEAN->user_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-         
-    //     }
-    //     if ($staffSTCOUNCIL) {
-    //         $staffSTCOUNCIL_id = Staff::where('designee_id',Designee::where('short_name','stcouncil')->first()->id)->where('user_id',$staffSTCOUNCIL->user_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-         
-    //     }
-    //     if ($staffCASHIER) {
-    //         $staffCASHIER_id = Staff::where('designee_id',Designee::where('short_name','cashier')->first()->id)->where('designee_id',Designee::where('name','Cashier')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-        
-    //     }
-    //     if ($staffOSAS) {
-    //         $staffOSAS_id = Staff::where('designee_id',Designee::where('short_name','OSAS')->first()->id)->where('designee_id',Designee::where('short_name','OSAS')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-        
-    //     }
-    //     if ($staffLIBRARY) {
-    //         $staffLIBRARY_id = Staff::where('designee_id',Designee::where('short_name','library')->first()->id)->where('designee_id',Designee::where('name','Library')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-         
-    //     }
-    //     if ($staffREGISTRAR) {
-    //         $staffREGISTRAR_id = Staff::where('designee_id',Designee::where('short_name','registrar')->first()->id)->where('designee_id',Designee::where('name','Registrar')->first()->id)->where('campus_id',$student->program->campus_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
-        
-    //     }
-    //     if ($staffREGISTRARSTAFF) {
-    //         $staffREGISTRARSTAFF_id = Staff::where('designee_id',Designee::where('short_name','registrarstaff')->first()->id)->where('user_id',$staffREGISTRARSTAFF->user_id)->where('semester_id',$activeClearancePurpose->purpose->semester_id)->first()->id;
- 
-    //     }
-         
- 
-    //     $clearanceRequestSTCOUNCIL = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffSTCOUNCIL_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestCASHIER = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id', $staffCASHIER_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestLIBRARY = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id', $staffLIBRARY_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestOSAS = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffOSAS_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestPROGRAMDIRECTOR = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffPD_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestDEAN = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffDEAN_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestREGISTRARSTAFF = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id', $staffREGISTRARSTAFF_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
-    //     $clearanceRequestREGISTRAR = ClearanceRequest::where('student_id',$student->id)
-    //     ->where('staff_id',$staffREGISTRAR_id)->where('purpose_id',$activeClearancePurpose->id)
-    //     ->first();
- 
-    //     $clearanceREGS = $clearanceRequestREGISTRARSTAFF ? $clearanceRequestREGISTRARSTAFF : $clearanceRequestREGISTRAR;
-
-
-
-
-	// 	$format = "mdyhis";
-	// 	$file_name = $student->slug . "-".
-    //                 Carbon::now()->format($format) . ".pdf";
-      
-    //        $pdf = PDF::loadView('lhspdf',compact('student'
-    //        , 'file_name'
-    //        ,'purpose'
-    //        ,'staffPD'
-    //        ,'staffDEAN'
-    //        ,'staffCASHIER'
-    //        ,'staffSTCOUNCIL'
-    //        ,'staffLIBRARY'
-    //        ,'staffOSAS'
-    //        ,'staffREGISTRARSTAFF'
-    //        ,'clearanceRequestCASHIER'
-    //        ,'clearanceRequestPROGRAMDIRECTOR'
-    //        ,'clearanceRequestDEAN'
-    //        ,'clearanceRequestSTCOUNCIL'
-    //        ,'clearanceRequestLIBRARY'
-    //        ,'clearanceRequestOSAS'
-    //        ,'clearanceREGS'
-    //        ,'clearance'
-    //     ));
-       
-    // 	// $data = ['title' => 'Laravel 7 Generate PDF From View Example Tutorial'];
-    //     // $pdf = PDF::loadView('pdf', $student);
-  
-    //     return $pdf->output();
-    // }
+    } 
 }

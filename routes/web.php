@@ -29,6 +29,7 @@ use App\Http\Controllers\SettingController;
 
 
 
+
 use App\Http\Resources\SubmittedClearance as SubmittedClearanceResource;
 use App\Http\Resources\SubmittedClearanceCollection;
 use App\Models\SubmitClearance; 
@@ -168,7 +169,7 @@ Route::post('/Event/Scanner/GetPaticipantDetails', [ScannerController::class, 'g
 
 
 Route::get('/Event/Attendance', [EventAttendanceController::class, 'index'])->name('event.attendance');
-
+Route::get('/generate-attendancewithscanned', [PDFController::class, 'generateAttendanceWithScanned'])->name('generate-attendancewithscanned');
 
  
  });     
