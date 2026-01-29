@@ -62,7 +62,8 @@ class ParticipantController extends Controller
     {
         // dd(Request::input('data'));
         EventParticipant::updateOrCreate(
-        ['name' => Request::input('data.name'),],
+        ['name' => Request::input('data.name'),
+    'event_id' => Request::input('data.event_id'),],
          
         Request::input('data') 
         );
