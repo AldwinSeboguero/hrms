@@ -206,7 +206,7 @@ console.log(url)
                         Name
                       </th>
                       <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                        Date Taken
+                        Time Arrive
                       </th>
                       <th scope="col" class="px-6 py-3">
                         Scanned By
@@ -224,7 +224,7 @@ console.log(url)
                         {{ participant.name.toUpperCase() }}
                       </td>
                       <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                        {{ participant.date }}
+                        {{ participant.date_time_arrive }}
                       </td>
                       <td class="px-6 py-4">
                         <!-- {{ participant.scannedBy.toUpperCase() }} -->
