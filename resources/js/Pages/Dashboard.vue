@@ -1,5 +1,5 @@
 <script setup>
- import AppLayout from '@/Layouts/MyLayout.vue';
+ import AppLayout from '@/Layouts/HRLayout.vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 import { ref, onMounted } from 'vue';

@@ -4,7 +4,7 @@ import { router, usePage, Link, Head, usePoll } from '@inertiajs/vue3'
 import { ref, computed, watch, reactive, onMounted } from 'vue'
 import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
-
+import axios from 'axios';
 // initialize components based on data attribute selectors
 onMounted(() => {
     initFlowbite();

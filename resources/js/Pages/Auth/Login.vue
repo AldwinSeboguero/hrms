@@ -7,7 +7,14 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { ref, computed, watch, reactive, onMounted } from 'vue'
 
+import { initFlowbite } from 'flowbite'
+
+// initialize components based on data attribute selectors
+onMounted(() => {
+	initFlowbite();
+})
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -34,7 +41,8 @@ const submit = () => {
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     <div   class= "px-8 py-4 mb-4 w-full  bg-white rounded-xl  md:mt-0 sm:max-w-md shadow-lg flex items-center space-x-6">
       <div class="">
-                <img class="h-12 w-12" src="images/psu_logo.png" alt="ChitChat Logo">
+         <div class="meteor">  <img class="h-12 w-12" src="images/psu_logo.png" alt="ChitChat Logo"></div>
+               
             </div>
             <div>
                 <div class="text-sm md:text-xl text-blue-950 font-black font-sans uppercase">Partido State University</div>
@@ -61,12 +69,14 @@ const submit = () => {
       </form>
 
       <div class="mt-6 grid grid-cols-3 items-center text-gray-400">
+        
         <hr class="border-gray-400">
         <p class="text-center text-sm">OR</p>
         <hr class="border-gray-400">
       </div>
-
-      <a :href="route('google')"  class="bg-white border py-2 w-full rounded-xl mt-5 flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74] font-black">
+   <button class="w-full btn-g">
+  <a :href="route('google')"  class=" bg-white fill-blue-500 drop-shadow-xs drop-shadow-blue-500/50 py-2 w-full rounded-xl  flex justify-center items-center text-sm hover:scale-105 duration-300 text-[#002D74] font-black ">
+        
         <svg class="mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="25px">
           <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
           <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
@@ -75,6 +85,11 @@ const submit = () => {
         </svg>
         Login with Google
       </a>
+        </button>
+  <!-- This is the content, centered -->
+
+ 
+      
 
       <div class="mt-5 text-xs  py-4 text-[#002D74]">
         <a href="#">Forgot your password?</a>
@@ -86,3 +101,199 @@ const submit = () => {
   </div>
 </section>
 </template>
+<style scoped>
+  @keyframes spin {
+    0% {
+      transform: rotateY(0deg) translateZ(0);
+    }
+    100% {
+      transform: rotateY(360deg) translateZ(0);
+    }
+  }
+
+  body,
+  html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .meteor {
+  
+    /* background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    ); */
+    border-radius: 50%;
+    position: relative;
+    animation: spin 3s linear infinite;
+    /* box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); */
+    transform-style: preserve-3d;
+  }
+
+  .meteor::before,
+  .meteor::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: inherit;
+  }
+
+  .meteor::before {
+    transform: translateZ(-15px);
+  }
+
+  .meteor::after {
+    transform: translateZ(15px);
+  }
+</style>
+<style scoped>
+  .glass-btn {
+    position: relative;
+    padding: 16px 30px;
+    font-size: 17px;
+    color: #fff;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    cursor: pointer;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .glass-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: 0.6s;
+  }
+
+  .glass-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .glass-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow:
+      0 15px 30px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    letter-spacing: 1.5px;
+  }
+
+  .glass-btn:hover::before {
+    left: 100%;
+  }
+
+  .glass-btn:hover::after {
+    opacity: 1;
+  }
+
+  .glass-btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow:
+      0 5px 15px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .glass-btn span {
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+  }
+
+  @keyframes gradientBG {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>
+<style scoped>
+  .btn-g button {
+    position: relative;
+    border: none;
+    margin: 10px;
+    background-color: transparent;
+  }
+
+  .btn-g button a {
+  
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 45px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    transition: 0.5s;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-g button a:hover {
+    transform: translateY(-20px);
+  }
+
+  .btn-g button a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: skewX(45deg) translateX(150px);
+    transition: 0.5s ease;
+  }
+
+  .btn-g button a:hover::before {
+    transform: skewX(45deg) translateX(-150px);
+  }
+
+  .btn-g button a svg {
+    width: 3em;
+  }
+
+   
+</style>

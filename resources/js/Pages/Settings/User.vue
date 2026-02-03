@@ -5,6 +5,7 @@ import { ref, computed, watch, reactive, onMounted } from 'vue'
 import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+import axios from 'axios';
 // initialize components based on data attribute selectors
 onMounted(() => {
     initFlowbite();

@@ -8,6 +8,7 @@
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.0",
         "dompdf/dompdf": "^3.0",
+        "erag/laravel-pwa": "^1.9",
         "inertiajs/inertia-laravel": "2.0",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.1",

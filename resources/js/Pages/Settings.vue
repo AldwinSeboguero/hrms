@@ -6,6 +6,8 @@ import { ref, computed, watch, reactive, onMounted } from 'vue'
 import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
 import Position from './Settings/Position.vue'
+import Office from './Settings/Offices.vue'
+
 import WorkSchedule from './Settings/WorkSchedule.vue'
 import UserTab from './Settings/User.vue'
 import SessionTab from './Settings/Session.vue'
@@ -79,6 +81,12 @@ const openUpdateModal = (formData) => {
                         data-tabs-target="#position" type="button" role="tab" aria-controls="position"
                         aria-selected="false">Positions</button>
                 </li>
+
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="office-tab"
+                        data-tabs-target="#office" type="button" role="tab" aria-controls="office"
+                        aria-selected="false">Offices</button>
+                </li>
                 <li class="me-2" role="presentation" v-if="$page.props.can.showUsers">
                     <button class="inline-block p-4 border-b-2 rounded-t-lg" id="user-tab" data-tabs-target="#user"
                         type="button" role="tab" aria-controls="user" aria-selected="false">Users</button>
@@ -92,6 +100,11 @@ const openUpdateModal = (formData) => {
         <div id="position-tab-content">
             <div class="hidden   rounded-lg" id="position" role="tabpanel" aria-labelledby="position-tab">
                 <Position />
+            </div>
+        </div>
+           <div id="office-tab-content">
+            <div class="hidden   rounded-lg" id="office" role="tabpanel" aria-labelledby="office-tab">
+                <Office />
             </div>
         </div>
         <div id="default-tab-content">

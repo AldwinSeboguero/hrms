@@ -40,6 +40,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PerformanceManagementController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\OfficeController;
+
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SummaryRatingIPCRController;
@@ -120,6 +122,8 @@ Route::get('/admin/dashboard', function () {
     Route::resource('timesheets', TimesheetController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('positions', PositionController::class);
+    Route::resource('offices', OfficeController::class);
+
     Route::resource('workdays', WorkDayController::class);
     Route::resource('users', UserController::class);
     Route::resource('sessions', SessionController::class);

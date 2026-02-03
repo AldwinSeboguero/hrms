@@ -46,6 +46,7 @@ class SettingController extends Controller
     private function extractMacAddresses($output, $os)
     {
         $macAddresses = [];
+    $activeNetworks = [];
 
         if ($os === 'Linux' || $os === 'Darwin') {
             // Regular expression for Linux/macOS
@@ -54,7 +55,6 @@ class SettingController extends Controller
         } elseif ($os === 'Windows') {
             // For Windows, parse the output from getmac or ipconfig
      $lines = explode("\n", $output);
-    $activeNetworks = [];
     $currentAdapter = '';
     $macAddress = '';
     $ipv4Address = '';

@@ -1,5 +1,6 @@
 <template>
-  <!-- <header class="bg-white ">
+	<div class="bg-white p-6">
+	<!-- <header class="bg-white ">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 pl-1 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
             <div class="mx-6 px-2 py-1">
@@ -107,105 +108,129 @@
   </header>  -->
 
 
-<!-- component -->
-<header class="fixed w-full z-100">
-	<nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900 pt-4">
-		<div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-			<a href="#" class="flex items-center">
- 
-    <div class="">
-        <img class="h-12 w-12 object-contain" :src="logo" alt="ParSU Logo">
-    </div>
-    <div class="ml-4">
-        <div class="text-sm text-blue-950 font-black font-sans uppercase">Partido State University</div>
-        <p class="text-slate-500 text-xs">Human Resource Management System</p>
-    </div> 
-			</a>
-			<div class="flex items-center lg:order-2">
- 
+	<!-- component -->
+	<header class="flex w-full mx-auto z-100 backdrop-filter backdrop-blur-xl bg-white/80 bg-opacity-80  border border-gray-100 rounded-2xl shadow-xl ">
+		<nav class=" border-gray-200 py-2.5 dark:bg-gray-900 pt-4  w-full">
+			<div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
+				<a href="#" class="flex items-center">
 
-				<a :href="route('login')"  
-					class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Login</a>
-				<button data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
-<span class="sr-only">Open main menu</span>
- <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-<svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-</button>
+					<div class="">
+						<img class="h-12 w-12 object-contain" :src="logo" alt="ParSU Logo">
+					</div>
+					<div class="ml-4">
+						<div class="text-sm text-blue-950 font-black font-sans uppercase">Partido State University</div>
+						<p class="text-slate-500 text-xs">Human Resource Management System</p>
+					</div>
+				</a>
+				<div class="flex items-center lg:order-2">
+
+
+					<a :href="route('login')"
+						class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Login</a>
+					<button data-collapse-toggle="mobile-menu-2" type="button"
+						class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+						aria-controls="mobile-menu-2" aria-expanded="false">
+						<span class="sr-only">Open main menu</span>
+						<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd"
+								d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+								clip-rule="evenodd"></path>
+						</svg>
+						<svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+							xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd"
+								d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+								clip-rule="evenodd"></path>
+						</svg>
+					</button>
+				</div>
+				<div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+					<ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+						<li>
+							<a href="#"
+								class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
+								aria-current="page">Home</a>
+						</li>
+						<Popover class="relative">
+
+							<PopoverButton
+								class="flex items-center gap-x-1 py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+								Services
+								<ChevronDownIcon class="size-5 flex-none text-gray-400" aria-hidden="true" />
+							</PopoverButton>
+
+							<transition enter-active-class="transition ease-out duration-200"
+								enter-from-class="opacity-0 translate-y-1" enter-to-class="translate-y-0"
+								leave-active-class="transition ease-in duration-150" leave-from-class="translate-y-0"
+								leave-to-class="opacity-0 translate-y-1">
+								<PopoverPanel
+									class="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 overflow-hidden rounded-3xl bg-white shadow-lg outline-1 outline-gray-900/5">
+									<div class="p-4">
+										<div v-for="item in products" :key="item.name"
+											class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
+											<div
+												class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+												<component :is="item.icon"
+													class="size-6 text-gray-600 group-hover:text-indigo-600"
+													aria-hidden="true" />
+											</div>
+											<div class="flex-auto">
+												<a :href="item.href" class="block font-semibold text-gray-900">
+													{{ item.name }}
+													<span class="absolute inset-0" />
+												</a>
+												<p class="mt-1 text-gray-600">{{ item.description }}</p>
+											</div>
+										</div>
+									</div>
+									<div class="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+										<a v-for="item in callsToAction" :key="item.name" :href="item.href"
+											class="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100">
+											<component :is="item.icon" class="size-5 flex-none text-gray-400"
+												aria-hidden="true" />
+											{{ item.name }}
+										</a>
+									</div>
+								</PopoverPanel>
+							</transition>
+						</Popover>
+						<li>
+							<a href="#"
+								class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">About
+								Us</a>
+						</li>
+						<li>
+							<a href="#"
+								class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Careers</a>
+						</li>
+						<li>
+							<a href="#"
+								class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">News</a>
+						</li>
+
+
+					</ul>
+				</div>
 			</div>
-			<div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-				<ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-					<li>
-						<a href="#"
-							class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
-							aria-current="page">Home</a>
-					</li>
-           <Popover class="relative">
+		</nav>
+	</header>
 
-          <PopoverButton class="flex items-center gap-x-1 py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
-            Services
-            <ChevronDownIcon class="size-5 flex-none text-gray-400" aria-hidden="true" />
-          </PopoverButton>
-
-          <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-1" enter-to-class="translate-y-0" leave-active-class="transition ease-in duration-150" leave-from-class="translate-y-0" leave-to-class="opacity-0 translate-y-1">
-            <PopoverPanel class="absolute left-1/2 z-10 mt-3 w-screen max-w-md -translate-x-1/2 overflow-hidden rounded-3xl bg-white shadow-lg outline-1 outline-gray-900/5">
-              <div class="p-4">
-                <div v-for="item in products" :key="item.name" class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50">
-                  <div class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <component :is="item.icon" class="size-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
-                  </div>
-                  <div class="flex-auto">
-                    <a :href="item.href" class="block font-semibold text-gray-900">
-                      {{ item.name }}
-                      <span class="absolute inset-0" />
-                    </a>
-                    <p class="mt-1 text-gray-600">{{ item.description }}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                <a v-for="item in callsToAction" :key="item.name" :href="item.href" class="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100">
-                  <component :is="item.icon" class="size-5 flex-none text-gray-400" aria-hidden="true" />
-                  {{ item.name }}
-                </a>
-              </div>
-            </PopoverPanel>
-          </transition>
-        </Popover>
-					<li>
-						<a href="#"
-							class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">About Us</a>
-					</li>
-					<li>
-						<a href="#"
-							class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Careers</a>
-					</li>
-					<li>
-						<a href="#"
-							class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">News</a>
-					</li>
- 
-				 
-				</ul>
-			</div>
-		</div>
-	</nav>
-</header>
-
-<section class="bg-white dark:bg-gray-900 pt-10">
-	<div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-		<div class="mr-auto place-self-center lg:col-span-7">
-			<h1
-				class="max-w-2xl mb-4 text-4xl font-bold leading-none tracking-tight text-heading md:text-5xl xl:text-3xl dark:text-white
-        text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-				Empowering Excellence in  <br>Human Resource Management.</h1>
+	<section class=" pt-10">
+		<div class="grid max-w-screen-xl px-4  pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 ">
+			<div class="mr-auto place-self-center lg:col-span-7">
+				<p class="bg-linear-to-r from-emerald-500 to-sky-500 bg-clip-text text-5xl font-extrabold text-transparent">
+ Empowering Excellence in <br>Human Resource Management.
+</p>
+				
 				<p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-          At Partido State University, we believe that effective human resource management is vital for fostering a productive academic environment.
-           The HRMO is dedicated to support our faculty and staff through comprehensive HR services designed to enhance individual and organizational performance. </p>
+					At Partido State University, we believe that effective human resource management is vital for
+					fostering a productive academic environment.
+					The HRMO is dedicated to support our faculty and staff through comprehensive HR services designed to
+					enhance individual and organizational performance. </p>
 				<div class="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-					<a href="#" target="_blank"
-						class="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-						<img :src="sevices" class="size-8 mr-2"/> View All Services
-					</a>
+					<!-- <button type="button" class=" text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">Cyan to Blue</button> -->
+					 <button role="button" type="button" class="button1 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">View All Services</button>
+				 
 					<!-- <a href="https://www.figma.com/community/file/1125744163617429490" target="_blank"
 						class="inline-flex items-center justify-center w-full px-5 py-3 mb-2 mr-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:w-auto focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
 						<svg class="w-4 h-4 mr-2" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"
@@ -226,135 +251,377 @@
 						</svg> Get Figma file
 					</a> -->
 				</div>
+			</div>
+			<div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+
+
+				<figure
+					class="relative max-w-sm transition-all duration-300 cursor-pointer filter blue hover:grayscale-0 z-0">
+					<a href="#" class="z-0">
+						<img class="rounded " :src="homeicon" alt="image description">
+					</a>
+					<figcaption class="absolute px-4 text-lg text-white bottom-6">
+						<!-- <p>Do you want to get notified when a new component is added to Flowbite?</p> -->
+					</figcaption>
+				</figure>
+
+			</div>
 		</div>
-		<div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-		 
+	</section>
+	<section class=" py-8">
 
-<figure class="relative max-w-sm transition-all duration-300 cursor-pointer filter blue hover:grayscale-0 z-0">
-  <a href="#" class="z-0">
-    <img class="rounded " :src="homeicon"  alt="image description">
-  </a>
-  <figcaption class="absolute px-4 text-lg text-white bottom-6">
-      <!-- <p>Do you want to get notified when a new component is added to Flowbite?</p> -->
-  </figcaption>
-</figure>
+<h2
+			class="max-w-screen-xl px-4 pb-4 mx-auto mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+			Campuses</h2>
+		<div class="max-w-screen-xl px-4 pb-4 mx-auto lg:pb-4 py-4">
+<div class=" grid grid-cols-4 place-items-stretch gap-4 text-gray-500 dark:text-gray-400">
+<div class="parent">
+          <div class="card bg-linear-to-r from-indigo-500 to-blue-500">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="logo" alt="Beautiful view of Caramoan" />
 
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-blue-800">GOA</span>
+                  <span class="text">CAH,CBM,CED,CEC and COS</span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                        <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+
+	  <div class="parent">
+          <div class="card bg-linear-to-r from-lime-500 to-green-500">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="campus1" alt="Beautiful view of Caramoan" />
+
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-green-800">CARAMOAN</span>
+                  <span class="text">College of Sustainable Communities and Ecosystems</span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                            <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+
+	  <div class="parent">
+          <div class="card bg-linear-to-r from-cyan-500 to-blue-500">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="campus3" alt="Beautiful view of Caramoan" />
+
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-cyan-800">LAGONOY</span>
+                  <span class="text">College of Public Safety and Community Health</span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                            <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+
+	  <div class="parent">
+          <div class="card bg-linear-to-r from-cyan-300 to-cyan-700">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="campus4" alt="Beautiful view of Caramoan" />
+
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-cyan-800">SAGÑAY</span>
+                  <span class="text">College of Fisheries and Marine Science</span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                            <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+
+	  <div class="parent">
+          <div class="card bg-linear-to-r from-amber-300 to-amber-700">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="campus5" alt="Beautiful view of Caramoan" />
+
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-amber-800">SALOGON</span>
+                  <span class="text">College of Agribusiness and Community Development</span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                            <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+
+	  <div class="parent">
+          <div class="card bg-linear-to-r from-orange-300 to-orange-700">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="campus6" alt="Beautiful view of Caramoan" />
+
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-orange-800">SAN JOSE</span>
+                  <span class="text">College of Hospitality and Tourism Management </span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                            <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
+
+	  <div class="parent">
+          <div class="card bg-linear-to-r from-yellow-300 to-yellow-600">
+              <div class="logo">
+                  <span class="circle circle1"></span>
+                  <span class="circle circle2"></span>
+                  <span class="circle circle3"></span>
+                  <span class="circle circle4"></span>
+                  <span class="circle circle5">
+                  						<img class="rounded-top-xl h-auto object-cover" :src="campus7" alt="Beautiful view of Caramoan" />
+
+                  </span>
+
+              </div>
+              <div class="glass"></div>
+              <div class="content">
+                  <span class="title text-yellow-800">TINAMBAC</span>
+                  <span class="text">College of Environmental Science and Design</span>
+              </div>
+              <div class="bottom">
+
+                  <div class="social-buttons-container">
+                      <button class="social-button .social-button1">
+                          <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg></button>
+                        <button class="social-button .social-button2">
+                          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="svg">
+                              <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+                            </svg>
+                        </button>
+                        <button class="social-button .social-button3">
+                            <svg
+            viewBox="0 0 320 512"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svg"
+          >
+            <path
+              d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"
+            ></path></svg>
+                        </button>
+                  </div>
+                  <!-- <div class="view-more">
+                      <button class="view-more-button">View more</button>
+                      <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div> -->
+              </div>
+          </div>
+      </div>
 </div>
-		</div>
-</section>
-<section class="bg-gray-50 dark:bg-gray-900 py-8">
-	<h2 class="max-w-screen-xl px-4 pb-4 mx-auto mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Campuses</h2>
-    <div class="max-w-screen-xl px-4 pb-4 mx-auto lg:pb-4 overflow-x-auto  overflow-hidden">
-        <div class="flex space-x-6 text-gray-500 dark:text-gray-400">
-            <article class="bg-neutral-primary-soft block w-64   border border-default rounded-xl shadow-xs flex-shrink-0 overflow-hidden">
-                <a href="#">
-                    <img class="rounded-top-xl h-48 object-cover" :src="campus1" alt="Beautiful view of Caramoan"/>
-                </a>
-				<div class="px-6">
-  <a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Caramoan</h5>
-                </a>
-                <p class="mb-6 text-body">An idyllic destination that promotes tranquility and nature appreciation.</p>
-                <a href="#" class="inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 mb-4 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-              
-            </article>
-            <article class="bg-neutral-primary-soft block w-64 overflow-hidden border border-default rounded-xl shadow-xs flex-shrink-0">
-                <a href="#">
-                    <img class="  h-48 object-cover" :src="campus2" alt="Serene view of Goa"/>
-                </a>
-                	<div class="px-6">
-
-					<a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Goa</h5>
-                </a>
-                <p class="mb-6 text-body">A perfect blend of culture and relaxation, surrounded by stunning beaches.</p>
-                <a href="#" class=" inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-            </article>
-            <article class="bg-neutral-primary-soft block w-64 overflow-hidden border border-default rounded-xl shadow-xs flex-shrink-0">
-                <a href="#">
-                    <img class=" h-48 object-cover" :src="campus3" alt="Lush countryside view of Sagñay"/>
-                </a>
-                	<div class="px-6">
-
-					<a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Sagñay</h5>
-                </a>
-                <p class="mb-6 text-body">Experience the beauty of rural landscapes and vibrant culture.</p>
-                <a href="#" class=" inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-            </article>
-            <article class="bg-neutral-primary-soft block w-64 overflow-hidden border border-default rounded-xl shadow-xs flex-shrink-0">
-                <a href="#">
-                    <img class="  h-48 object-cover" :src="campus4" alt="Scenic view at Salogon"/>
-                </a>
-                	<div class="px-6">
-
-					<a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Salogon</h5>
-                </a>
-                <p class="mb-6 text-body">A hidden gem known for its natural beauty and warm community.</p>
-                <a href="#" class=" inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-            </article>
-            <article class="bg-neutral-primary-soft block w-64 overflow-hidden border border-default rounded-xl shadow-xs flex-shrink-0">
-                <a href="#">
-                    <img class="  h-48 object-cover" :src="campus5" alt="Vibrant town of San Jose"/>
-                </a>
-                	<div class="px-6">
-
-					<a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">San Jose</h5>
-                </a>
-                <p class="mb-6 text-body">Dive into a vibrant community filled with rich history and culture.</p>
-                <a href="#" class=" inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-            </article>
-            <article class="bg-neutral-primary-soft block w-64 overflow-hidden border border-default rounded-xl shadow-xs flex-shrink-0">
-                <a href="#">
-                    <img class="  h-48 object-cover" :src="campus6" alt="Beautiful landscapes of Lagonoy"/>
-                </a>
-                	<div class="px-6">
-
-					<a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Lagonoy</h5>
-                </a>
-                <p class="mb-6 text-body">A tranquil setting perfect for nature lovers and adventure seekers.</p>
-                <a href="#" class=" inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-            </article>
-            <article class="bg-neutral-primary-soft block w-64 overflow-hidden border border-default rounded-xl shadow-xs flex-shrink-0">
-                <a href="#">
-                    <img class="  h-48 object-cover" :src="campus7" alt="Charming village of Tinambac"/>
-                </a>
-                	<div class="px-6">
-
-					<a href="#">
-                    <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Tinambac</h5>
-                </a>
-                <p class="mb-6 text-body">Discover the charm of rural life in this picturesque village.</p>
-                <a href="#" class=" inline-flex items-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-xl text-sm px-4 py-2.5 focus:outline-none">
-                    Read more
-                </a>
-				</div>
-            </article>
-        </div>
-    </div>
-</section>
-<!-- 
+</div>
+		
+		</section>
+	<!-- 
 <section class="bg-white dark:bg-gray-900">
 	<div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
 		<div class="max-w-screen-md mx-auto mb-8 text-center lg:mb-12">
@@ -755,7 +1022,7 @@ May 29, 2023</span> <span>–</span> <span class="mc_de">May 31, 2023</span>, Al
 
 
 
-<!-- 
+	<!-- 
 
 <section class="bg-white dark:bg-gray-900">
 	<div class="max-w-screen-xl px-4 pb-8 mx-auto lg:pb-24 lg:px-6 ">
@@ -1007,7 +1274,7 @@ Landwind
 	</div>
 </footer>
   -->
-
+</div>
 </template>
 
 <script setup>
@@ -1017,56 +1284,365 @@ import logo from '@/Images/psu_logo.png';
 import psu from '@/Images/486575578_1149828820487521_8969542889143746598_n.jpg';
 import sevices from '@/Images/services.svg';
 import homeicon from '@/Images/home_icon.svg';
-import campus1 from '@/Images/Caramoan2.jpg';
+import campus1 from '@/Images/Caramoan.png';
 import campus2 from '@/Images/goa.jpg';
-import campus3 from '@/Images/lagonoy.jpg';
-import campus4 from '@/Images/sagnay.jpg';
-import campus5 from '@/Images/salogon.jpg';
-import campus6 from '@/Images/sanjose.jpg';
-import campus7 from '@/Images/tinambac.jpg';
+import campus3 from '@/Images/Lagonoy.png';
+import campus4 from '@/Images/Sagnay.png';
+import campus5 from '@/Images/Salogon.png';
+import campus6 from '@/Images/Sanjose.png';
+import campus7 from '@/Images/Tinambac.png';
 
 
 
 
 
 import {
-  Dialog,
-  DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
+	Dialog,
+	DialogPanel,
+	Disclosure,
+	DisclosureButton,
+	DisclosurePanel,
+	Popover,
+	PopoverButton,
+	PopoverGroup,
+	PopoverPanel,
 } from '@headlessui/vue'
 import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
+	ArrowPathIcon,
+	Bars3Icon,
+	ChartPieIcon,
+	CursorArrowRaysIcon,
+	FingerPrintIcon,
+	SquaresPlusIcon,
+	XMarkIcon,
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/vue/20/solid'
 import { initFlowbite } from 'flowbite'
 
 // initialize components based on data attribute selectors
 onMounted(() => {
-    initFlowbite();
+	initFlowbite();
 })
 const products = [
-//   { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-//   { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-//   { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-//   { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-//   { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+	//   { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+	//   { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+	//   { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
+	//   { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
+	//   { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
 ]
 const callsToAction = [
-//   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-//   { name: 'Contact sales', href: '#', icon: PhoneIcon },
+	//   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
+	//   { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
 
 const mobileMenuOpen = ref(false)
 </script>
+<style scoped>
+  .parent {
+    width: 290px;
+    height: 300px;
+    /* perspective: 1000px; */
+  }
+
+  .card {
+    height: 100%;
+	width: 250px;
+    border-radius: 50px;
+    /* background: linear-gradient(135deg, rgb(0, 255, 214) 0%, rgb(8, 226, 96) 100%); */
+    transition: all 0.5s ease-in-out;
+    transform-style: preserve-3d;
+    box-shadow: rgba(5, 71, 17, 0) 40px 50px 25px -40px, rgba(5, 71, 17, 0.2) 0px 25px 25px -5px;
+  }
+
+  .glass {
+    transform-style: preserve-3d;
+    position: absolute;
+    inset: 8px;
+    border-radius: 55px;
+    border-top-right-radius: 100%;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.349) 0%, rgba(255, 255, 255, 0.815) 100%);
+    /* -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px); */
+    transform: translate3d(0px, 0px, 25px);
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .content {
+    padding: 100px 60px 0px 30px;
+    transform: translate3d(0, 0, 26px);
+  }
+
+  .content .title {
+    display: block;
+    /* color: #00894d; */
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .content .text {
+    display: block;
+    /* color: rgba(0, 137, 78, 0.7647058824); */
+    font-size: 15px;
+    margin-top: 20px;
+  }
+
+  .bottom {
+    padding: 10px 12px;
+    transform-style: preserve-3d;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translate3d(0, 0, 26px);
+  }
+
+  .bottom .view-more {
+    display: flex;
+    align-items: center;
+    width: 40%;
+    justify-content: flex-end;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bottom .view-more:hover {
+    transform: translate3d(0, 0, 10px);
+  }
+
+  .bottom .view-more .view-more-button {
+    background: none;
+    border: none;
+    color: #00c37b;
+    font-weight: bolder;
+    font-size: 12px;
+  }
+
+  .bottom .view-more .svg {
+    fill: none;
+    stroke: #00c37b;
+    stroke-width: 3px;
+    max-height: 15px;
+  }
+
+  .bottom .social-buttons-container {
+    display: flex;
+    gap: 10px;
+    transform-style: preserve-3d;
+  }
+
+  .bottom .social-buttons-container .social-button {
+    width: 30px;
+    aspect-ratio: 1;
+    padding: 5px;
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    border: none;
+    display: grid;
+    place-content: center;
+    box-shadow: rgba(5, 71, 17, 0.5) 0px 7px 5px -5px;
+  }
+
+  .bottom .social-buttons-container .social-button:first-child {
+    transition: transform 0.2s ease-in-out 0.4s, box-shadow 0.2s ease-in-out 0.4s;
+  }
+
+  .bottom .social-buttons-container .social-button:nth-child(2) {
+    transition: transform 0.2s ease-in-out 0.6s, box-shadow 0.2s ease-in-out 0.6s;
+  }
+
+  .bottom .social-buttons-container .social-button:nth-child(3) {
+    transition: transform 0.2s ease-in-out 0.8s, box-shadow 0.2s ease-in-out 0.8s;
+  }
+
+  .bottom .social-buttons-container .social-button .svg {
+    width: 15px;
+    fill: #00894d;
+  }
+
+  .bottom .social-buttons-container .social-button:hover {
+    background: black;
+  }
+
+  .bottom .social-buttons-container .social-button:hover .svg {
+    /* fill: white; */
+  }
+
+  .bottom .social-buttons-container .social-button:active {
+    background: rgb(255, 234, 0);
+  }
+
+  .bottom .social-buttons-container .social-button:active .svg {
+    fill: black;
+  }
+
+  .logo {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform-style: preserve-3d;
+  }
+
+  .logo .circle {
+    display: block;
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    top: 0;
+    right: 0;
+    box-shadow: rgba(100, 100, 111, 0.2) -10px 10px 20px 0px;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    /* background: rgba(0, 249, 203, 0.2); */
+    transition: all 0.5s ease-in-out;
+  }
+
+  .logo .circle1 {
+    width: 170px;
+    transform: translate3d(0, 0, 20px);
+    top: 8px;
+    right: 8px;
+  }
+
+  .logo .circle2 {
+    width: 140px;
+    transform: translate3d(0, 0, 40px);
+    top: 10px;
+    right: 10px;
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    transition-delay: 0.4s;
+  }
+
+  .logo .circle3 {
+    width: 110px;
+    transform: translate3d(0, 0, 60px);
+    top: 17px;
+    right: 17px;
+    transition-delay: 0.8s;
+  }
+
+  .logo .circle4 {
+    width: 80px;
+    transform: translate3d(0, 0, 80px);
+    top: 23px;
+    right: 23px;
+    transition-delay: 1.2s;
+  }
+
+  .logo .circle5 {
+    width: 50px;
+    transform: translate3d(0, 0, 100px);
+    top: 30px;
+    right: 30px;
+    display: grid;
+    place-content: center;
+    transition-delay: 1.6s;
+  }
+
+  .logo .circle5 .svg {
+    width: 20px;
+    /* fill: white; */
+  }
+
+  .parent:hover .card {
+    transform: rotate3d(1, 1, 0, 30deg);
+    box-shadow: rgba(5, 71, 17, 0.3) 30px 50px 25px -40px, rgba(5, 71, 17, 0.1) 0px 25px 30px 0px;
+  }
+
+  .parent:hover .card .bottom .social-buttons-container .social-button {
+    transform: translate3d(0, 0, 50px);
+    box-shadow: rgba(5, 71, 17, 0.2) -5px 20px 10px 0px;
+  }
+
+  .parent:hover .card .logo .circle2 {
+    transform: translate3d(0, 0, 60px);
+  }
+
+  .parent:hover .card .logo .circle3 {
+    transform: translate3d(0, 0, 80px);
+  }
+
+  .parent:hover .card .logo .circle4 {
+    transform: translate3d(0, 0, 100px);
+  }
+
+  .parent:hover .card .logo .circle5 {
+    transform: translate3d(0, 0, 120px);
+  }
+</style>
+<style scoped>
+  .button1 {
+  
+    font-size: 16px;
+    /* background: transparent; */
+    border: none;
+    position: relative;
+    color: #f0f0f0;
+    cursor: pointer;
+    z-index: 1;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: 0.3s ease-in-out;
+  }
+
+  .button1:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  }
+
+  .button1::after,
+  .button1::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -99999;
+    transition: all .4s;
+  }
+
+  .button1::before {
+    transform: translate(0%, 0%);
+    width: 100%;
+    height: 100%;
+    /* background-color: #4158D0; */
+    /* background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%); */
+    border-radius: 10px;
+  }
+
+  .button1::after {
+    transform: translate(10px, 10px);
+    /* width: 20px;
+    height: 20px; */
+    background: #6804da2f;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 50px;
+  }
+
+  .button1:hover::before {
+    transform: translate(5%, 20%);
+    width: 110%;
+    height: 110%;
+  }
+
+  .button1:hover::after {
+    border-radius: 10px;
+    transform: translate(0, 0);
+    width: 100%;
+    height: 100%;
+  }
+
+  .button1:active::after {
+    transition: 0s;
+    transform: translate(0, 5%);
+  }
+</style>

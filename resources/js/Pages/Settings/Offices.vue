@@ -9,7 +9,7 @@ import axios from 'axios';
 // initialize components based on data attribute selectors
 onMounted(() => {
     initFlowbite();
-  getPositions(1);
+  getOffices(1);
 })
 // usePoll(2000, {
 //     onStart() {
@@ -23,21 +23,23 @@ onMounted(() => {
 
 
 const { props } = usePage();
- const positions = ref({});
- const visitedPages = ref({});
+ const offices = ref({});
+ const paginations = ref({});
 
 const loading = ref(true);
 const search = ref('');
 
 
-// Function to fetch positions from the API
-const getPositions = async (page) => {
+// Function to fetch offices from the API
+const getOffices = async (page) => {
   loading.value = true;
   try {
-    const response = await axios.get(`/sessions?page=${page}`);
-    visitedPages.value = response.data.visitedPages;
+    const response = await axios.get(`/offices?page=${page}`);
+    offices.value = response.data.offices;
+    paginations.value = response.data.paginations;
+
   } catch (error) {
-    console.error('Error fetching positions:', error);
+    console.error('Error fetching offices:', error);
   } finally {
     loading.value = false;
   }
@@ -45,10 +47,12 @@ const getPositions = async (page) => {
 const searchName = async (search) => {
   loading.value = true;
   try {
-    const response = await axios.get(`/positions?search=${search}`);
-    positions.value = response.data.positions;
+    const response = await axios.get(`/offices?search=${search}`);
+    offices.value = response.data.offices;
+    paginations.value = response.data.paginations;
+
   } catch (error) {
-    console.error('Error fetching positions:', error);
+    console.error('Error fetching offices:', error);
   } finally {
     loading.value = false;
   }
@@ -62,14 +66,12 @@ const dialogDeleteVisible = ref(false);
 
 const form = reactive({
     id: '',
-    name: '',
-    sg:'',
+    name: '', 
 
 });
 const openModal = () => {
     form.id = '';
-    form.name = '';
-    form.sg = '';
+    form.name = ''; 
     dialogVisible.value = true;
 
 }
@@ -77,8 +79,7 @@ const openModal = () => {
 
 const openUpdateModal = (formData) => {
     form.id = formData.id;
-form.name = formData.name;
-form.sg = formData.sg;
+form.name = formData.name; 
 
 
     dialogVisible.value = true;
@@ -89,8 +90,9 @@ const saveData = async () => {
     try {
      
             
-            const response = await axios.post('/positions', { data: form });
-    positions.value = response.data.positions;
+            const response = await axios.post('/offices', { data: form });
+    offices.value = response.data.offices;
+    paginations.value = response.data.paginations;
             dialogVisible.value = false;
       
     } catch (error) {
@@ -110,7 +112,7 @@ const saveData = async () => {
             <div class="my-header">
                 <div class="flex items-center justify-between p-2 md:p-3 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        {{form.id ? "Edit" : "Add"}} Position
+                        {{form.id ? "Edit" : "Add"}} Office
                     </h3>
                     <button @click="close" type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -134,21 +136,13 @@ const saveData = async () => {
                 <div class="grid gap-4 mb-4 grid-cols-6">
                     <div class="col-span-6">
 
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Office
                             Name</label>
 
                         <input v-model="form.name" required type="text" 
                             class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                     </div>
-                    <div class="col-span-6 sm:col-span-6">
-                        <label for="category"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Salary
-                            Grade</label>
-                        <input v-model="form.sg" required type="number" 
-                            class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-
-                    </div>
-
+                 
 
 
                 </div>
@@ -157,12 +151,12 @@ const saveData = async () => {
                 <button @click="saveData" v-if="form.id"
                     class="mt-1 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 
-                    UPDATE LEAVE</button>
+                    UPDATE OFFICE</button>
 
                 <button @click="saveData" v-else
                     class="mt-1 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
 
-                    ADD NEW POSITION</button>
+                    ADD NEW OFFICE</button>
 
             </form>
 
@@ -184,8 +178,77 @@ const saveData = async () => {
 
                     <div class=" rounded  col-span-12 md:col-span-12">
 
- 
- 
+
+                        <div>
+
+                        </div>
+
+                        <div class="sm:flex">
+
+                            <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+
+                                <button @click="openModal()" type="button"
+                                    class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
+                                    <div class="flex items-center space-x-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor"
+                                            class="h-6 w-6 stroke-sky-500 group-hover:stroke-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                                        </svg>
+
+                                        <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">
+                                            New Office</h3>
+                                    </div>
+                                    <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
+                                </button>
+                                <a href="#"
+                                    class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
+                                    <div class="flex items-center space-x-3">
+
+                                        <svg class="h-6 w-6 stroke-red-500 group-hover:stroke-white" fill="white"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">
+                                            Export PDF</h3>
+                                    </div>
+                                    <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
+                                </a>
+
+                                <a href="#"
+                                    class="group block max-w-xs mx-auto rounded-lg p-4 pr-12 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-1 hover:bg-sky-500 hover:ring-sky-500 mr-2 my-2">
+                                    <div class="flex items-center space-x-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor"
+                                            class="h-6 w-6 stroke-green-500 group-hover:stroke-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
+                                        </svg>
+
+                                        <h3 class="text-slate-900 group-hover:text-white text-sm font-semibold">
+                                            XLS</h3>
+                                    </div>
+                                    <!-- <p class="text-slate-500 group-hover:text-white text-sm">Create a new leave.</p> -->
+                                </a>
+                                <!-- <button @click="generatePdf" class="inline-flex items-center justify-center w-1/2 px-3 py-2 
+                                    text-sm font-medium text-center 
+                                    bg-red-600 text-white 
+                                    border border-gray-300 rounded-lg hover:bg-red-700 focus:ring-4 
+                                    focus:ring-red-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 
+                                    dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                                    <svg class="w-5 h-5 mr-2 -ml-1" fill="white" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    Export
+                                </button> -->
+                            </div>
+                        </div>
                         <div class="inline-block min-w-full mt-2 pr-1">
                             <div class="overflow-hidden shadow p-4">
 
@@ -202,7 +265,7 @@ const saveData = async () => {
 </svg>
 
                                                         </div>
-                                                        <input @change="searchName(search)" v-model="search" type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Position Name..." required />
+                                                        <input @change="searchName(search)" v-model="search" type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Office Name..." required />
                                                     </div>
                                                     <button @click="searchName(search)" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -216,33 +279,17 @@ const saveData = async () => {
 
                                         </tr>
                                         <tr>
-  <th scope="col"
-                                                class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                User
-                                            </th>
+ 
                                             <th scope="col"
                                                 class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                agent
+                                                Name
                                             </th>
 
-                                            <th scope="col"
-                                                class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                ip_address
-                                            </th>
-                                                 <th scope="col"
-                                                class="text-left py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                is_current_device
-                                            </th>
-
-                                            <th scope="col"
-                                                class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                last_active
-                                            </th>
+                                         
                                               <th scope="col"
                                                 class="text-center  py-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                                previous_url
+                                                Total
                                             </th>
-                                            
 
                                             <th scope="col"
                                                 class="text-center py-4  text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
@@ -257,52 +304,19 @@ const saveData = async () => {
                                     <tbody
                                         class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
-                                        <tr :v-model="item" v-for="data in visitedPages" :key="data.agent"
+                                        <tr :v-model="item" v-for="office in offices" :key="office.id"
                                             class="hover:bg-gray-100 dark:hover:bg-gray-700">
 
                                          
-  <td
-                                                class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ data.user }}</td>
-                                            <td
-                                                class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ data.agent }}</td>
 
                                             <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-
-                                                <button type="button"
-                                                    class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                    {{ data.ip_address }}
-                                                </button>
-
-
-                                            </td>
-                                                <td
                                                 class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
-                                                {{ data.is_current_device }}</td>
+                                                {{ office.name }}</td>
 
-                                            <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-
-                                                <button type="button"
-                                                    class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                    {{ data.last_active }}
-                                                </button>
-
-
-                                            </td>
-                                             <td
-                                                class="max-w-sm p-2 overflow-hidden text-center text-sn font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400 text-wrap">
-
-                                                <button type="button"
-                                                    class="inline-flex items-center px-5 py-1 text-sm font-medium text-center text-white bg-green-500 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                    {{ data.previous_url }}
-                                                </button>
-
-
-                                            </td>
-
+                                        
+ <td
+                                                class="max-w-sm p-2 overflow-hidden text-left text-sm font-black text-gray-800 truncate xl:max-w-xs dark:text-gray-400">
+                                                {{ office.count }}</td>
 
                                             <td class="p-1 space-x-2 whitespace-nowrap">
                                                 <!-- <CardListItemModal /> -->
@@ -318,7 +332,7 @@ const saveData = async () => {
                                                     
                                                     Edit
                                                 </button> -->
-                                                <!-- <button @click="openUpdateModal(data)"
+                                                <button @click="openUpdateModal(office)"
                                                     class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                                                     type="button">
                                                     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +343,7 @@ const saveData = async () => {
                                                     </svg>
 
                                                     Edit
-                                                </button> -->
+                                                </button>
 
 
                                             </td>
@@ -341,17 +355,17 @@ const saveData = async () => {
                                          <div class="flex flex-col items-left mt-4">
                                                           <span class="text-sm text-gray-700 dark:text-gray-400">
                                     Showing <span class="font-semibold text-gray-900 dark:text-white">{{
-                                        positions.from
+                                        paginations.from
                                         }}</span> to <span
-                                        class="font-semibold text-gray-900 dark:text-white">{{ positions.to }}</span>
+                                        class="font-semibold text-gray-900 dark:text-white">{{ paginations.to }}</span>
                                     of
                                     <span
-                                        class="font-semibold text-gray-900 dark:text-white">{{ positions.total }}</span>
+                                        class="font-semibold text-gray-900 dark:text-white">{{ paginations.total }}</span>
                                     Entries
                                 </span>
                                 <div class="inline-flex mt-2 xs:mt-0">
                                     <!-- Buttons -->
-                                    <button v-if="(positions.current_page-1)>=1"  @click="getPositions(positions.current_page-1)"
+                                    <button v-if="(paginations.current_page-1)>=1"  @click="getOffices(paginations.current_page-1)"
                                         class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                         <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -360,7 +374,7 @@ const saveData = async () => {
                                         </svg>
                                         Prev
                                     </button>
-                                    <button v-if="(positions.current_page+1)<=positions.last_page" @click="getPositions(positions.current_page+1)"
+                                    <button v-if="(paginations.current_page+1)<=paginations.last_page" @click="getOffices(paginations.current_page+1)"
                                         class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                         Next
                                         <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true"
