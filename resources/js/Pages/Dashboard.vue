@@ -1,5 +1,5 @@
 <script setup>
- import AppLayout from '@/Layouts/HRLayout.vue';
+ import AppLayout from '@/Layouts/MyLayout.vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 import { ref, onMounted } from 'vue';
@@ -219,7 +219,7 @@ export default {
                         </div>
 
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="grid grid-cols-1 grid-cols-1 lg:grid-cols-3 md:gap-6 mb-6">
 
                         <div class=" rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-36 mt-4">
                             <div
@@ -228,7 +228,7 @@ export default {
                                     <h3 class="text-base font-semibold text-gray-600 dark:text-gray-400">Total Employees
                                     </h3>
                                     <span
-                                        class="text-3xl font-bold leading-none text-gray-900 sm:text-4xl dark:text-white">{{
+                                        class="text-2xl font-bold leading-none text-gray-900 md:text-4xl dark:text-white">{{
                                             EmployeeCount }}</span>
                                     <span class="flex items-center mt-2 text-gray-500 dark:text-gray-400 font-italic">
                                         <em>Active (non-terminated) employees</em>
@@ -240,7 +240,7 @@ export default {
                                 </div>
                             </div>
                         </div>
-                        <div class=" rounded-lg border-gray-300 dark:border-gray-600 h-100 md:h-36 mt-4">
+                        <div class=" rounded-lg dark:border-gray-600 h-32 md:h-36 mt-4">
                             <div
                                 class="flex items-center justify-between p-4 bg-white border-b-4 border-pink-500 rounded-lg shadow-lg sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800 transition-transform transform hover:scale-105">
                                 <div class="w-full">
@@ -248,7 +248,7 @@ export default {
                                         Employees
                                     </h3>
                                     <span
-                                        class="text-3xl font-bold leading-none text-gray-900 sm:text-4xl dark:text-white">{{
+                                        class="text-2xl font-bold leading-none text-gray-900 md:text-4xl dark:text-white">{{
                                             FemaleCount }}</span>
                                     <span class="flex items-center mt-2 text-gray-500 dark:text-gray-400 font-italic">
                                         <em>Active (non-terminated) employees</em>
@@ -267,7 +267,7 @@ export default {
                                     <h3 class="text-base font-semibold text-gray-600 dark:text-gray-400">Male Employees
                                     </h3>
                                     <span
-                                        class="text-3xl font-bold leading-none text-gray-900 sm:text-4xl dark:text-white">{{
+                                        class="text-2xl font-bold leading-none text-gray-900 md:text-4xl dark:text-white">{{
                                             MaleCount }}</span>
                                     <span class="flex items-center mt-2 text-gray-500 dark:text-gray-400 font-italic">
                                         <em>Active (non-terminated) employees</em>
@@ -280,16 +280,18 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-4   gap-4 mb-4 h-3/4">
-                        <div class=" rounded-lg max-w-sm ">
+                    <div class="grid grid-cols-4   md:gap-4 mb-4 h-full">
+                        <div class="col-span-4 md:col-span-1 shadow-lg h-full">
+                              <div class="card h-full bg-linear-to-r from-cyan-500 to-blue-500">
+                                <div class="bg h-full">
+                                        <div class=" rounded-lg max-w-sm md:col-span-1 col-span-4">
 
-                            <div class="  bg-white rounded-lg border dark:bg-gray-800 p-4 md:p-6  shadow-xl ">
+                            <div class="  rounded-lg  p-4 md:p-6   ">
 
-                                <div class="flex justify-between mb-3">
+                                <div class="flex justify-between mb-3 drop-shadow-lg">
                                     <div class="flex justify-center items-center">
                                         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">
-                                            Employment
-                                            status Overview</h5>
+                                            Employment Status</h5>
                                         <svg data-popover-target="chart-info" data-popover-placement="bottom"
                                             class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -429,7 +431,14 @@ export default {
                             </div>
 
                         </div>
-                        <div class="rounded-lg border-gray-300 dark:border-gray-600  md:col-span-3 ">
+                                </div>
+                                <!-- <div class="blob "></div> -->
+                            </div>
+                         
+
+                        </div>
+                       
+                        <div class="rounded-lg border-gray-300 dark:border-gray-600  col-span-4 md:col-span-3 ">
 
                             <div
                                 class="relative overflow-x-auto overflow-y-auto  p-6 bg-white border border-gray-200 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700 h-full ">
@@ -473,7 +482,6 @@ export default {
 
                                         </tr>
                                     </thead>
-                                    <!-- Remove the nasty inline CSS fixed height on production and replace it with a CSS class — this is just for demonstration purposes! -->
                                     <tbody
                                         class="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full"
                                         style="height: 50vh;">
@@ -520,3 +528,55 @@ export default {
         </div>
     </AppLayout>
 </template>
+
+
+<style scoped>
+  .card {
+    /* position: relative; */
+    width: 100%;
+    height: 94%;
+    border-radius: 14px;
+    /* z-index: 1111; */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff; */
+    
+  }
+
+  .bg {
+    /* position: absolute; */
+    top: 5px;
+    left: 5px;
+    width: 97%;
+    height: 98%;
+
+    z-index: 2;
+    /* background: rgba(255, 255, 255, .95); */
+    backdrop-filter: blur(24px);
+    border-radius: 10px;
+    overflow: hidden;
+    /* outline: 2px solid white; */
+
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.349) 0%, rgba(255, 255, 255, 0.815) 100%);
+    /* -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px); */
+    transform: translate3d(0px, 0px, 25px);
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .blob {
+    /* position: absolute; */
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    /* background-color: gray; */
+    /* opacity: 1; */
+    filter: blur(12px);
+  }
+
+</style>

@@ -275,7 +275,7 @@
 			Campuses</h2>
 		<div class="max-w-screen-xl px-4 pb-4 mx-auto lg:pb-4 py-4">
 <div class=" grid grid-cols-4 place-items-stretch gap-4 text-gray-500 dark:text-gray-400">
-<div class="parent">
+<div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-indigo-500 to-blue-500">
               <div class="logo">
                   <span class="circle circle1"></span>
@@ -324,7 +324,7 @@
           </div>
       </div>
 
-	  <div class="parent">
+	  <div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-lime-500 to-green-500">
               <div class="logo">
                   <span class="circle circle1"></span>
@@ -373,7 +373,7 @@
           </div>
       </div>
 
-	  <div class="parent">
+	  <div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-cyan-500 to-blue-500">
               <div class="logo">
                   <span class="circle circle1"></span>
@@ -422,7 +422,7 @@
           </div>
       </div>
 
-	  <div class="parent">
+	  <div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-cyan-300 to-cyan-700">
               <div class="logo">
                   <span class="circle circle1"></span>
@@ -471,7 +471,7 @@
           </div>
       </div>
 
-	  <div class="parent">
+	  <div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-amber-300 to-amber-700">
               <div class="logo">
                   <span class="circle circle1"></span>
@@ -520,7 +520,7 @@
           </div>
       </div>
 
-	  <div class="parent">
+	  <div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-orange-300 to-orange-700">
               <div class="logo">
                   <span class="circle circle1"></span>
@@ -569,7 +569,7 @@
           </div>
       </div>
 
-	  <div class="parent">
+	  <div class="parent col-span-4 md:col-span-1">
           <div class="card bg-linear-to-r from-yellow-300 to-yellow-600">
               <div class="logo">
                   <span class="circle circle1"></span>
