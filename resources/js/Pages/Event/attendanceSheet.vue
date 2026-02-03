@@ -6,6 +6,7 @@ import { router, usePage, Link, Head } from '@inertiajs/vue3'
 import { onMounted, onUpdated } from 'vue'
 import debounce from 'lodash/debounce'
 import { initFlowbite } from 'flowbite'
+import axios from 'axios';
 import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
 // const props = defineProps({
 //         Campuses : Object,

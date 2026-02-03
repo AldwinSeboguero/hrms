@@ -23,6 +23,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(ElementPlus)
             .use(Html2CanvasPlugin)
+            
             .mount(el);
     },
     progress: {

@@ -10,6 +10,7 @@ import logo2 from '../../../images/bagong_pilipinas.png';
 import pusogLogo from '../../../images/pusog.jpg';
 import bg from '../../../images/bg.png';
 
+import axios from 'axios';
 
 
 

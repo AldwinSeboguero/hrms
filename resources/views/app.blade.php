@@ -20,6 +20,6 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
-        @RegisterServiceWorkerScript 
+
     </body>
 </html>
