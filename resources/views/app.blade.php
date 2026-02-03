@@ -16,7 +16,7 @@
         @vite(['resources/js/app.js'])
         
         @inertiaHead
-           @PwaHead
+       
     </head>
     <body class="font-sans antialiased">
         @inertia
