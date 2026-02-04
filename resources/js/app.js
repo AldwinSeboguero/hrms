@@ -8,8 +8,10 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 import { Html2CanvasPlugin } from 'vue3-html2canvas';
 import ElementPlus from 'element-plus';
+import axios from 'axios';
 
 import 'element-plus/dist/index.css'
+window.axios = axios;
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     // resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),

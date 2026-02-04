@@ -11,7 +11,6 @@ import logo from '../../../images/csc.png';
 import logo2 from '../../../images/PRIME.png';
 import logo3 from '../../../images/psu_logo.png';
 
-import axios from 'axios';
 // const props = defineProps({
 //         Campuses : Object,
 //         Courses : Object,
