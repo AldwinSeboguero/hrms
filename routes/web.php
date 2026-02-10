@@ -72,6 +72,16 @@ Route::get('/', function () {
 
     // return redirect()->route('dashboard');
 });
+Route::get('/Menu', function () {
+    return Inertia::render('Menu');
+
+    // return redirect()->route('dashboard');
+});
+Route::get('/HRMenu', function () {
+    return Inertia::render('HRMenu');
+
+    // return redirect()->route('dashboard');
+});
 Route::group(['middleware' =>  ['auth', 'role:super-admin|admin']], function () { 
 Route::get('/admin/dashboard', function () {
 
@@ -251,54 +261,54 @@ Route::group(['middleware' => ['auth','redirect.role']], function () {
     // Route::resource('employeeTimesheets', EmployeeDTRCOntroller::class);
 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::resource('submittedclearances', SubmittedClearance::class);
-    Route::get('semesters', [SemesterController::class,'index']);
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::resource('submittedclearances', SubmittedClearance::class);
+//     Route::get('semesters', [SemesterController::class,'index']);
    
 
 
 
 
-    Route::get('/clearances', function (Request $request){
-        $per_page =$request->per_page ? $request->per_page : 10; 
-        $semester = $request->semester;
-        $search = $request->search;
+//     Route::get('/clearances', function (Request $request){
+//         $per_page =$request->per_page ? $request->per_page : 10; 
+//         $semester = $request->semester;
+//         $search = $request->search;
 
-        $semester_id = $request->semester_id;
-        $user_id = $request->user_id;
-        return Inertia::render('Clearances',[
-            'table_data' => new SubmittedClearanceCollection(
-                SubmitClearance::orderByDesc('updated_at')
-                ->when($semester , function($q) use($semester){
-                    $q->whereHas('clearance.purpose', function($q) use($semester){
-                        $q->where('semester_id', $semester);
-                    });
-                })
-                ->when($request->search, function($inner) use($request){
-                    $inner->whereHas('clearance.student', function($q) use ($request){
-                        $q->where('name', 'ILIKE', '%' . $request->search . '%')
-                        ->orWhere('student_number', 'ILIKE', '%' . $request->search . '%');
-                    });
-                })
-                ->when($request->college, function($inner) use($request){
-                    $inner->whereHas('clearance.student.program',function($q) use($request){
-                        $q->where('college_id',$request->college);
-                    });
-                }) 
-                ->when($request->program, function($inner) use($request){
-                    $inner->whereHas('clearance.student',function($q) use($request){
-                        $q->where('program_id',$request->program);
-                    });
-                }) 
-                ->paginate($per_page))
+//         $semester_id = $request->semester_id;
+//         $user_id = $request->user_id;
+//         return Inertia::render('Clearances',[
+//             'table_data' => new SubmittedClearanceCollection(
+//                 SubmitClearance::orderByDesc('updated_at')
+//                 ->when($semester , function($q) use($semester){
+//                     $q->whereHas('clearance.purpose', function($q) use($semester){
+//                         $q->where('semester_id', $semester);
+//                     });
+//                 })
+//                 ->when($request->search, function($inner) use($request){
+//                     $inner->whereHas('clearance.student', function($q) use ($request){
+//                         $q->where('name', 'ILIKE', '%' . $request->search . '%')
+//                         ->orWhere('student_number', 'ILIKE', '%' . $request->search . '%');
+//                     });
+//                 })
+//                 ->when($request->college, function($inner) use($request){
+//                     $inner->whereHas('clearance.student.program',function($q) use($request){
+//                         $q->where('college_id',$request->college);
+//                     });
+//                 }) 
+//                 ->when($request->program, function($inner) use($request){
+//                     $inner->whereHas('clearance.student',function($q) use($request){
+//                         $q->where('program_id',$request->program);
+//                     });
+//                 }) 
+//                 ->paginate($per_page))
 
-        ]);
-    });
+//         ]);
+//     });
 
   
-});
+// });
 

@@ -109,7 +109,7 @@
 
 
 	<!-- component -->
-	<header class="flex w-full mx-auto z-100 backdrop-filter backdrop-blur-xl bg-white/80 bg-opacity-80  border border-gray-100 rounded-2xl shadow-xl ">
+	<header class="flex w-full mx-auto z-100 backdrop-filter backdrop-blur-xl bg-white/80 bg-opacity-80  border border-gray-100 rounded-2xl  ">
 		<nav class=" border-gray-200 py-2.5 dark:bg-gray-900 pt-4  w-full">
 			<div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
 				<a href="#" class="flex items-center">

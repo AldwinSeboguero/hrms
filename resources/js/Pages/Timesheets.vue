@@ -87,6 +87,7 @@ let plans = ref(props.table_data.data)
 let selected = ref(props.filters.employee_id);
 let item = ref('')
 let search = ref(props.filters.search);
+
 const plan = ref(plans[0]);
 
 
@@ -748,9 +749,9 @@ const years = computed(() => {
                             </div>
                         </div>
                         <div class="inline-block min-w-full mt-2 pr-1">
-                            <div class="overflow-hidden shadow">
+                            <div class="overflow-hidden shadow p-2">
 
-                                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                                <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600 ">
                                     <thead class="bg-white dark:bg-gray-700">
                                         <tr>
 

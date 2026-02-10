@@ -5,7 +5,7 @@
   <div class="grid grid-cols-6 gap-0">
     <div class="col-span-1 hidden sm:col-span-0 sm:flex">
       <aside id="logo-sidebar"
-        class="fixed z-40 w-72 h-full pt-0 pb-4 transition-transform -translate-x-full bg-white  border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        class="fixed z-40 w-72 h-full pt-0 pb-4 transition-transform -translate-x-full bg-white  border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar">
         <div class="m-1 rounded-full fill-cyan-500 drop-shadow-lg ">
           <div class="bg-white rounded-lg mb-4">

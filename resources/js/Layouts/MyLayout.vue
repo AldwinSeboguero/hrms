@@ -3,9 +3,9 @@
   <Head :title="title" />
 
   <div class="grid grid-cols-6 gap-0">
-    <div class="col-span-1 md:col-span-0 sm:flex ">
+    <div class="col-span-1 md:col-span-0 md:flex ">
       <aside id="logo-sidebar"
-        class="fixed z-40 w-72 h-full pt-0 pb-4 transition-transform -translate-x-full bg-white  border-gray-200 lg:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+        class="fixed z-40 w-72 h-full pt-0 pb-4 transition-transform -translate-x-full bg-white  border-gray-200 xl:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
         aria-label="Sidebar">
         <div class="m-1 rounded-full fill-cyan-500 drop-shadow-lg ">
           <div class="bg-white rounded-lg mb-4">
@@ -293,7 +293,7 @@
 
       </aside>
     </div>
-    <div class="col-span-6 lg:col-span-5">
+    <div class="col-span-6 xl:col-span-5">
       <div class="">
 
         <div class="px-4">
@@ -306,7 +306,7 @@
                 <div class="flex items-center justify-start rtl:justify-end">
                   <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
                     aria-controls="logo-sidebar" type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 mr-1">
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg xl:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 mr-1">
                     <span class="sr-only">Open sidebar</span>
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg">
